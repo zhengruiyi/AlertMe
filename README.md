@@ -1,2 +1,2 @@
 # AlertMe
-Weather Alarm Android App, more description will to be added in README
+Weather Alarm Android App, more description to be added
