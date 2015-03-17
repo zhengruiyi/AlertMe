@@ -39,7 +39,7 @@
             android:layout_width="226dp"
             android:layout_height="wrap_content"
             android:id="@+id/seekBar"
-            android:paddingBottom="25sp"/>
+            android:paddingBottom="35sp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
             android:layout_width="251sp"
             android:layout_height="wrap_content"
             android:id="@+id/seekBar2"
-            android:paddingBottom="25sp"/>
+            android:paddingBottom="35sp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,22 +98,24 @@
         android:layout_height="wrap_content"
         android:text="@string/percent_chance"
         android:id="@+id/textView"
-        android:layout_marginTop="77sp"
-        android:layout_below="@+id/checkBox"
+        android:textSize="15sp"
+        android:textColor="#d0d0d0"
+        android:layout_above="@+id/checkBox3"
         android:layout_toRightOf="@+id/checkBox"
         android:layout_toEndOf="@+id/checkBox"
-        android:textSize="15sp"
-        android:textColor="#d0d0d0"/>
+        android:layout_marginBottom="85dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/mph"
         android:id="@+id/checkBox3"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/checkBox2"
-        android:layout_toStartOf="@+id/checkBox2"
-        android:textColor="#d0d0d0" />
+        android:textColor="#d0d0d0"
+        android:textSize="12sp"
+        android:layout_marginBottom="82dp"
+        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_alignLeft="@+id/checkBox4"
+        android:layout_alignStart="@+id/checkBox4" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -121,9 +123,11 @@
         android:text="@string/kph"
         android:id="@+id/checkBox4"
         android:layout_gravity="end"
-        android:layout_below="@+id/checkBox3"
-        android:layout_alignLeft="@+id/checkBox3"
-        android:layout_alignStart="@+id/checkBox3"
-        android:textColor="#d0d0d0" />
+        android:textColor="#d0d0d0"
+        android:textSize="14sp"
+        android:layout_alignTop="@+id/checkBox3"
+        android:layout_toRightOf="@+id/checkBox"
+        android:layout_toEndOf="@+id/checkBox"
+        android:layout_marginTop="42dp" />
 
 </RelativeLayout>
