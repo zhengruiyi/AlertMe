@@ -16,5 +16,20 @@
     <string name="mph">mph</string>
     <string name="kph">kph</string>
     <string name="conditions_submit">Submit</string>
+    <string name="time_frame_check">Check every</string>
+    <string name="time_frame_week">Weekday</string>
+    <string name="time_frame_weekend">Weekend</string>
+    <string name="time_frame_submit">Submit</string>
+    <string name="time_frame">Time Frame</string>
+    <string name="full_day">24-hour</string>
+    <string name="half_day">12-hour</string>
+    <string name="alert_time">Alert time</string>
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
+    <string name="sound">Sound</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="time_frame_toggle">Off/On</string>
+    <string name="alarm_name_1">Example Alarm</string>
+    <string name="edit_time_frame">Edit time frame                               /></string>
 
 </resources>
