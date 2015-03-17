@@ -7,5 +7,14 @@
     <string name="title_activity_alarm_list">AlarmList</string>
     <string name="title_activity_conditions">Conditions</string>
     <string name="title_activity_time_frame">TimeFrame</string>
+    <string name="precipitation">Precipitation</string>
+    <string name="wind_speed">Wind speed</string>
+    <string name="temperature">Temperature</string>
+    <string name="deg_f">°F</string>
+    <string name="deg_c">°C</string>
+    <string name="percent_chance">% chance</string>
+    <string name="mph">mph</string>
+    <string name="kph">kph</string>
+    <string name="conditions_submit">Submit</string>
 
 </resources>
