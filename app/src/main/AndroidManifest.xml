@@ -4,7 +4,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -15,6 +15,30 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".AlarmList"
+            android:label="@string/title_activity_alarm_list"
+            android:parentActivityName=".SplashActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="teamawesome.alertme.SplashActivity" />
+        </activity>
+        <activity
+            android:name=".Conditions"
+            android:label="@string/title_activity_conditions"
+            android:parentActivityName=".AlarmList" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="teamawesome.alertme.AlarmList" />
+        </activity>
+        <activity
+            android:name=".TimeFrame"
+            android:label="@string/title_activity_time_frame"
+            android:parentActivityName=".Conditions" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="teamawesome.alertme.Conditions" />
         </activity>
     </application>
 

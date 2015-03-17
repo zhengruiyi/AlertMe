@@ -8,19 +8,19 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-public class SplashActivity extends ActionBarActivity {
+public class AlarmList extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_alarm_list);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_splash, menu);
+        getMenuInflater().inflate(R.menu.menu_alarm_list, menu);
         return true;
     }
 
@@ -39,8 +39,8 @@ public class SplashActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void toAlarmList(View view){
-        Intent intent = new Intent(this, AlarmList.class);
+    public void toConditions(View view){
+        Intent intent = new Intent(this, Conditions.class);
         startActivity(intent);
     }
 }
