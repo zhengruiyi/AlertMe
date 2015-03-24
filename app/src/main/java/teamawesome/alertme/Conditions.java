@@ -10,10 +10,23 @@ import android.view.View;
 
 public class Conditions extends ActionBarActivity {
 
+    private WeatherAlarm currentAlarm;
+    private int currentAlarmIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conditions);
+
+        int alarmIndex = getIntent().getIntExtra("alarmIndex", -1);
+        if (alarmIndex >= 0 && alarmIndex < AlarmDataSingleton.getInstance().size()) {
+            currentAlarm = AlarmDataSingleton.getInstance().getAlarm(alarmIndex);
+            currentAlarmIndex = alarmIndex;
+        } else {
+            currentAlarm = AlarmDataSingleton.getInstance().getAlarm(0);
+            currentAlarmIndex = 0;
+            //throw new AssertionError("Conditions: Failed to access AlarmDataSingleton list at " + alarmIndex);
+        }
     }
 
 
@@ -41,6 +54,7 @@ public class Conditions extends ActionBarActivity {
 
     public void toTimeFrame(View view){
         Intent intent = new Intent(this, TimeFrame.class);
+        intent.putExtra("alarmIndex", currentAlarmIndex);
         startActivity(intent);
     }
 }

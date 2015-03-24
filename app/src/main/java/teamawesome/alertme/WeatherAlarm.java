@@ -1,7 +1,5 @@
 package teamawesome.alertme;
 
-import android.util.Log;
-
 import java.util.HashMap;
 
 public class WeatherAlarm {

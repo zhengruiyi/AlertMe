@@ -10,10 +10,19 @@ import android.view.View;
 
 public class TimeFrame extends ActionBarActivity {
 
+    private WeatherAlarm currentAlarm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_frame);
+
+        int alarmIndex = getIntent().getIntExtra("alarmIndex", -1);
+        if (alarmIndex >= 0 && alarmIndex < AlarmDataSingleton.getInstance().size()) {
+            currentAlarm = AlarmDataSingleton.getInstance().getAlarm(alarmIndex);
+        } else {
+            throw new AssertionError("TimeFrame: Failed to access AlarmDataSingleton list at " + alarmIndex);
+        }
     }
 
 

@@ -19,6 +19,7 @@ public class AlarmDataSingleton {
 
     private AlarmDataSingleton() {
         alarms = new ArrayList<WeatherAlarm>();
+        alarms.add(new WeatherAlarm());
     }
 
 
@@ -32,5 +33,9 @@ public class AlarmDataSingleton {
 
     public WeatherAlarm getAlarm(int index) {
         return alarms.get(index);
+    }
+
+    public int size() {
+        return alarms.size();
     }
 }
