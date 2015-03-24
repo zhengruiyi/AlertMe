@@ -2,11 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="teamawesome.alertme" >
 
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name="teamawesome.alertme.AlarmDataApplication">
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name" >
