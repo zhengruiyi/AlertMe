@@ -19,7 +19,7 @@
     <string name="time_frame_check">Check every</string>
     <string name="time_frame_week">Weekday</string>
     <string name="time_frame_weekend">Weekend</string>
-    <string name="time_frame_submit">Submit</string>
+    <string name="time_frame_submit">Save</string>
     <string name="time_frame">Time Frame</string>
     <string name="full_day">24-hour</string>
     <string name="half_day">12-hour</string>

@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:text="@string/time_frame_week"
         android:textColor="#d0d0d0"
-        android:id="@+id/checkBox5"
+        android:id="@+id/weekday"
         android:layout_alignTop="@+id/textView2"
         android:layout_alignRight="@+id/button2"
         android:layout_alignEnd="@+id/button2" />
@@ -42,8 +42,8 @@
         android:layout_height="wrap_content"
         android:text="@string/time_frame_weekend"
         android:textColor="#d0d0d0"
-        android:id="@+id/checkBox6"
-        android:layout_alignBottom="@+id/checkBox5"
+        android:id="@+id/weekend"
+        android:layout_alignBottom="@+id/weekday"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -55,7 +55,7 @@
         android:textSize="20sp"
         android:id="@+id/textView3"
         android:layout_marginTop="78dp"
-        android:layout_below="@+id/checkBox5"
+        android:layout_below="@+id/weekday"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -64,6 +64,7 @@
         android:layout_height="36sp"
         android:src="@drawable/info_icon"
         android:background="@null"
+        android:onClick="showInfo"
         android:id="@+id/button3"
         android:layout_alignBottom="@+id/textView3"
         android:layout_toRightOf="@+id/textView3"
@@ -109,6 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/seekBar4"
+        android:max='12'
         android:paddingTop="15sp"
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
@@ -152,6 +154,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/time_frame_toggle"
+        android:onClick="soundToggle"
         android:textColor="#d0d0d0"
         android:id="@+id/switch1"
         android:layout_alignTop="@+id/textView5"
@@ -173,9 +176,40 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="vibrateToggle"
         android:id="@+id/checkBox11"
         android:layout_alignTop="@+id/textView6"
         android:layout_alignLeft="@+id/switch1"
         android:layout_alignStart="@+id/switch1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBarTextView"
+        android:textColor="#d0d0d0"
+        android:layout_alignTop="@+id/textView8"
+        android:layout_toRightOf="@+id/textView4"
+        android:layout_toEndOf="@+id/textView4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#d0d0d0"
+        android:id="@+id/textView8"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_alignTop="@+id/textView9"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12"
+        android:textColor="#d0d0d0"
+        android:id="@+id/textView9"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
