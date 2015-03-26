@@ -9,6 +9,7 @@ public class WeatherAlarm {
     private boolean[] daysSelected;
     private int timeFrame;
     private int alertTime;
+    private boolean inMorning;
 
     private boolean soundToggle;
     private boolean vibrateToggle;
@@ -22,6 +23,8 @@ public class WeatherAlarm {
         daysSelected = new boolean[] {true, true, true, true, true, false, false};
         timeFrame = 12;     // either 12 or 24
         alertTime = 6;      // set with 24-hour
+
+        inMorning = false;
 
         soundToggle = false;
         vibrateToggle = false;
@@ -91,6 +94,10 @@ public class WeatherAlarm {
         } else {
             throw new AssertionError("Tried to set Alert Time outside of 0 to 24");
         }
+    }
+
+    public void setAmPm (boolean inMorning){
+        this.inMorning = inMorning;
     }
 
 

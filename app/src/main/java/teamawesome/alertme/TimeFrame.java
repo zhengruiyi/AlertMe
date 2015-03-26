@@ -24,13 +24,17 @@ public class TimeFrame extends ActionBarActivity {
     //time frame checkboxes
     private int numberOfTimeFrameBoxesChecked = 0;
     private CheckBox twelveHour, twentyFourHour;
+    private int timeFrame = 0;
 
     //time of day check boxes
     private int numberOfTimeDayBoxesChecked = 0;
     private CheckBox am, pm;
+    private boolean inMorning = false;
+
+    //Alert time seekbar
+    private int changedProgress = 0;
 
     //to restore settings
-    // to restore scores
     private SharedPreferences mPrefs;
 
     @Override
@@ -83,16 +87,11 @@ public class TimeFrame extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void toAlarmList(View view){
-        Intent intent = new Intent(this, AlarmList.class);
-        startActivity(intent);
-    }
-
     //Alert Time seekbar
     private SeekBar.OnSeekBarChangeListener alertTimeListener = new SeekBar.OnSeekBarChangeListener() {
 
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-            currentAlarm.setAlertTime(progress);
+            changedProgress = progress;
             TextView displayValue = (TextView) findViewById(R.id.seekBarTextView);
             displayValue.setText("" + progress);
         }
@@ -119,7 +118,6 @@ public class TimeFrame extends ActionBarActivity {
                     for (int i = 0; i < 5; i ++){
                         weekdays[i] = true;
                     }
-                    currentAlarm.setDaysSelected(weekdays);
                 }
             }
         });
@@ -136,7 +134,6 @@ public class TimeFrame extends ActionBarActivity {
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
                     weekdays[5] = weekdays[6] = true;
-                    currentAlarm.setDaysSelected(weekdays);
                 }
             }
         });
@@ -170,7 +167,7 @@ public class TimeFrame extends ActionBarActivity {
                     } else {
                         numberOfTimeFrameBoxesChecked--;
                     }
-                    currentAlarm.setTimeFrame(12);
+                    timeFrame = 12;
                 }
             }
         });
@@ -196,7 +193,7 @@ public class TimeFrame extends ActionBarActivity {
                     } else {
                         numberOfTimeFrameBoxesChecked--;
                     }
-                    currentAlarm.setTimeFrame(24);
+                    timeFrame = 24;
                 }
             }
         });
@@ -212,7 +209,7 @@ public class TimeFrame extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked() && numberOfTimeDayBoxesChecked >= 1) {
-                    twelveHour.setChecked(false);
+                    am.setChecked(false);
                 } else {
                     // the checkbox either got unchecked
                     // or there are less than 2 other checkboxes checked
@@ -222,7 +219,7 @@ public class TimeFrame extends ActionBarActivity {
                     } else {
                         numberOfTimeDayBoxesChecked--;
                     }
-                    //ADD FUNCTION?????????
+                    inMorning = true;
                 }
             }
         });
@@ -248,7 +245,7 @@ public class TimeFrame extends ActionBarActivity {
                     } else {
                         numberOfTimeDayBoxesChecked--;
                     }
-                    //ADD FUNCTION????????????????
+                    inMorning = false;
                 }
             }
         });
@@ -260,6 +257,24 @@ public class TimeFrame extends ActionBarActivity {
 
     public void vibrateToggle(View v){
         currentAlarm.toggleVibrate();
+    }
+
+    public void saveValues(View v){
+        currentAlarm.setAlertTime(changedProgress);
+        currentAlarm.setDaysSelected(weekdays);
+        currentAlarm.setTimeFrame(timeFrame);
+        currentAlarm.setAmPm(inMorning);
+
+
+        //How to do this??????
+        Intent intent = new Intent(this, AlarmList.class);
+        startActivity(intent);
+    }
+
+    public void toAlarmList(View view){
+
+        Intent intent = new Intent(this, AlarmList.class);
+        startActivity(intent);
     }
 
 }
