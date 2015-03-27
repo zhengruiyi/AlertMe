@@ -259,19 +259,11 @@ public class TimeFrame extends ActionBarActivity {
         currentAlarm.toggleVibrate();
     }
 
-    public void saveValues(View v){
+    public void toAlarmList(View view){
         currentAlarm.setAlertTime(changedProgress);
         currentAlarm.setDaysSelected(weekdays);
         currentAlarm.setTimeFrame(timeFrame);
         currentAlarm.setAmPm(inMorning);
-
-
-        //How to do this??????
-        Intent intent = new Intent(this, AlarmList.class);
-        startActivity(intent);
-    }
-
-    public void toAlarmList(View view){
 
         Intent intent = new Intent(this, AlarmList.class);
         startActivity(intent);
