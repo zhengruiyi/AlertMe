@@ -154,7 +154,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/time_frame_toggle"
-        android:onClick="soundToggle"
         android:textColor="#d0d0d0"
         android:id="@+id/switch1"
         android:layout_alignTop="@+id/textView5"
@@ -176,7 +175,6 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="vibrateToggle"
         android:id="@+id/checkBox11"
         android:layout_alignTop="@+id/textView6"
         android:layout_alignLeft="@+id/switch1"
