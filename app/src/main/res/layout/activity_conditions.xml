@@ -12,10 +12,9 @@
         android:layout_height="wrap_content"
         android:text="@string/conditions_submit"
         android:onClick="toTimeFrame"
+        android:id="@+id/button"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="56sp"
-        android:id="@+id/button" />
+        android:layout_centerHorizontal="true" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -35,10 +34,19 @@
             android:textSize="20sp"
             android:paddingBottom="25sp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#d0d0d0"
+            android:id="@+id/tempValue"
+            android:layout_gravity="center_horizontal"
+            android:layout_toLeftOf="@+id/textView7"/>
+
         <SeekBar
             android:layout_width="226dp"
             android:layout_height="wrap_content"
             android:id="@+id/seekBar"
+            android:max="100"
             android:paddingBottom="35sp"/>
 
         <TextView
@@ -49,10 +57,18 @@
             android:textSize="20sp"
             android:paddingBottom="25sp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#d0d0d0"
+            android:id="@+id/precipValue"
+            android:layout_gravity="center_horizontal" />
+
         <SeekBar
             android:layout_width="251sp"
             android:layout_height="wrap_content"
             android:id="@+id/seekBar2"
+            android:max="100"
             android:paddingBottom="35sp"/>
 
         <TextView
@@ -63,10 +79,18 @@
             android:textSize="20sp"
             android:paddingBottom="25sp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#d0d0d0"
+            android:id="@+id/windValue"
+            android:layout_gravity="center_horizontal" />
+
         <SeekBar
             android:layout_width="251sp"
             android:layout_height="wrap_content"
             android:id="@+id/seekBar3"
+            android:max="50"
             android:paddingBottom="25sp"/>
     </LinearLayout>
 
@@ -112,7 +136,7 @@
         android:id="@+id/checkBox3"
         android:textColor="#d0d0d0"
         android:textSize="12sp"
-        android:layout_marginBottom="82dp"
+        android:layout_marginBottom="70dp"
         android:layout_alignBottom="@+id/linearLayout"
         android:layout_alignLeft="@+id/checkBox4"
         android:layout_alignStart="@+id/checkBox4" />

@@ -141,8 +141,7 @@ public class TimeFrame extends ActionBarActivity {
         //am/pm checkboxes
         am.setChecked(savedInstanceState.getBoolean("am"));
         pm.setChecked(savedInstanceState.getBoolean("pm"));
-        if (am.isChecked()){inMorning = true;}
-        else {inMorning = false;}
+        inMorning = am.isChecked();
 
         sound.setChecked(savedInstanceState.getBoolean("sound"));
         vibrate.setChecked(savedInstanceState.getBoolean("vibrate"));
@@ -188,8 +187,7 @@ public class TimeFrame extends ActionBarActivity {
         //am/pm checkboxes
         am.setChecked(load("am"));
         pm.setChecked(load("pm"));
-        if (am.isChecked()){inMorning = true;}
-        else{inMorning = false;}
+        inMorning = am.isChecked();
 
         //sounds
         vibrate.setChecked(load("vibrate"));
