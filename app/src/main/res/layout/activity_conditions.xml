@@ -46,7 +46,6 @@
             android:layout_width="226dp"
             android:layout_height="wrap_content"
             android:id="@+id/seekBar"
-            android:max="100"
             android:paddingBottom="35sp"/>
 
         <TextView
