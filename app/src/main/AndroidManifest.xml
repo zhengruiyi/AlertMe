@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="teamawesome.alertme" >
 
+    <!--OpenWeatherMap API Key: 61edd1d65c1dbb9a525d7dacd15d3fb9-->
 
     <application
         android:allowBackup="true"

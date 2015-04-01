@@ -1,11 +1,16 @@
 package teamawesome.alertme;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import org.json.JSONException;
 
 
 public class AlarmList extends ActionBarActivity {
@@ -14,6 +19,10 @@ public class AlarmList extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_list);
+
+        String city = "Austin,TX";
+        JSONWeatherTask task = new JSONWeatherTask();
+        task.execute(new String[]{city});
     }
 
 
@@ -42,5 +51,27 @@ public class AlarmList extends ActionBarActivity {
     public void toConditions(View view){
         Intent intent = new Intent(this, Conditions.class);
         startActivity(intent);
+    }
+
+    private class JSONWeatherTask extends AsyncTask<String, Void, Weather> {
+
+        @Override
+        protected Weather doInBackground(String... params) {
+            Weather weather = new Weather();
+            String data = ((new WeatherHttpClient()).getWeatherData(params[0]));
+
+            try {
+                weather = JSONWeatherParser.getWeather(data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return weather;
+        }
+
+        @Override
+        protected void onPostExecute(Weather weather) {
+            super.onPostExecute(weather);
+        }
     }
 }
