@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 
 public class WeatherHttpClient {
@@ -16,10 +17,15 @@ public class WeatherHttpClient {
         InputStream input = null;
 
         try {
-            connection = (HttpURLConnection) (new URL(BASE_URL + location)).openConnection();
+            String fullURL = BASE_URL + location;
+            URL url = new URL(fullURL);
+            connection = (HttpURLConnection) url.openConnection();
+
+           // connection = (HttpURLConnection) (new URL(BASE_URL + location)).openConnection();
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
             connection.setDoOutput(true);
+            int response = connection.getResponseCode();
             connection.connect();
 
             // Read the response
@@ -27,14 +33,14 @@ public class WeatherHttpClient {
             input = connection.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(input));
             String line = null;
-            while (  (line = br.readLine()) != null )
+            while ((line = br.readLine()) != null )
                 buffer.append(line).append("\r\n");
 
             input.close();
-            connection.disconnect();
+           // connection.disconnect();
             return buffer.toString();
 
-        } catch (Throwable t) {
+        } catch (IOException t) {
             t.printStackTrace();
         } finally {
             try {
@@ -42,7 +48,7 @@ public class WeatherHttpClient {
                     input.close();
                 }
                 if (connection != null) {
-                    connection.disconnect();
+                   // connection.disconnect();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

@@ -3,6 +3,7 @@
     package="teamawesome.alertme" >
 
     <!--OpenWeatherMap API Key: 61edd1d65c1dbb9a525d7dacd15d3fb9-->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"

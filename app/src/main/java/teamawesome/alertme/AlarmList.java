@@ -72,6 +72,7 @@ public class AlarmList extends ActionBarActivity {
         @Override
         protected void onPostExecute(Weather weather) {
             super.onPostExecute(weather);
+            AlarmDataSingleton.getInstance().setWeather(weather);
         }
     }
 }
