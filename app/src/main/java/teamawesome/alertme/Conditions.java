@@ -263,6 +263,7 @@ public class Conditions extends ActionBarActivity {
                 }
                 else {
                     isInUnitsFahrenheit = true;
+                    temperature.setMax(142);
                 }
             }
         });
@@ -282,6 +283,7 @@ public class Conditions extends ActionBarActivity {
                 }
                 else {
                     isInUnitsFahrenheit = false;
+                    temperature.setMax(100);
                 }
             }
         });
