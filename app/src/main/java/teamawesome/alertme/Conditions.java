@@ -112,14 +112,21 @@ public class Conditions extends ActionBarActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         //Temperature
-        changedProgressTemp = savedInstanceState.getInt("temperature");
-        TextView displayValue = (TextView) findViewById(R.id.tempValue);
-        displayValue.setText("" + changedProgressTemp);
-        temperature.setProgress(changedProgressTemp);
-
         degreesF.setChecked(savedInstanceState.getBoolean("degreesF"));
         degreesC.setChecked(savedInstanceState.getBoolean("degreesC"));
         isInUnitsFahrenheit = degreesF.isChecked();
+
+        changedProgressTemp = mPrefs.getInt("temperature", 0);
+        TextView displayValue = (TextView) findViewById(R.id.tempValue);
+        //displayValue.setText("" + changedProgressTemp);
+        if (isInUnitsFahrenheit){
+            displayValue.setText("" + (changedProgressTemp + 32));
+            temperature.setProgress(changedProgressTemp + 32);
+        }
+        else {
+            displayValue.setText("" + (changedProgressTemp + 50));
+            temperature.setProgress(changedProgressTemp + 50);
+        }
 
         //Precipitation
         changedProgressPrecip = savedInstanceState.getInt("precipitation");
@@ -170,14 +177,21 @@ public class Conditions extends ActionBarActivity {
         mPrefs = getPreferences(Context.MODE_PRIVATE);
 
         //Temperature
-        changedProgressTemp = mPrefs.getInt("temperature", 0);
-        TextView displayValue = (TextView) findViewById(R.id.tempValue);
-        displayValue.setText("" + changedProgressTemp);
-        temperature.setProgress(changedProgressTemp);
-
         degreesF.setChecked(load("degreesF"));
         degreesC.setChecked(load("degreesC"));
         isInUnitsFahrenheit = degreesF.isChecked();
+
+        changedProgressTemp = mPrefs.getInt("temperature", 0);
+        TextView displayValue = (TextView) findViewById(R.id.tempValue);
+        //displayValue.setText("" + changedProgressTemp);
+        if (isInUnitsFahrenheit){
+            displayValue.setText("" + (changedProgressTemp + 32));
+            temperature.setProgress(changedProgressTemp + 32);
+        }
+        else {
+            displayValue.setText("" + (changedProgressTemp + 50));
+            temperature.setProgress(changedProgressTemp + 50);
+        }
 
 
         //Precipitation
@@ -215,9 +229,13 @@ public class Conditions extends ActionBarActivity {
 
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
             if (degreesF.isChecked()){
+                temperature.setMax(142);
                 changedProgressTemp = progress - 32;
             }
-            else{changedProgressTemp = progress - 50;}
+            else{
+                temperature.setMax(100);
+                changedProgressTemp = progress - 50;
+            }
             TextView displayValue = (TextView) findViewById(R.id.tempValue);
             displayValue.setText("" + changedProgressTemp);
         }
@@ -245,8 +263,6 @@ public class Conditions extends ActionBarActivity {
                 }
                 else {
                     isInUnitsFahrenheit = true;
-                    temperature.setMax(142);
-
                 }
             }
         });
@@ -266,7 +282,6 @@ public class Conditions extends ActionBarActivity {
                 }
                 else {
                     isInUnitsFahrenheit = false;
-                    temperature.setMax(100);
                 }
             }
         });
