@@ -30,6 +30,7 @@
     <string name="vibrate">Vibrate</string>
     <string name="time_frame_toggle">Off/On</string>
     <string name="alarm_name_1">Example Alarm</string>
+    <string name="alarm_name_2">Set Time</string>
     <string name="edit_time_frame">Edit time frame                               /></string>
 
 </resources>
