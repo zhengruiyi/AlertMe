@@ -127,6 +127,7 @@ public class Conditions extends ActionBarActivity {
         displayValue2.setText("" + changedProgressPrecip);
         precipitation.setProgress(changedProgressPrecip);
 
+
         //Wind Speed
         changedProgressWind = savedInstanceState.getInt("windSpeed");
         TextView displayValue3 = (TextView) findViewById(R.id.windValue);
@@ -145,13 +146,11 @@ public class Conditions extends ActionBarActivity {
     public void onPause() {
         super.onPause();
 
-        mPrefs = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPrefs.edit();
-
         //Temperature
-        editor.putInt("temperature", changedProgressTemp);
         save(degreesF.isChecked(), "degreesF");
         save(degreesC.isChecked(), "degreesC");
+        editor.putInt("temperature", changedProgressTemp);
 
         //Precipitation
         editor.putInt("precipitation", changedProgressPrecip);
@@ -168,6 +167,8 @@ public class Conditions extends ActionBarActivity {
     public void onResume() {
         super.onResume();
 
+        mPrefs = getPreferences(Context.MODE_PRIVATE);
+
         //Temperature
         changedProgressTemp = mPrefs.getInt("temperature", 0);
         TextView displayValue = (TextView) findViewById(R.id.tempValue);
@@ -177,6 +178,7 @@ public class Conditions extends ActionBarActivity {
         degreesF.setChecked(load("degreesF"));
         degreesC.setChecked(load("degreesC"));
         isInUnitsFahrenheit = degreesF.isChecked();
+
 
         //Precipitation
         changedProgressPrecip = mPrefs.getInt("precipitation", 0);
@@ -212,7 +214,10 @@ public class Conditions extends ActionBarActivity {
     private SeekBar.OnSeekBarChangeListener temperatureListener = new SeekBar.OnSeekBarChangeListener() {
 
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-            changedProgressTemp = progress;
+            if (degreesF.isChecked()){
+                changedProgressTemp = progress - 32;
+            }
+            else{changedProgressTemp = progress - 50;}
             TextView displayValue = (TextView) findViewById(R.id.tempValue);
             displayValue.setText("" + changedProgressTemp);
         }
@@ -240,6 +245,8 @@ public class Conditions extends ActionBarActivity {
                 }
                 else {
                     isInUnitsFahrenheit = true;
+                    temperature.setMax(142);
+
                 }
             }
         });
@@ -259,6 +266,7 @@ public class Conditions extends ActionBarActivity {
                 }
                 else {
                     isInUnitsFahrenheit = false;
+                    temperature.setMax(100);
                 }
             }
         });
@@ -315,6 +323,7 @@ public class Conditions extends ActionBarActivity {
                 }
                 else {
                     isInUnitsMPH = true;
+                    windSpeed.setMax(50);
                 }
             }
         });
@@ -334,6 +343,7 @@ public class Conditions extends ActionBarActivity {
                 }
                 else {
                     isInUnitsMPH = false;
+                    windSpeed.setMax(100);
                 }
             }
         });
