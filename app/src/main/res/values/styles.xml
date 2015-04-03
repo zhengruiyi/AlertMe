@@ -1,36 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Alert Me</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_alarm_list">AlarmList</string>
-    <string name="title_activity_conditions">Conditions</string>
-    <string name="title_activity_time_frame">TimeFrame</string>
-    <string name="precipitation">Precipitation</string>
-    <string name="wind_speed">Wind speed</string>
-    <string name="temperature">Temperature</string>
-    <string name="deg_f">°F</string>
-    <string name="deg_c">°C</string>
-    <string name="percent_chance">% chance</string>
-    <string name="mph">mph</string>
-    <string name="kph">kph</string>
-    <string name="conditions_submit">Submit</string>
-    <string name="time_frame_check">Check every</string>
-    <string name="time_frame_week">Weekday</string>
-    <string name="time_frame_weekend">Weekend</string>
-    <string name="time_frame_submit">Save</string>
-    <string name="time_frame">Time Frame</string>
-    <string name="full_day">24-hour</string>
-    <string name="half_day">12-hour</string>
-    <string name="alert_time">Alert time</string>
-    <string name="am">AM</string>
-    <string name="pm">PM</string>
-    <string name="sound">Sound</string>
-    <string name="vibrate">Vibrate</string>
-    <string name="time_frame_toggle">Off/On</string>
-    <string name="alarm_name_1">Example Alarm</string>
-    <string name="alarm_name_2">Set Time</string>
-    <string name="edit_time_frame">Edit time frame                               /></string>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
 
 </resources>

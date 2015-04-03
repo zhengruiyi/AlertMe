@@ -126,7 +126,6 @@ public class Conditions extends ActionBarActivity {
 
         changedProgressTemp = mPrefs.getInt("temperature", 0);
         TextView displayValue = (TextView) findViewById(R.id.tempValue);
-        //displayValue.setText("" + changedProgressTemp);
         if (isInUnitsFahrenheit){changedProgressTemp += DEG_F_OFFSET;}
         else {changedProgressTemp += DEG_C_OFFSET;}
         displayValue.setText("" + changedProgressTemp);
@@ -189,23 +188,14 @@ public class Conditions extends ActionBarActivity {
 
         changedProgressTemp = mPrefs.getInt("temperature", 0);
         TextView displayValue = (TextView) findViewById(R.id.tempValue);
-        //displayValue.setText("" + changedProgressTemp);
-       /* if (isInUnitsFahrenheit){changedProgressTemp += DEG_F_OFFSET;}
-        else{changedProgressTemp += DEG_C_OFFSET;}
-        displayValue.setText("" + changedProgressTemp);
-        temperature.setProgress(changedProgressTemp);*/
-
         if (isInUnitsFahrenheit){
             displayValue.setText("" + (changedProgressTemp + DEG_F_OFFSET));
             temperature.setProgress(changedProgressTemp + DEG_F_OFFSET);
-
         }
         else{
             displayValue.setText("" + (changedProgressTemp + DEG_C_OFFSET));
             temperature.setProgress(changedProgressTemp + DEG_C_OFFSET);
         }
-
-
 
         //Precipitation
         changedProgressPrecip = mPrefs.getInt("precipitation", 0);
