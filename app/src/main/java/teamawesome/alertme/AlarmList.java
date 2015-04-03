@@ -41,6 +41,13 @@ public class AlarmList extends ActionBarActivity {
 
     public void toConditions(View view){
         Intent intent = new Intent(this, Conditions.class);
+        intent.putExtra("alarmIndex", 0);
+        startActivity(intent);
+    }
+
+    public void toTimeFrame(View view){
+        Intent intent = new Intent(this, TimeFrame.class);
+        intent.putExtra("alarmIndex", 0);
         startActivity(intent);
     }
 }
