@@ -15,6 +15,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
+
+
+        // TODO: ADD IF STATEMENT TO CHECK CONDITIONS AGAINST WEATHER
         wakeLock.acquire();
 
         // Put here YOUR code.
@@ -23,11 +26,13 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
         wakeLock.release();
     }
 
-    public void setAlarm(Context context) {
-        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(context, AlarmBroadcastReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 * 10, pi); // Millisec * Second * Minute
+    public void setAlarm(Context context, int time) {
+        AlarmManager alarmManager =(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        // TODO: FIX THIS SHIT WITH PROPER TIME
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
     }
 
     public void cancelAlarm(Context context) {
