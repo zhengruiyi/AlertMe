@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AlarmDataSingleton {
 
@@ -43,6 +44,10 @@ public class AlarmDataSingleton {
 
     public int size() {
         return alarms.size();
+    }
+
+    public List<WeatherAlarm> getAlarmsList() {
+        return alarms;
     }
 
     public void setWeather(Weather newWeather, Context context) {

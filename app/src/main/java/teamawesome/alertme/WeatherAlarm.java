@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 public class WeatherAlarm {
 
+    private String name;
+
     private HashMap<String, Integer> weatherConditions;
 
     private boolean[] daysSelected;
@@ -16,6 +18,8 @@ public class WeatherAlarm {
 
 
     public WeatherAlarm() {
+        name = "Default";
+
         // Defaults for the WeatherAlarm are set in the constructor
         initializeDefaultWeatherConditions();
 
@@ -38,6 +42,14 @@ public class WeatherAlarm {
     }
 
 
+
+    public void setName(String n) {
+        name = n;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public void setTemperatureCondition(boolean tempUnit, int temperature) {
         if (tempUnit) {
