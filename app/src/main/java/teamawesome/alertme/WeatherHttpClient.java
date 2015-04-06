@@ -17,11 +17,10 @@ public class WeatherHttpClient {
         InputStream input = null;
 
         try {
-            String fullURL = BASE_URL + location;
+            String fullURL = BASE_URL + location + "&units=imperial";
             URL url = new URL(fullURL);
             connection = (HttpURLConnection) url.openConnection();
 
-           // connection = (HttpURLConnection) (new URL(BASE_URL + location)).openConnection();
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
             connection.setDoOutput(true);

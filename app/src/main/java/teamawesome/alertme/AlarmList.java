@@ -1,6 +1,7 @@
 package teamawesome.alertme;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -9,16 +10,26 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import org.json.JSONException;
 
 
 public class AlarmList extends ActionBarActivity {
 
+    private TextView dataTemp;
+    private TextView dataRain;
+    private TextView dataWindSpeed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_list);
+
+        dataTemp = (TextView) findViewById(R.id.dataTemp);
+        dataRain = (TextView) findViewById(R.id.dataRain);
+        dataWindSpeed = (TextView) findViewById(R.id.dataWindSpeed);
 
         String city = "Austin,TX";
         JSONWeatherTask task = new JSONWeatherTask();
@@ -81,6 +92,11 @@ public class AlarmList extends ActionBarActivity {
         protected void onPostExecute(Weather weather) {
             super.onPostExecute(weather);
             AlarmDataSingleton.getInstance().setWeather(weather, AlarmList.this);
+
+            SharedPreferences currentWeatherData = getSharedPreferences("weather_data", MODE_PRIVATE);
+            dataTemp.setText("" + currentWeatherData.getFloat("currentWeatherTemperature", 0.0f));
+            dataRain.setText("" + currentWeatherData.getFloat("currentWeatherPrecipitation", 0.0f));
+            dataWindSpeed.setText("" + currentWeatherData.getFloat("currentWeatherWindSpeed", 0.0f));
         }
     }
 }
