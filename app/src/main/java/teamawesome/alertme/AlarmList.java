@@ -60,6 +60,7 @@ public class AlarmList extends ActionBarActivity {
         startActivity(intent);
     }
 
+
     private class JSONWeatherTask extends AsyncTask<String, Void, Weather> {
 
         @Override
@@ -79,7 +80,7 @@ public class AlarmList extends ActionBarActivity {
         @Override
         protected void onPostExecute(Weather weather) {
             super.onPostExecute(weather);
-            AlarmDataSingleton.getInstance().setWeather(weather);
+            AlarmDataSingleton.getInstance().setWeather(weather, AlarmList.this);
         }
     }
 }

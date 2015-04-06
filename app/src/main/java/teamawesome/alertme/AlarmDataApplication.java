@@ -1,6 +1,9 @@
 package teamawesome.alertme;
 
 import android.app.Application;
+import android.os.AsyncTask;
+
+import org.json.JSONException;
 
 /*
     Refer to http://www.devahead.com/blog/2011/06/extending-the-android-application-class-and-dealing-with-singleton/
@@ -25,4 +28,5 @@ public class AlarmDataApplication extends Application {
     public void customAppMethod() {
         // Custom application method
     }
+
 }

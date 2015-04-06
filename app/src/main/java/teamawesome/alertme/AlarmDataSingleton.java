@@ -1,12 +1,15 @@
 package teamawesome.alertme;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 
 public class AlarmDataSingleton {
 
     private static AlarmDataSingleton instance;
     private static ArrayList<WeatherAlarm> alarms;
-    private static Weather weather;
+    private static Weather currentWeather;
 
     public static void initInstance() {
         if (instance == null) {
@@ -19,7 +22,7 @@ public class AlarmDataSingleton {
     }
 
     private AlarmDataSingleton() {
-        weather = new Weather();
+        currentWeather = new Weather();
 
         alarms = new ArrayList<WeatherAlarm>();
         alarms.add(new WeatherAlarm());
@@ -42,11 +45,23 @@ public class AlarmDataSingleton {
         return alarms.size();
     }
 
-    public void setWeather(Weather newWeather) {
-        weather = newWeather;
+    public void setWeather(Weather newWeather, Context context) {
+        currentWeather = newWeather;
+        saveWeather(context);
+    }
+
+    private void saveWeather(Context context) {
+        SharedPreferences weatherData = context.getSharedPreferences("weather_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = weatherData.edit();
+
+        editor.putFloat("currentWeatherTemperature", currentWeather.temperature.getMinTemp());
+        editor.putFloat("currentWeatherPrecipitation", currentWeather.rain.getAmmount());
+        editor.putFloat("currentWeatherWindSpeed", currentWeather.wind.getSpeed());
+
+        editor.apply();
     }
 
     public Weather getWeather() {
-        return weather;
+        return currentWeather;
     }
 }
