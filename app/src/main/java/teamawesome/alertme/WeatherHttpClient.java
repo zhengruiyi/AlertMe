@@ -13,7 +13,7 @@ public class WeatherHttpClient {
 
     public String getWeatherData(String location) {
         String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
-        HttpURLConnection connection = null ;
+        HttpURLConnection connection = null;
         InputStream input = null;
 
         try {
@@ -24,7 +24,6 @@ public class WeatherHttpClient {
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
             connection.setDoOutput(true);
-            int response = connection.getResponseCode();
             connection.connect();
 
             // Read the response
