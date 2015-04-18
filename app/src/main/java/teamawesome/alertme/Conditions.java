@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 
@@ -23,7 +24,7 @@ public class Conditions extends ActionBarActivity {
     private final int MAX_DEG_C = 100;
     private final int DEG_F_OFFSET = 32;
     private final int DEG_C_OFFSET = 50;
-    private CheckBox degreesF, degreesC;
+    private Switch temp_F_C;
     private SeekBar temperature;
     private int changedProgressTemp;
     private boolean isInUnitsFahrenheit;
@@ -32,7 +33,7 @@ public class Conditions extends ActionBarActivity {
     private SeekBar precipitation;
     private int changedProgressPrecip;
 
-    private CheckBox mph, kph;
+    private Switch wind_mph_kph;
     private SeekBar windSpeed;
     private int changedProgressWind;
     private boolean isInUnitsMPH;
@@ -62,7 +63,6 @@ public class Conditions extends ActionBarActivity {
         temperature = (SeekBar) findViewById(R.id.seekBar);
         temperature.setOnSeekBarChangeListener(temperatureListener);
         addListenerdegreesF();
-        addListenerdegreesC();
 
         //Precipitation
         precipitation = (SeekBar) findViewById(R.id.seekBar2);
@@ -72,7 +72,6 @@ public class Conditions extends ActionBarActivity {
         windSpeed = (SeekBar) findViewById(R.id.seekBar3);
         windSpeed.setOnSeekBarChangeListener(windSpeedListener);
         addListenerMPH();
-        addListenerKPH();
     }
 
     @Override
@@ -80,13 +79,11 @@ public class Conditions extends ActionBarActivity {
         super.onSaveInstanceState(outState);
 
         outState.putInt("temperature", changedProgressTemp);
-        outState.putBoolean("degreesF", degreesF.isChecked());
-        outState.putBoolean("degreesC", degreesC.isChecked());
+        outState.putBoolean("degreesF", temp_F_C.isChecked());
 
         outState.putInt("precipitation", changedProgressPrecip);
 
-        outState.putBoolean("mph", mph.isChecked());
-        outState.putBoolean("kph", kph.isChecked());
+        outState.putBoolean("mph", wind_mph_kph.isChecked());
         outState.putInt("windSpeed", changedProgressWind);
     }
 
@@ -95,9 +92,8 @@ public class Conditions extends ActionBarActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         //Temperature
-        degreesF.setChecked(savedInstanceState.getBoolean("degreesF"));
-        degreesC.setChecked(savedInstanceState.getBoolean("degreesC"));
-        isInUnitsFahrenheit = degreesF.isChecked();
+        temp_F_C.setChecked(savedInstanceState.getBoolean("degreesF"));
+        isInUnitsFahrenheit = temp_F_C.isChecked();
         if(isInUnitsFahrenheit){temperature.setMax(MAX_DEG_F);}
         else{temperature.setMax(MAX_DEG_C);}
 
@@ -121,9 +117,8 @@ public class Conditions extends ActionBarActivity {
         displayValue3.setText("" + changedProgressWind);
         windSpeed.setProgress(changedProgressWind);
 
-        mph.setChecked(savedInstanceState.getBoolean("mph"));
-        kph.setChecked(savedInstanceState.getBoolean("kph"));
-        isInUnitsMPH = mph.isChecked();
+        wind_mph_kph.setChecked(savedInstanceState.getBoolean("mph"));
+        isInUnitsMPH = wind_mph_kph.isChecked();
 
 
 
@@ -135,8 +130,7 @@ public class Conditions extends ActionBarActivity {
 
         SharedPreferences.Editor editor = mPrefs.edit();
         //Temperature
-        save(degreesF.isChecked(), "degreesF");
-        save(degreesC.isChecked(), "degreesC");
+        save(temp_F_C.isChecked(), "degreesF");
         editor.putInt("temperature", changedProgressTemp);
 
         //Precipitation
@@ -144,8 +138,7 @@ public class Conditions extends ActionBarActivity {
 
         //Wind Speed
         editor.putInt("windSpeed", changedProgressWind);
-        save(mph.isChecked(), "mph");
-        save(kph.isChecked(), "kph");
+        save(wind_mph_kph.isChecked(), "mph");
 
         editor.apply();
     }
@@ -157,9 +150,8 @@ public class Conditions extends ActionBarActivity {
         mPrefs = getPreferences(Context.MODE_PRIVATE);
 
         //Temperature
-        degreesF.setChecked(load("degreesF"));
-        degreesC.setChecked(load("degreesC"));
-        isInUnitsFahrenheit = degreesF.isChecked();
+        temp_F_C.setChecked(load("degreesF"));
+        isInUnitsFahrenheit = temp_F_C.isChecked();
         if(isInUnitsFahrenheit){temperature.setMax(MAX_DEG_F);}
         else{temperature.setMax(MAX_DEG_C);}
 
@@ -186,9 +178,8 @@ public class Conditions extends ActionBarActivity {
         displayValue3.setText("" + changedProgressWind);
         windSpeed.setProgress(changedProgressWind);
 
-        mph.setChecked(load("mph"));
-        kph.setChecked(load("kph"));
-        isInUnitsMPH = mph.isChecked();
+        wind_mph_kph.setChecked(load("mph"));
+        isInUnitsMPH = wind_mph_kph.isChecked();
 
     }
 
@@ -208,7 +199,7 @@ public class Conditions extends ActionBarActivity {
     private SeekBar.OnSeekBarChangeListener temperatureListener = new SeekBar.OnSeekBarChangeListener() {
 
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-            if (degreesF.isChecked()){
+            if (temp_F_C.isChecked()){
                 temperature.setMax(MAX_DEG_F);
                 changedProgressTemp = progress - DEG_F_OFFSET;
             }
@@ -229,45 +220,20 @@ public class Conditions extends ActionBarActivity {
         }
     };//end temperature seekbar
 
-    //degreesF Checkbox
+    //temp_F_C switch
     public void addListenerdegreesF() {
 
-        degreesF = (CheckBox) findViewById(R.id.checkBox);
+        temp_F_C = (Switch) findViewById(R.id.temp_switch);
 
-        degreesF.setOnClickListener(new View.OnClickListener() {
+        temp_F_C.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (((CheckBox) v).isChecked() && degreesC.isChecked()) {
-                    degreesF.setChecked(false);
-                }
-                else {
                     isInUnitsFahrenheit = true;
                     temperature.setMax(MAX_DEG_F);
                 }
-            }
         });
-    }//end degreesF checkbox
-
-    //degreesC Checkbox
-    public void addListenerdegreesC() {
-
-        degreesC = (CheckBox) findViewById(R.id.checkBox2);
-
-        degreesC.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (((CheckBox) v).isChecked() && degreesF.isChecked()) {
-                    degreesC.setChecked(false);
-                }
-                else {
-                    isInUnitsFahrenheit = false;
-                    temperature.setMax(MAX_DEG_C);
-                }
-            }
-        });
-    }//end degreesC checkbox
+    }//end temp_F_C switch
 
     //precipitation seekbar
     private SeekBar.OnSeekBarChangeListener precipitationListener = new SeekBar.OnSeekBarChangeListener() {
@@ -306,45 +272,20 @@ public class Conditions extends ActionBarActivity {
         }
     };//end wind speed seekbar
 
-    //mph Checkbox
+    //wind_mph_kph
     public void addListenerMPH() {
 
-        mph = (CheckBox) findViewById(R.id.checkBox3);
+        wind_mph_kph = (Switch) findViewById(R.id.wind_switch);
 
-        mph.setOnClickListener(new View.OnClickListener() {
+        wind_mph_kph.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (((CheckBox) v).isChecked() && kph.isChecked()) {
-                    mph.setChecked(false);
-                }
-                else {
                     isInUnitsMPH = true;
                     windSpeed.setMax(DEG_C_OFFSET);
                 }
-            }
         });
-    }//end mph checkbox
-
-    //kph Checkbox
-    public void addListenerKPH() {
-
-        kph = (CheckBox) findViewById(R.id.checkBox4);
-
-        kph.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (((CheckBox) v).isChecked() && mph.isChecked()) {
-                    kph.setChecked(false);
-                }
-                else {
-                    isInUnitsMPH = false;
-                    windSpeed.setMax(MAX_DEG_C);
-                }
-            }
-        });
-    }//end mph checkbox
+    }//end wind_mph_kph
 
     private void saveInfo(){
         currentAlarm.setTemperatureCondition(isInUnitsFahrenheit, changedProgressTemp);
