@@ -3,14 +3,18 @@ package teamawesome.alertme;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.json.JSONException;
@@ -42,8 +46,14 @@ public class AlarmList extends ActionBarActivity {
         dataWindSpeed = (TextView) findViewById(R.id.dataWindSpeed);
 
         String city = "Austin,TX";
-        JSONWeatherTask task = new JSONWeatherTask();
-        task.execute(new String[]{city});
+        if (isOnline()) {
+            JSONWeatherTask task = new JSONWeatherTask();
+            task.execute(new String[]{city});
+        } else {
+            String toastText = "Unable to connect to the network/r/nUsing cached weather data";
+            Toast networkUnavailable = Toast.makeText(this, toastText, Toast.LENGTH_LONG);
+            networkUnavailable.show();
+        }
     }
 
     public void toConditions(View view) {
@@ -116,6 +126,23 @@ public class AlarmList extends ActionBarActivity {
     }
 
 
+    private boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+//        NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+//        boolean isWifiConn = networkInfo.isConnected();
+//        networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+//        boolean isMobileConn = networkInfo.isConnected();
+
+//        Log.d("AlarmList Wifi Check", "Wifi connected: " + isWifiConn);
+//        Log.d("AlarmList Mobile Check", "Mobile connected: " + isMobileConn);
+
+//        return isWifiConn || isMobileConn;
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
+
     private class JSONWeatherTask extends AsyncTask<String, Void, WeatherForecastData> {
 
         @Override
@@ -139,9 +166,9 @@ public class AlarmList extends ActionBarActivity {
             AlertMeMetadataSingleton.getInstance().setWeather(weather, AlarmList.this);
 
             SharedPreferences currentWeatherData = getSharedPreferences("weather_data", MODE_PRIVATE);
-            dataTemp.setText("Temperature: " + currentWeatherData.getFloat("tomorrowMinTemperatureF", -1.0f) + "F");
-            dataRain.setText("Precipitation: " + currentWeatherData.getFloat("tomorrowPrecipitationChance", -1.0f) + "%");
-            dataWindSpeed.setText("Wind Speed: " + currentWeatherData.getFloat("tomorrowWindSpeedMph", -1.0f) + "mph");
+            dataTemp.setText("Temperature: " + currentWeatherData.getInt("tomorrowMinTemperatureF", -1) + "\u00b0F");
+            dataRain.setText("Precipitation: " + currentWeatherData.getInt("tomorrowPrecipitationChance", -1) + "%");
+            dataWindSpeed.setText("Wind Speed: " + currentWeatherData.getInt("tomorrowWindSpeedMph", -1) + "mph");
         }
     }
 }
