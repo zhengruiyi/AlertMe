@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -35,11 +36,11 @@ public class AlarmList extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm_list);
+        setContentView(R.layout.activity_alarm_list_2);
 
-//        AlarmListAdapter alarmListAdapter = new AlarmListAdapter();
-//        ListView alarmList = (ListView) findViewById(R.id.alarmListView);
-//        alarmList.setAdapter(alarmListAdapter);
+        AlarmListAdapter alarmListAdapter = new AlarmListAdapter();
+        ListView alarmList = (ListView) findViewById(R.id.alarmListView);
+        alarmList.setAdapter(alarmListAdapter);
 
         dataTemp = (TextView) findViewById(R.id.dataTemp);
         dataRain = (TextView) findViewById(R.id.dataRain);
@@ -48,9 +49,9 @@ public class AlarmList extends ActionBarActivity {
         String city = "Austin,TX";
         if (isOnline()) {
             JSONWeatherTask task = new JSONWeatherTask();
-            task.execute(new String[]{city});
+            task.execute(city);
         } else {
-            String toastText = "Unable to connect to the network/r/nUsing cached weather data";
+            String toastText = "Unable to connect to the network\r\nUsing cached weather data";
             Toast networkUnavailable = Toast.makeText(this, toastText, Toast.LENGTH_LONG);
             networkUnavailable.show();
         }
@@ -111,35 +112,21 @@ public class AlarmList extends ActionBarActivity {
             }
         };
 
-        public void toConditions(View view) {
-            Intent intent = new Intent(AlarmList.this, Conditions.class);
-            intent.putExtra("alarmIndex", 0);
-            startActivity(intent);
-        }
-
-        public void toTimeFrame(View view) {
-            Intent intent = new Intent(AlarmList.this, TimeFrame.class);
-            intent.putExtra("alarmIndex", 0);
-            startActivity(intent);
-        }
-
     }
 
 
     private boolean isOnline() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-//        NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-//        boolean isWifiConn = networkInfo.isConnected();
-//        networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-//        boolean isMobileConn = networkInfo.isConnected();
+        NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        boolean isWifiConn = networkInfo.isConnected();
+        networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        boolean isMobileConn = networkInfo.isConnected();
 
-//        Log.d("AlarmList Wifi Check", "Wifi connected: " + isWifiConn);
-//        Log.d("AlarmList Mobile Check", "Mobile connected: " + isMobileConn);
+        Log.d("AlarmList Wifi Check", "Wifi connected: " + isWifiConn);
+        Log.d("AlarmList Mobile Check", "Mobile connected: " + isMobileConn);
 
-//        return isWifiConn || isMobileConn;
-        return networkInfo != null && networkInfo.isConnected();
+        return isWifiConn || isMobileConn;
     }
 
 

@@ -39,7 +39,7 @@
 
     <TextView
         android:id="@+id/apiText"
-        android:text="Data received from OpenWeatherAPI"
+        android:text="Data received from Wunderground"
         android:textSize="12sp"
         android:textColor="#ffffff"
         android:layout_alignParentBottom="true"
