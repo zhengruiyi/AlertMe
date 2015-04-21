@@ -8,11 +8,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 
-        android:background="#696969"
+        android:background="#FFFFFF"
         android:gravity="center_vertical|start"
         android:onClick="toConditions"
 
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"/>
 
     <ToggleButton
@@ -21,7 +20,7 @@
         android:layout_height="wrap_content"
 
         android:textSize="12sp"
-        android:background="#696969"
+        android:background="#FFFFFF"
         android:gravity="center_vertical|end"
 
         android:layout_alignParentTop="true"
@@ -35,7 +34,7 @@
 
         android:text="EDIT TIME FRAME     >"
         android:textSize="12sp"
-        android:background="#696969"
+        android:background="#FFFFFF"
         android:gravity="bottom|start"
         android:onClick="toTimeFrame"
 

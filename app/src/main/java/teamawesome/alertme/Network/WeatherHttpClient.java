@@ -1,4 +1,4 @@
-package teamawesome.alertme;
+package teamawesome.alertme.Network;
 
 import java.io.BufferedReader;
 import java.io.IOException;

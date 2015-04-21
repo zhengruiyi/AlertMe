@@ -1,8 +1,11 @@
-package teamawesome.alertme;
+package teamawesome.alertme.Network;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import teamawesome.alertme.Utility.Location;
+import teamawesome.alertme.Utility.Weather;
 
 
 public class JSONWeatherParser {

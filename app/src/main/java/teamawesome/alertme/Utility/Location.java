@@ -1,4 +1,4 @@
-package teamawesome.alertme;
+package teamawesome.alertme.Utility;
 
 import java.io.Serializable;
 

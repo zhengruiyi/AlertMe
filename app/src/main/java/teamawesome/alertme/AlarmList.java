@@ -3,23 +3,23 @@ package teamawesome.alertme;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import org.json.JSONException;
+
+import teamawesome.alertme.Network.JSONWeatherParser;
+import teamawesome.alertme.Network.WeatherHttpClient;
+import teamawesome.alertme.Utility.AlarmDataSingleton;
+import teamawesome.alertme.Utility.Weather;
+import teamawesome.alertme.Utility.WeatherAlarm;
 
 
 public class AlarmList extends ActionBarActivity {

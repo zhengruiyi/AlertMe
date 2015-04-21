@@ -1,4 +1,4 @@
-package teamawesome.alertme;
+package teamawesome.alertme.Utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;

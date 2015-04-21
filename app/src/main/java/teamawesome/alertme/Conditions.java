@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import teamawesome.alertme.Utility.AlarmDataSingleton;
+import teamawesome.alertme.Utility.WeatherAlarm;
 
 
 public class Conditions extends ActionBarActivity {
