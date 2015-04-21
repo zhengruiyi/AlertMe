@@ -2,7 +2,7 @@ package teamawesome.alertme.Utility;
 
 import java.util.HashMap;
 
-public class WeatherAlarm {
+public class AlertMeAlarm {
 
     private String name;
 
@@ -17,10 +17,10 @@ public class WeatherAlarm {
     private boolean vibrateToggle;
 
 
-    public WeatherAlarm() {
+    public AlertMeAlarm() {
         name = "Default";
 
-        // Defaults for the WeatherAlarm are set in the constructor
+        // Defaults for the AlertMeAlarm are set in the constructor
         initializeDefaultWeatherConditions();
 
         // Mon, Tue, Wed, Thu, Fri, Sat, Sun

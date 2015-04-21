@@ -18,8 +18,8 @@ import org.json.JSONException;
 import teamawesome.alertme.Network.JSONWeatherParser;
 import teamawesome.alertme.Network.WeatherHttpClient;
 import teamawesome.alertme.Utility.AlarmDataSingleton;
-import teamawesome.alertme.Utility.Weather;
-import teamawesome.alertme.Utility.WeatherAlarm;
+import teamawesome.alertme.Utility.WeatherForecastData;
+import teamawesome.alertme.Utility.AlertMeAlarm;
 
 
 public class AlarmList extends ActionBarActivity {
@@ -84,7 +84,7 @@ public class AlarmList extends ActionBarActivity {
             }
 
             TextView alarmName = (TextView) convertView.findViewById(R.id.alarmName);
-            WeatherAlarm currentAlarm = AlarmDataSingleton.getInstance().getAlarm(position);
+            AlertMeAlarm currentAlarm = AlarmDataSingleton.getInstance().getAlarm(position);
             alarmName.setText(currentAlarm.getName());
             alarmName.setTextSize(20);
 
@@ -116,12 +116,13 @@ public class AlarmList extends ActionBarActivity {
     }
 
 
-    private class JSONWeatherTask extends AsyncTask<String, Void, Weather> {
+    private class JSONWeatherTask extends AsyncTask<String, Void, WeatherForecastData> {
 
         @Override
-        protected Weather doInBackground(String... params) {
-            Weather weather = new Weather();
-            String data = ((new WeatherHttpClient()).getWeatherData(params[0]));
+        protected WeatherForecastData doInBackground(String... params) {
+            WeatherForecastData weather = new WeatherForecastData();
+            WeatherHttpClient weatherHttp = new WeatherHttpClient();
+            String data = weatherHttp.getWeatherData(params[0]);
 
             try {
                 weather = JSONWeatherParser.getWeather(data);
@@ -133,7 +134,7 @@ public class AlarmList extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(Weather weather) {
+        protected void onPostExecute(WeatherForecastData weather) {
             super.onPostExecute(weather);
             AlarmDataSingleton.getInstance().setWeather(weather, AlarmList.this);
 

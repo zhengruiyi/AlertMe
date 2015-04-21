@@ -13,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import teamawesome.alertme.Utility.AlarmDataSingleton;
-import teamawesome.alertme.Utility.WeatherAlarm;
+import teamawesome.alertme.Utility.AlertMeAlarm;
 
 
 public class TimeFrame extends ActionBarActivity {
     //to store alarm info
-    private WeatherAlarm currentAlarm;
+    private AlertMeAlarm currentAlarm;
 
     //weekday checkboxes
     private CheckBox weekday, weekend;

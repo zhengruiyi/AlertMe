@@ -11,12 +11,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import teamawesome.alertme.Utility.AlarmDataSingleton;
-import teamawesome.alertme.Utility.WeatherAlarm;
+import teamawesome.alertme.Utility.AlertMeAlarm;
 
 
 public class Conditions extends ActionBarActivity {
 
-    private WeatherAlarm currentAlarm;
+    private AlertMeAlarm currentAlarm;
     private int currentAlarmIndex;
 
     //temperature

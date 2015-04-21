@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="teamawesome.alertme" >
 
-    <!--OpenWeatherMap API Key: 61edd1d65c1dbb9a525d7dacd15d3fb9-->
     <!--Wunderground API Key: f336925ac023b89b-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
