@@ -10,7 +10,7 @@ public class AlarmDataSingleton {
 
     private static AlarmDataSingleton instance;
     private static ArrayList<AlertMeAlarm> alarms;
-    private static WeatherForecastData currentWeather;
+    private static WeatherForecastData weatherForecast;
 
     public static void initInstance() {
         if (instance == null) {
@@ -23,7 +23,7 @@ public class AlarmDataSingleton {
     }
 
     private AlarmDataSingleton() {
-        currentWeather = new WeatherForecastData();
+        weatherForecast = new WeatherForecastData();
 
         alarms = new ArrayList<AlertMeAlarm>();
         alarms.add(new AlertMeAlarm());
@@ -51,7 +51,7 @@ public class AlarmDataSingleton {
     }
 
     public void setWeather(WeatherForecastData newWeather, Context context) {
-        currentWeather = newWeather;
+        weatherForecast = newWeather;
         saveWeather(context);
     }
 
@@ -59,14 +59,16 @@ public class AlarmDataSingleton {
         SharedPreferences weatherData = context.getSharedPreferences("weather_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = weatherData.edit();
 
-//        editor.putFloat("currentWeatherTemperature", currentWeather.temperature.getMinTemp());
-//        editor.putFloat("currentWeatherPrecipitation", currentWeather.rain.getAmmount());
-//        editor.putFloat("currentWeatherWindSpeed", currentWeather.wind.getMaxSpeed());
+        editor.putFloat("tomorrowMinTemperature", weatherForecast.temperature.getMinTemperatureF());
+        editor.putFloat("tomorrowMaxTemperature", weatherForecast.temperature.getMaxTemperatureF());
+        editor.putFloat("tomorrowWindSpeed", weatherForecast.wind.getMaxSpeedMph());
+        editor.putFloat("tomorrowPrecipitationChance", weatherForecast.precipitation.getPercentageChance());
+        editor.putFloat("tomorrowRainAmount", weatherForecast.precipitation.getRainAmountInches());
 
         editor.apply();
     }
 
     public WeatherForecastData getWeather() {
-        return currentWeather;
+        return weatherForecast;
     }
 }

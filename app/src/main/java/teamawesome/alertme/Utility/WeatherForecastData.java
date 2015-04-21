@@ -16,70 +16,102 @@ public class WeatherForecastData {
     }
 
 
-    private class Temperature {
-        private float temperature;
-        private float minTemperature;
-        private float maxTemperature;
+    public class Temperature {
+        private int minTemperatureF;
+        private int maxTemperatureF;
+        private int minTemperatureC;
+        private int maxTemperatureC;
 
-        public float getTemp() {
-            return temperature;
+        public int getMinTemperatureF() {
+            return minTemperatureF;
         }
-        public void setTemp(float temp) {
-            temperature = temp;
+        public void setMinTemperatureF(int minTemp) {
+            minTemperatureF = minTemp;
         }
-        public float getMinTemp() {
-            return minTemperature;
+        public int getMaxTemperatureF() {
+            return maxTemperatureF;
         }
-        public void setMinTemp(float minTemp) {
-            minTemperature = minTemp;
+        public void setMaxTemperatureF(int maxTemp) {
+            maxTemperatureF = maxTemp;
         }
-        public float getMaxTemp() {
-            return maxTemperature;
+
+        public int getMinTemperatureC() {
+            return minTemperatureC;
         }
-        public void setMaxTemp(float maxTemp) {
-            maxTemperature = maxTemp;
+        public void setMinTemperatureC(int minTemp) {
+            minTemperatureC = minTemp;
+        }
+        public int getMaxTemperatureC() {
+            return maxTemperatureC;
+        }
+        public void setMaxTemperatureC(int maxTemp) {
+            maxTemperatureC = maxTemp;
         }
     }
 
 
-    private class Wind {
-        private float maxSpeed;
+    public class Precipitation {
+        private int percentageChance;
+        private float rainAmountInches;
+        private float rainAmountMm;
+        private float snowAmountInches;
+        private float snowAmountCm;
 
-        public float getMaxSpeed() {
-            return maxSpeed;
-        }
-        public void setMaxSpeed(float speed) {
-            maxSpeed = speed;
-        }
-    }
-
-    private class Precipitation {
-        private float percentageChance;
-        private float rainAmount;
-        private float snowAmount;
-
-        public float getPercentageChance() {
+        public int getPercentageChance() {
             return percentageChance;
         }
-        public void setPercentageChance(float chance) {
+        public void setPercentageChance(int chance) {
             percentageChance = chance;
         }
-        public float getRainAmount() {
-            return rainAmount;
+
+        public float getRainAmountInches() {
+            return rainAmountInches;
         }
-        public void setRainAmount(float amount) {
-            rainAmount = amount;
+        public void setRainAmountInches(float amount) {
+            rainAmountInches = amount;
         }
-        public float getSnowAmount() {
-            return snowAmount;
+        public float getRainAmountMm() {
+            return rainAmountMm;
         }
-        public void setSnowAmount(float amount) {
-            snowAmount = amount;
+        public void setRainAmountMm(float amount) {
+            rainAmountMm = amount;
+        }
+
+        public float getSnowAmountInches() {
+            return snowAmountInches;
+        }
+        public void setSnowAmountInches(float amount) {
+            snowAmountInches = amount;
+        }
+        public float getSnowAmountCm() {
+            return snowAmountCm;
+        }
+        public void setSnowAmountCm(float amount) {
+            snowAmountCm = amount;
         }
     }
 
 
-    private class Humidity {
+    public class Wind {
+        private int maxSpeedMph;
+        private int maxSpeedKph;
+
+        public int getMaxSpeedMph() {
+            return maxSpeedMph;
+        }
+        public void setMaxSpeedMph(int speed) {
+            maxSpeedMph = speed;
+        }
+        public int getMaxSpeedKph() {
+            return maxSpeedKph;
+        }
+        public void setMaxSpeedKph(int speed) {
+            maxSpeedKph = speed;
+        }
+    }
+
+
+    public class Humidity {
         private int averageHumidity;
 
         public int getHumidity() {

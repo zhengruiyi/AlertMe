@@ -9,60 +9,95 @@ import teamawesome.alertme.Utility.WeatherForecastData;
 
 public class JSONWeatherParser {
 
-    public static WeatherForecastData getWeather(String data) throws JSONException  {
-        WeatherForecastData weather = new WeatherForecastData();
+    /* Important parts of JSON structure returned by Wunderground API call
+    {
+        "forecast": {
+            "simpleforecast": {
+                "forecastday": [            // [today, tomorrow, 2nd day, 3rd day]
+                    {
+                        "date": {
+                            "day": 21,
+                            "month": 4,
+                            "year": 2015,
+                            "monthname": "April",
+                            "monthname_short": "Apr",
+                            "weekday_short": "Tue",
+                            "weekday": "Tuesday",
+                        },
+                        "high": {
+                            "fahrenheit": "80",
+                            "celsius": "27"
+                        },
+                        "low": {
+                            "fahrenheit": "64",
+                            "celsius": "18"
+                        },
+                        "icon_url": "http://icons.wxug.com/i/c/k/partlycloudy.gif",
+                        "pop": 20,
+                        "qpf_allday": {
+                            "in": 0.06,
+                            "mm": 2
+                        },
+                        "snow_allday": {
+                            "in": 0.00,
+                            "cm": 0
+                        },
+                        "maxwind": {
+                            "mph": 15,
+                            "kph": 24,
+                            "dir": "SE",
+                            "degrees": 136
+                        },
+                        "avehumidity": 57
+                    }
+                ]
+            }
+        }
+    }
+     */
 
-        // We create out JSONObject from the data
+    public static WeatherForecastData getWeather(String data) throws JSONException  {
+        WeatherForecastData weatherForecast = new WeatherForecastData();
+
+        // Create JSONObject from the data received from api call
         JSONObject jObj = new JSONObject(data);
 
-        // We get weather info (This is an array)
-        JSONArray jArr = jObj.getJSONArray("weather");
+        // Get weather info for tomorrow (refer to JSON structure above)
+        JSONArray forecastDay = jObj.getJSONObject("forecast").getJSONObject("simpleforecast").getJSONArray("forecastday");
+        JSONObject tomorrow = forecastDay.getJSONObject(1);
 
-        // We use only the first value
-        JSONObject JSONWeather = jArr.getJSONObject(0);
-//        weather.currentCondition.setWeatherId(getInt("id", JSONWeather));
-//        weather.currentCondition.setDescr(getString("description", JSONWeather));
-//        weather.currentCondition.setCondition(getString("main", JSONWeather));
-//        weather.currentCondition.setIcon(getString("icon", JSONWeather));
 
-        JSONObject mainObj = getObject("main", jObj);
-//        weather.currentCondition.setHumidity(getInt("humidity", mainObj));
-//        weather.currentCondition.setPressure(getInt("pressure", mainObj));
-//        weather.temperature.setMaxTemp(getFloat("temp_max", mainObj));
-//        weather.temperature.setMinTemp(getFloat("temp_min", mainObj));
-//        weather.temperature.setTemp(getFloat("temp", mainObj));
+        // Temperature
+        JSONObject highTemp = tomorrow.getJSONObject("high");
+        weatherForecast.temperature.setMaxTemperatureF(highTemp.getInt("fahrenheit"));
+        weatherForecast.temperature.setMaxTemperatureC(highTemp.getInt("celsius"));
+
+        JSONObject lowTemp = tomorrow.getJSONObject("low");
+        weatherForecast.temperature.setMinTemperatureF(lowTemp.getInt("fahrenheit"));
+        weatherForecast.temperature.setMinTemperatureC(lowTemp.getInt("celsius"));
+
+
+        // Precipitation
+        weatherForecast.precipitation.setPercentageChance(tomorrow.getInt("pop"));
+
+        JSONObject rainAmount = tomorrow.getJSONObject("qpf_allday");
+        weatherForecast.precipitation.setRainAmountInches((float)rainAmount.getDouble("in"));
+        weatherForecast.precipitation.setRainAmountMm((float)rainAmount.getDouble("mm"));
+
+        JSONObject snowAmount = tomorrow.getJSONObject("snow_allday");
+        weatherForecast.precipitation.setSnowAmountInches((float)snowAmount.getDouble("in"));
+        weatherForecast.precipitation.setSnowAmountCm((float)snowAmount.getDouble("cm"));
+
 
         // Wind
-        JSONObject wObj = getObject("wind", jObj);
-//        weather.wind.setMaxSpeed(getFloat("speed", wObj));
-//        weather.wind.setDeg(getFloat("deg", wObj));
-
-        // Clouds
-        JSONObject cObj = getObject("clouds", jObj);
-//        weather.clouds.setPerc(getInt("all", cObj));
-
-        // We download the icon to show
+        JSONObject maxWind = tomorrow.getJSONObject("maxwind");
+        weatherForecast.wind.setMaxSpeedMph(maxWind.getInt("mph"));
+        weatherForecast.wind.setMaxSpeedKph(maxWind.getInt("kph"));
 
 
-        return weather;
+        // Humidity
+        weatherForecast.humidity.setHumidity(tomorrow.getInt("avehumidity"));
+
+        return weatherForecast;
     }
-
-
-    private static JSONObject getObject(String tagName, JSONObject jObj)  throws JSONException {
-        JSONObject subObj = jObj.getJSONObject(tagName);
-        return subObj;
-    }
-
-    private static String getString(String tagName, JSONObject jObj) throws JSONException {
-        return jObj.getString(tagName);
-    }
-
-    private static float  getFloat(String tagName, JSONObject jObj) throws JSONException {
-        return (float) jObj.getDouble(tagName);
-    }
-
-    private static int  getInt(String tagName, JSONObject jObj) throws JSONException {
-        return jObj.getInt(tagName);
-    }
-
 }
