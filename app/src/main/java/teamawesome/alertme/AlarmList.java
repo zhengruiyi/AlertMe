@@ -139,9 +139,9 @@ public class AlarmList extends ActionBarActivity {
             AlertMeMetadataSingleton.getInstance().setWeather(weather, AlarmList.this);
 
             SharedPreferences currentWeatherData = getSharedPreferences("weather_data", MODE_PRIVATE);
-            dataTemp.setText("Temperature: " + currentWeatherData.getFloat("tomorrowMinTemperature", -1.0f) + "F");
+            dataTemp.setText("Temperature: " + currentWeatherData.getFloat("tomorrowMinTemperatureF", -1.0f) + "F");
             dataRain.setText("Precipitation: " + currentWeatherData.getFloat("tomorrowPrecipitationChance", -1.0f) + "%");
-            dataWindSpeed.setText("Wind Speed: " + currentWeatherData.getFloat("tomorrowWindSpeed", -1.0f) + "mph");
+            dataWindSpeed.setText("Wind Speed: " + currentWeatherData.getFloat("tomorrowWindSpeedMph", -1.0f) + "mph");
         }
     }
 }
