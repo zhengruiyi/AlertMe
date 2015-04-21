@@ -59,11 +59,21 @@ public class AlertMeMetadataSingleton {
         SharedPreferences weatherData = context.getSharedPreferences("weather_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = weatherData.edit();
 
-        editor.putFloat("tomorrowMinTemperature", weatherForecast.temperature.getMinTemperatureF());
-        editor.putFloat("tomorrowMaxTemperature", weatherForecast.temperature.getMaxTemperatureF());
-        editor.putFloat("tomorrowWindSpeed", weatherForecast.wind.getMaxSpeedMph());
-        editor.putFloat("tomorrowPrecipitationChance", weatherForecast.precipitation.getPercentageChance());
-        editor.putFloat("tomorrowRainAmount", weatherForecast.precipitation.getRainAmountInches());
+        editor.putInt("tomorrowMinTemperatureF", weatherForecast.temperature.getMinTemperatureF());
+        editor.putInt("tomorrowMaxTemperatureF", weatherForecast.temperature.getMaxTemperatureF());
+        editor.putInt("tomorrowMinTemperatureC", weatherForecast.temperature.getMinTemperatureC());
+        editor.putInt("tomorrowMaxTemperatureC", weatherForecast.temperature.getMaxTemperatureC());
+
+        editor.putInt("tomorrowPrecipitationChance", weatherForecast.precipitation.getPercentageChance());
+        editor.putFloat("tomorrowRainAmountIn", weatherForecast.precipitation.getRainAmountInches());
+        editor.putFloat("tomorrowRainAmountMm", weatherForecast.precipitation.getRainAmountMm());
+        editor.putFloat("tomorrowRainAmountIn", weatherForecast.precipitation.getSnowAmountInches());
+        editor.putFloat("tomorrowRainAmountCm", weatherForecast.precipitation.getSnowAmountCm());
+
+        editor.putInt("tomorrowWindSpeedMph", weatherForecast.wind.getMaxSpeedMph());
+        editor.putInt("tomorrowWindSpeedKph", weatherForecast.wind.getMaxSpeedKph());
+
+        editor.putInt("tomorrowHumidity", weatherForecast.humidity.getHumidity());
 
         editor.apply();
     }
