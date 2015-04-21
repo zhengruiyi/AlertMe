@@ -17,7 +17,7 @@ import org.json.JSONException;
 
 import teamawesome.alertme.Network.JSONWeatherParser;
 import teamawesome.alertme.Network.WeatherHttpClient;
-import teamawesome.alertme.Utility.AlarmDataSingleton;
+import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 import teamawesome.alertme.Utility.WeatherForecastData;
 import teamawesome.alertme.Utility.AlertMeAlarm;
 
@@ -63,12 +63,12 @@ public class AlarmList extends ActionBarActivity {
 
         @Override
         public int getCount() {
-            return AlarmDataSingleton.getInstance().size();
+            return AlertMeMetadataSingleton.getInstance().size();
         }
 
         @Override
         public Object getItem(int position) {
-            return AlarmDataSingleton.getInstance().getAlarm(position);
+            return AlertMeMetadataSingleton.getInstance().getAlarm(position);
         }
 
         @Override
@@ -84,7 +84,7 @@ public class AlarmList extends ActionBarActivity {
             }
 
             TextView alarmName = (TextView) convertView.findViewById(R.id.alarmName);
-            AlertMeAlarm currentAlarm = AlarmDataSingleton.getInstance().getAlarm(position);
+            AlertMeAlarm currentAlarm = AlertMeMetadataSingleton.getInstance().getAlarm(position);
             alarmName.setText(currentAlarm.getName());
             alarmName.setTextSize(20);
 
@@ -136,7 +136,7 @@ public class AlarmList extends ActionBarActivity {
         @Override
         protected void onPostExecute(WeatherForecastData weather) {
             super.onPostExecute(weather);
-            AlarmDataSingleton.getInstance().setWeather(weather, AlarmList.this);
+            AlertMeMetadataSingleton.getInstance().setWeather(weather, AlarmList.this);
 
             SharedPreferences currentWeatherData = getSharedPreferences("weather_data", MODE_PRIVATE);
             dataTemp.setText("Temperature: " + currentWeatherData.getFloat("tomorrowMinTemperature", -1.0f) + "F");

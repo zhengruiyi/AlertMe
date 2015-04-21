@@ -10,7 +10,7 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import teamawesome.alertme.Utility.AlarmDataSingleton;
+import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 import teamawesome.alertme.Utility.AlertMeAlarm;
 
 
@@ -50,13 +50,12 @@ public class Conditions extends ActionBarActivity {
         mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 
         int alarmIndex = getIntent().getIntExtra("alarmIndex", -1);
-        if (alarmIndex >= 0 && alarmIndex < AlarmDataSingleton.getInstance().size()) {
-            currentAlarm = AlarmDataSingleton.getInstance().getAlarm(alarmIndex);
+        if (alarmIndex >= 0 && alarmIndex < AlertMeMetadataSingleton.getInstance().size()) {
+            currentAlarm = AlertMeMetadataSingleton.getInstance().getAlarm(alarmIndex);
             currentAlarmIndex = alarmIndex;
         } else {
-            currentAlarm = AlarmDataSingleton.getInstance().getAlarm(0);
+            currentAlarm = AlertMeMetadataSingleton.getInstance().getAlarm(0);
             currentAlarmIndex = 0;
-            //throw new AssertionError("Conditions: Failed to access AlarmDataSingleton list at " + alarmIndex);
         }
 
         //Temperature

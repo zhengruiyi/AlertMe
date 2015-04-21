@@ -12,7 +12,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import teamawesome.alertme.Utility.AlarmDataSingleton;
+import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 import teamawesome.alertme.Utility.AlertMeAlarm;
 
 
@@ -51,10 +51,10 @@ public class TimeFrame extends ActionBarActivity {
         mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 
         int alarmIndex = getIntent().getIntExtra("alarmIndex", -1);
-        if (alarmIndex >= 0 && alarmIndex < AlarmDataSingleton.getInstance().size()) {
-            currentAlarm = AlarmDataSingleton.getInstance().getAlarm(alarmIndex);
+        if (alarmIndex >= 0 && alarmIndex < AlertMeMetadataSingleton.getInstance().size()) {
+            currentAlarm = AlertMeMetadataSingleton.getInstance().getAlarm(alarmIndex);
         } else {
-            throw new AssertionError("TimeFrame: Failed to access AlarmDataSingleton list at " + alarmIndex);
+            throw new AssertionError("TimeFrame: Failed to access AlertMeMetadataSingleton list at " + alarmIndex);
         }
 
         //Seekbar
