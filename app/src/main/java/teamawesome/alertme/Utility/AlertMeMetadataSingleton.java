@@ -10,7 +10,6 @@ public class AlertMeMetadataSingleton {
 
     private static AlertMeMetadataSingleton instance;
     private static ArrayList<AlertMeAlarm> alarms;
-    private static WeatherForecastData weatherForecast;
 
     public static void initInstance() {
         if (instance == null) {
@@ -23,8 +22,6 @@ public class AlertMeMetadataSingleton {
     }
 
     private AlertMeMetadataSingleton() {
-        weatherForecast = new WeatherForecastData();
-
         alarms = new ArrayList<AlertMeAlarm>();
         alarms.add(new AlertMeAlarm());
     }
@@ -50,12 +47,7 @@ public class AlertMeMetadataSingleton {
         return alarms;
     }
 
-    public void setWeather(WeatherForecastData newWeather, Context context) {
-        weatherForecast = newWeather;
-        saveWeather(context);
-    }
-
-    private void saveWeather(Context context) {
+    public void saveWeather(WeatherForecastData weatherForecast, Context context) {
         SharedPreferences weatherData = context.getSharedPreferences("weather_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = weatherData.edit();
 
@@ -78,7 +70,4 @@ public class AlertMeMetadataSingleton {
         editor.apply();
     }
 
-    public WeatherForecastData getWeather() {
-        return weatherForecast;
-    }
 }

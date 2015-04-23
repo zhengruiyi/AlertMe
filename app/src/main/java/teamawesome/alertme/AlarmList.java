@@ -147,7 +147,7 @@ public class AlarmList extends ActionBarActivity {
         @Override
         protected void onPostExecute(WeatherForecastData weather) {
             super.onPostExecute(weather);
-            AlertMeMetadataSingleton.getInstance().setWeather(weather, AlarmList.this);
+            AlertMeMetadataSingleton.getInstance().saveWeather(weather, AlarmList.this);
 
             SharedPreferences currentWeatherData = getSharedPreferences("weather_data", MODE_PRIVATE);
             dataTemp.setText("Temperature: " + currentWeatherData.getInt("tomorrowMinTemperatureF", -1) + "\u00b0F");
