@@ -3,6 +3,7 @@ package teamawesome.alertme;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +13,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import teamawesome.alertme.Background.AlarmBroadcastReceiver;
 import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 import teamawesome.alertme.Utility.AlertMeAlarm;
+import teamawesome.alertme.Utility.CalendarWrapper;
 
 
 public class TimeFrame extends ActionBarActivity {
@@ -96,7 +99,7 @@ public class TimeFrame extends ActionBarActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState){
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState){
         super.onRestoreInstanceState(savedInstanceState);
 
         changedProgress = savedInstanceState.getInt("seekBar");
@@ -364,6 +367,12 @@ public class TimeFrame extends ActionBarActivity {
 
     public void toAlarmList(View view){
         saveInfo();
+
+        // Setting alarm
+        CalendarWrapper calendar = new CalendarWrapper();
+        Long alarmTime = calendar.getTimeInMillis() + 10 * 1000;
+        AlarmBroadcastReceiver.setAlarm(this, 0, alarmTime);
+        Toast.makeText(this, "Alarm scheduled for 10 seconds from now", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(this, AlarmList.class);
         startActivity(intent);

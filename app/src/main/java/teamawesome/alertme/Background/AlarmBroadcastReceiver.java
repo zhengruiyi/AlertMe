@@ -34,23 +34,24 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
         wakeLock.release();
     }
 
-    public void setAlarm(Context context, int id, long time) {
+    public static void setAlarm(Context context, int id, long time) {
         AlarmManager alarmManager =(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(context, AlarmBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent intentBroadcast = PendingIntent.getBroadcast(context, id, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, intentBroadcast);
         } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, time, intentBroadcast);
         }
     }
 
-    public void cancelAlarm(Context context) {
-        Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
+    public static void cancelAlarm(Context context, int id) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
+        Intent alarmIntent = new Intent(context, AlarmBroadcastReceiver.class);
+        PendingIntent intentBroadcast = PendingIntent.getBroadcast(context, id, alarmIntent, 0);
+
+        alarmManager.cancel(intentBroadcast);
     }
 
 }

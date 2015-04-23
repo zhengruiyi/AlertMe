@@ -20,9 +20,6 @@ import android.widget.ToggleButton;
 
 import org.json.JSONException;
 
-import java.util.GregorianCalendar;
-
-import teamawesome.alertme.Background.AlarmBroadcastReceiver;
 import teamawesome.alertme.Network.JSONWeatherParser;
 import teamawesome.alertme.Network.WeatherHttpClient;
 import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
@@ -57,9 +54,6 @@ public class AlarmList extends ActionBarActivity {
             String toastText = "Unable to connect to the network\r\nUsing cached weather data";
             Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
         }
-
-//        Long alarmTime = new GregorianCalendar().getTimeInMillis() + 10 * 1000;
-//        scheduleAlarm(alarmTime);
     }
 
     public void toConditions(View view) {
@@ -86,12 +80,6 @@ public class AlarmList extends ActionBarActivity {
         Log.d("AlarmList Mobile Check", "Mobile connected: " + isMobileConn);
 
         return isWifiConn || isMobileConn;
-    }
-
-    private void scheduleAlarm(long time) {
-        AlarmBroadcastReceiver alarmMaker = new AlarmBroadcastReceiver();
-        alarmMaker.setAlarm(this, 0, time);
-        Toast.makeText(this, "Alarm Scheduled for 10 seconds", Toast.LENGTH_LONG).show();
     }
 
 
