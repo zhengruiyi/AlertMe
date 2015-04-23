@@ -20,6 +20,9 @@ import android.widget.ToggleButton;
 
 import org.json.JSONException;
 
+import java.util.GregorianCalendar;
+
+import teamawesome.alertme.Background.AlarmBroadcastReceiver;
 import teamawesome.alertme.Network.JSONWeatherParser;
 import teamawesome.alertme.Network.WeatherHttpClient;
 import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
@@ -52,9 +55,11 @@ public class AlarmList extends ActionBarActivity {
             task.execute(city);
         } else {
             String toastText = "Unable to connect to the network\r\nUsing cached weather data";
-            Toast networkUnavailable = Toast.makeText(this, toastText, Toast.LENGTH_LONG);
-            networkUnavailable.show();
+            Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
         }
+
+//        Long alarmTime = new GregorianCalendar().getTimeInMillis() + 10 * 1000;
+//        scheduleAlarm(alarmTime);
     }
 
     public void toConditions(View view) {
@@ -67,6 +72,26 @@ public class AlarmList extends ActionBarActivity {
         Intent intent = new Intent(this, TimeFrame.class);
         intent.putExtra("alarmIndex", 0);
         startActivity(intent);
+    }
+
+    private boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        boolean isWifiConn = networkInfo.isConnected();
+        networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        boolean isMobileConn = networkInfo.isConnected();
+
+        Log.d("AlarmList Wifi Check", "Wifi connected: " + isWifiConn);
+        Log.d("AlarmList Mobile Check", "Mobile connected: " + isMobileConn);
+
+        return isWifiConn || isMobileConn;
+    }
+
+    private void scheduleAlarm(long time) {
+        AlarmBroadcastReceiver alarmMaker = new AlarmBroadcastReceiver();
+        alarmMaker.setAlarm(this, 0, time);
+        Toast.makeText(this, "Alarm Scheduled for 10 seconds", Toast.LENGTH_LONG).show();
     }
 
 
@@ -111,22 +136,6 @@ public class AlarmList extends ActionBarActivity {
                 ((ToggleButton) view).toggle();
             }
         };
-
-    }
-
-
-    private boolean isOnline() {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        boolean isWifiConn = networkInfo.isConnected();
-        networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        boolean isMobileConn = networkInfo.isConnected();
-
-        Log.d("AlarmList Wifi Check", "Wifi connected: " + isWifiConn);
-        Log.d("AlarmList Mobile Check", "Mobile connected: " + isMobileConn);
-
-        return isWifiConn || isMobileConn;
     }
 
 

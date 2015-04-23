@@ -1,4 +1,4 @@
-package teamawesome.alertme;
+package teamawesome.alertme.Background;
 
 import android.app.Service;
 import android.content.Intent;
