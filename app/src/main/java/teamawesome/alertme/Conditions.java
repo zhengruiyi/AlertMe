@@ -23,11 +23,10 @@ public class Conditions extends ActionBarActivity {
     private int currentAlarmIndex;
 
     //temperature
-    private final int DEFAULT_TEMP = 50;
-    private final int MAX_DEG_F = 132;
-    private final int MAX_DEG_C = 100;
-    private final int DEG_F_OFFSET = 32;
-    private final int DEG_C_OFFSET = 50;
+    private final int MAX_DEG_F = 95;
+    private final int MIN_DEG_F = 0;
+    private final int MAX_DEG_C = 35;
+    private final int MIN_DEG_C = -18;
     private Switch temp_F_C;
     RangeSeekBar<Integer> temp_double;
     private int changedProgressTempMin;
@@ -41,6 +40,7 @@ public class Conditions extends ActionBarActivity {
 
     //wind speed
     private final int DEFAULT_WIND = 15;
+    private final int MAX_WIND = 50;
     private Switch wind_mph_kph;
     private SeekBar windSpeed;
     private int changedProgressWind;
@@ -70,7 +70,7 @@ public class Conditions extends ActionBarActivity {
 
         //Temperature
         // create RangeSeekBar as Integer range between 0 and 100
-        temp_double = new RangeSeekBar<Integer>(0, MAX_DEG_F, this);
+        temp_double = new RangeSeekBar<Integer>(MIN_DEG_F, MAX_DEG_F, this);
         temp_double.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
@@ -79,12 +79,12 @@ public class Conditions extends ActionBarActivity {
                 TextView displayValue = (TextView)findViewById(R.id.tempMax);
                 TextView displayValue4 = (TextView)findViewById(R.id.tempMin);
                 if (isInUnitsFahrenheit){
-                    changedProgressTempMax = maxValue - DEG_F_OFFSET;
-                    changedProgressTempMin = minValue - DEG_F_OFFSET;
+                    changedProgressTempMax = maxValue;
+                    changedProgressTempMin = minValue;
                 }
                 else{
-                    changedProgressTempMax = maxValue - DEG_C_OFFSET;
-                    changedProgressTempMin = minValue - DEG_C_OFFSET;
+                    changedProgressTempMax = degreesFToC(maxValue);
+                    changedProgressTempMin = degreesFToC(minValue);
                 }
                 displayValue.setText("" + changedProgressTempMax);
                 displayValue4.setText("" + changedProgressTempMin);
@@ -288,11 +288,14 @@ public class Conditions extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                     isInUnitsMPH = true;
-                    windSpeed.setMax(DEG_C_OFFSET);
+                    windSpeed.setMax(MAX_WIND);
                 }
         });
     }//end wind_mph_kph
 
+    private int degreesFToC(int F){
+        return (int)((F-32)*.5556);
+    }
     public void showInfo (View v){
         String message = "\"Comfort Temperature\" represents the range of temperatures that you find comfortable." +
                 "You will be alerted when temperatures fall below or rise above this range.";
