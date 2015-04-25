@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/time_frame_check"
         android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:id="@+id/textView2"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -52,12 +52,11 @@
         android:layout_height="wrap_content"
         android:text="@string/time_frame"
         android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:id="@+id/textView3"
-        android:layout_marginTop="78dp"
-        android:layout_below="@+id/weekday"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/textView4"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="45dp" />
 
     <ImageButton
         android:layout_width="36sp"
@@ -70,107 +69,49 @@
         android:layout_toRightOf="@+id/textView3"
         android:layout_toEndOf="@+id/textView3" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/full_day"
-        android:textSize="15sp"
-        android:textColor="#d0d0d0"
-        android:id="@+id/checkBox7"
-        android:layout_alignTop="@+id/checkBox8"
-        android:layout_alignRight="@+id/button3"
-        android:layout_alignEnd="@+id/button3" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/half_day"
-        android:textSize="15sp"
-        android:textColor="#d0d0d0"
-        android:id="@+id/checkBox8"
-        android:layout_below="@+id/button3"
-        android:layout_toRightOf="@+id/checkBox7"
-        android:layout_toEndOf="@+id/checkBox7"
-        android:layout_marginLeft="46dp"
-        android:layout_marginStart="46dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/alert_time"
         android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:id="@+id/textView4"
-        android:layout_below="@+id/checkBox7"
-        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/timePicker"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="28dp" />
-
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar4"
-        android:max='12'
-        android:paddingTop="15sp"
-        android:layout_below="@+id/textView4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/button2"
-        android:layout_alignEnd="@+id/button2" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/am"
-        android:textColor="#d0d0d0"
-        android:id="@+id/checkBox9"
-        android:layout_below="@+id/textView4"
-        android:layout_toRightOf="@+id/button2"
-        android:layout_toEndOf="@+id/button2" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pm"
-        android:textColor="#d0d0d0"
-        android:id="@+id/checkBox10"
-        android:layout_below="@+id/checkBox9"
-        android:layout_toRightOf="@+id/seekBar4"
-        android:layout_toEndOf="@+id/seekBar4" />
+        android:layout_marginBottom="32dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sound"
         android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:id="@+id/textView5"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/checkBox10"
-        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/switch1"
         android:layout_alignParentStart="true" />
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/time_frame_toggle"
+        android:textOff="Off"
+        android:textOn="On"
+        android:showText="true"
         android:textColor="#d0d0d0"
         android:id="@+id/switch1"
-        android:layout_alignTop="@+id/textView5"
-        android:layout_toRightOf="@+id/seekBar4"
-        android:layout_toEndOf="@+id/seekBar4" />
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/timePicker"
+        android:layout_alignStart="@+id/daySpanSwitch" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/vibrate"
         android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:id="@+id/textView6"
         android:layout_below="@+id/switch1"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="21dp" />
+        android:layout_marginTop="23dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -188,5 +129,32 @@
         android:layout_toRightOf="@+id/textView4"
         android:layout_toEndOf="@+id/textView4"
         android:layout_centerVertical="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="12"
+        android:textOn="24"
+        android:showText="true"
+        android:id="@+id/daySpanSwitch"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_alignStart="@+id/weekend" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timeDisplay"
+        android:textSize="30dp"
+        android:textColor="#d0d0d0"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Time"
+        android:id="@+id/timePicker"
+        android:layout_below="@+id/seekBarTextView"
+        android:layout_toEndOf="@+id/button3" />
 
 </RelativeLayout>

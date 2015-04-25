@@ -1,17 +1,24 @@
 package teamawesome.alertme;
 
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 import teamawesome.alertme.Background.AlarmBroadcastReceiver;
 import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
@@ -25,10 +32,10 @@ public class TimeFrame extends ActionBarActivity {
 
     //weekday checkboxes
     private CheckBox weekday, weekend;
-    private boolean[] weekdays = {false, false, false, false, false, false, false};
+    private boolean[] weekdays = {true, true, true, true, true, false, false};
 
     //time frame checkboxes
-    private CheckBox twelveHour, twentyFourHour;
+    private Switch twelveHour;
     private int timeFrame = 12; //default twelveHour
 
     //time of day check boxes
@@ -36,8 +43,13 @@ public class TimeFrame extends ActionBarActivity {
     private boolean inMorning = false;
 
     //Alert time seekbar
-    private int changedProgress = 0;
-    private SeekBar alertTime;
+    private int minutes;
+    private TimePicker alertTime;
+    private TextView output;
+    private Button setTime;
+    static final int TIME_DIALOG_ID = 1111;
+    private int hour;
+    private int minute;
 
     //Sounds
     private CheckBox vibrate;
@@ -60,18 +72,24 @@ public class TimeFrame extends ActionBarActivity {
             throw new AssertionError("TimeFrame: Failed to access AlertMeMetadataSingleton list at " + alarmIndex);
         }
 
-        //Seekbar
-        alertTime = (SeekBar) findViewById(R.id.seekBar4);
-        alertTime.setOnSeekBarChangeListener(alertTimeListener);
+        //Time Picker
+        output = (TextView) findViewById(R.id.timeDisplay);
+        /********* display current time on screen Start ********/
+        final Calendar c = Calendar.getInstance();
+        // Current Hour
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        // Current Minute
+        minute = c.get(Calendar.MINUTE);
+        // set current time into output textview
+        updateTime(hour, minute);
+        /********* display current time on screen End ********/
+        // Add Button Click Listener
+        addButtonClickListener();
 
         addListenerWeekday();
         addListenerWeekend();
 
         addListenerTimeFrame12();
-        addListenerTimeFrame24();
-
-        addListenerAm();
-        addListenerPm();
 
         addListenerSound();
         addListenerVibrate();
@@ -82,17 +100,16 @@ public class TimeFrame extends ActionBarActivity {
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
 
-        outState.putInt("seekBar", changedProgress);
+        outState.putInt("hour", hour);
+        outState.putInt("minutes", minute);
 
         outState.putBooleanArray("weekdays", weekdays);
         outState.putBoolean("weekday", weekday.isChecked());
         outState.putBoolean("weekend", weekend.isChecked());
 
         outState.putBoolean("twelveHour", twelveHour.isChecked());
-        outState.putBoolean("twentyFourHour", twentyFourHour.isChecked());
 
-        outState.putBoolean("am", am.isChecked());
-        outState.putBoolean("pm", pm.isChecked());
+        outState.putBoolean("am", inMorning);
 
         outState.putBoolean("sound", sound.isChecked());
         outState.putBoolean("vibrate", vibrate.isChecked());
@@ -102,11 +119,6 @@ public class TimeFrame extends ActionBarActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState){
         super.onRestoreInstanceState(savedInstanceState);
 
-        changedProgress = savedInstanceState.getInt("seekBar");
-        TextView displayValue = (TextView) findViewById(R.id.seekBarTextView);
-        displayValue.setText("" + changedProgress);
-        alertTime.setProgress(changedProgress);
-
         weekdays = savedInstanceState.getBooleanArray("weekdays");
 
         //weekdays checkboxes
@@ -115,14 +127,10 @@ public class TimeFrame extends ActionBarActivity {
 
         //timeframe checkboxes
         twelveHour.setChecked(savedInstanceState.getBoolean("twelveHour"));
-        twentyFourHour.setChecked(savedInstanceState.getBoolean("twentyFourHour"));
         if(twelveHour.isChecked()){timeFrame = 12;}
         else {timeFrame = 24;}
 
-        //am/pm checkboxes
-        am.setChecked(savedInstanceState.getBoolean("am"));
-        pm.setChecked(savedInstanceState.getBoolean("pm"));
-        inMorning = am.isChecked();
+        inMorning = savedInstanceState.getBoolean("am");
 
         sound.setChecked(savedInstanceState.getBoolean("sound"));
         vibrate.setChecked(savedInstanceState.getBoolean("vibrate"));
@@ -137,9 +145,6 @@ public class TimeFrame extends ActionBarActivity {
         save(weekday.isChecked(), "weekday");
         save(weekend.isChecked(), "weekend");
         save(twelveHour.isChecked(), "twelveHour");
-        save(twentyFourHour.isChecked(), "twentyFourHour");
-        save(am.isChecked(), "am");
-        save(pm.isChecked(), "pm");
         save(vibrate.isChecked(), "vibrate");
         //switch
         save(sound.isChecked(), "sound");
@@ -147,7 +152,7 @@ public class TimeFrame extends ActionBarActivity {
         //seekbar
         mPrefs = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPrefs.edit();
-        editor.putInt("seekBar", changedProgress);
+        editor.putBoolean("am", inMorning);
 
         editor.apply();
     }
@@ -161,24 +166,14 @@ public class TimeFrame extends ActionBarActivity {
 
         //time frame
         twelveHour.setChecked(load("twelveHour"));
-        twentyFourHour.setChecked(load("twentyFourHour"));
         if (twelveHour.isChecked()){timeFrame = 12;}
         else {timeFrame = 24;}
 
-        //am/pm checkboxes
-        am.setChecked(load("am"));
-        pm.setChecked(load("pm"));
-        inMorning = am.isChecked();
+        inMorning = load("am");
 
         //sounds
         vibrate.setChecked(load("vibrate"));
         sound.setChecked(load("sound"));
-
-        //seekbar
-        changedProgress = mPrefs.getInt("seekBar", 0);
-        TextView displayValue = (TextView) findViewById(R.id.seekBarTextView);
-        displayValue.setText("" + changedProgress);
-        alertTime.setProgress(changedProgress);
 
     }
 
@@ -194,23 +189,77 @@ public class TimeFrame extends ActionBarActivity {
         return mPrefs.getBoolean(saveName, false);
     }
 
-    //Alert Time seekbar
-    private SeekBar.OnSeekBarChangeListener alertTimeListener = new SeekBar.OnSeekBarChangeListener() {
 
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-            changedProgress = progress;
-            TextView displayValue = (TextView) findViewById(R.id.seekBarTextView);
-            displayValue.setText("" + changedProgress);
+    public void addButtonClickListener() {
+
+        setTime = (Button) findViewById(R.id.timePicker);
+        setTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(TIME_DIALOG_ID);
+            }
+        });
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case TIME_DIALOG_ID:
+                // set time picker as current time
+                return new TimePickerDialog(this, timePickerListener, hour, minute,
+                        false);
         }
-
-        public void onStartTrackingTouch(SeekBar seekBar) {
+        return null;
+    }
+    private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minutes) {
             // TODO Auto-generated method stub
-        }
+            hour   = hourOfDay;
+            minute = minutes;
 
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            //TODO
+            updateTime(hour,minute);
         }
-    };//end alert time seekbar
+    };
+    private static String utilTime(int value) {
+
+        if (value < 10)
+            return "0" + String.valueOf(value);
+        else
+            return String.valueOf(value);
+    }
+
+    // Used to convert 24hr format to 12hr format with AM/PM values
+    private void updateTime(int hours, int mins) {
+
+        String timeSet = "";
+        inMorning = true;
+        if (hours > 12) {
+            hours -= 12;
+            timeSet = "PM";
+            inMorning = false;
+        } else if (hours == 0) {
+            hours += 12;
+            timeSet = "AM";
+        } else if (hours == 12) {
+            timeSet = "PM";
+            inMorning = false;
+        }
+        else
+            timeSet = "AM";
+
+        String minutes = "";
+        if (mins < 10)
+            minutes = "0" + mins;
+        else
+            minutes = String.valueOf(mins);
+
+        // Append in a StringBuilder
+        String aTime = new StringBuilder().append(hours).append(':')
+                .append(minutes).append(" ").append(timeSet).toString();
+
+        output.setText(aTime);
+    }
 
     //Weekday Checkbox
     public void addListenerWeekday() {
@@ -254,77 +303,24 @@ public class TimeFrame extends ActionBarActivity {
     }
 
 
-    //12-hour Checkbox
+    //12-hour Switch
     public void addListenerTimeFrame12() {
 
-        twelveHour = (CheckBox) findViewById(R.id.checkBox8);
+        twelveHour = (Switch) findViewById(R.id.daySpanSwitch);
 
         twelveHour.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (((CheckBox) v).isChecked() && twentyFourHour.isChecked()) {
-                    twelveHour.setChecked(false);
-                } else {
+                if (((Switch) v).isChecked()) {
                     timeFrame = 12;
                 }
-            }
-        });
-    }//end 12-hour checkbox
-
-    //24-hour check box
-    public void addListenerTimeFrame24() {
-
-        twentyFourHour = (CheckBox) findViewById(R.id.checkBox7);
-
-        twentyFourHour.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (((CheckBox) v).isChecked() && twelveHour.isChecked()) {
-                    twentyFourHour.setChecked(false);
-                } else {
+                else {
                     timeFrame = 24;
                 }
             }
         });
-    }//end 24-hour checkbox
-
-    //AM Checkbox
-    public void addListenerAm() {
-
-        am = (CheckBox) findViewById(R.id.checkBox9);
-
-        am.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (((CheckBox) v).isChecked() && pm.isChecked()) {
-                    am.setChecked(false);
-                } else {
-                    inMorning = true;
-                }
-            }
-        });
-    }//end am checkbox
-
-    //PM check box
-    public void addListenerPm() {
-
-        pm = (CheckBox) findViewById(R.id.checkBox10);
-
-        pm.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (((CheckBox) v).isChecked() && am.isChecked()) {
-                    pm.setChecked(false);
-                } else {
-                    inMorning = false;
-                }
-            }
-        });
-    }//end pm checkbox
+    }//end 12-hour switch
 
     //Sound switch
     public void addListenerSound() {
@@ -359,7 +355,7 @@ public class TimeFrame extends ActionBarActivity {
     }//end vibrate checkbox
 
     private void saveInfo (){
-        currentAlarm.setAlertTime(changedProgress);
+        currentAlarm.setAlertTime((int)(hour + (minute/60.0))); //CHANGE TO MINUTES->CLINT FIX EXPECTED INPUT
         currentAlarm.setDaysSelected(weekdays);
         currentAlarm.setTimeFrame(timeFrame);
         currentAlarm.setAmPm(inMorning);
