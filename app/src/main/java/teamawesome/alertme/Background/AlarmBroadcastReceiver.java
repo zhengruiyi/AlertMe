@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.PowerManager;
 import android.widget.Toast;
@@ -23,9 +24,10 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
 
 
         // TODO: ADD IF STATEMENT TO CHECK CONDITIONS AGAINST WEATHER
+        SharedPreferences currentWeatherData = context.getSharedPreferences("weather_data", Context.MODE_PRIVATE);
+
         wakeLock.acquire();
 
-        // Put here YOUR code.
         Intent home = new Intent(context, PopupAlarm.class);
         home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(home);
