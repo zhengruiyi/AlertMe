@@ -47,6 +47,77 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/weekday"
+        android:layout_alignEnd="@+id/weekend">
+        <ToggleButton
+            android:layout_width="47dp"
+            android:layout_height="wrap_content"
+            android:textOff="MON"
+            android:textOn="MON"
+            android:id="@+id/Monday"
+            android:onClick="weekdayChecked"
+            android:textSize="10dp"
+            android:text="MON"/>
+        <ToggleButton
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:textOff="TUE"
+            android:textOn="TUE"
+            android:id="@+id/Tuesday"
+            android:onClick="weekdayChecked"
+            android:textSize="10dp"
+            android:text="TUE"/>
+        <ToggleButton
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:textOff="WED"
+            android:textOn="WED"
+            android:id="@+id/Wednesday"
+            android:onClick="weekdayChecked"
+            android:textSize="10dp"
+            android:text="WED"/>
+        <ToggleButton
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:textOff="THU"
+            android:textOn="THU"
+            android:id="@+id/Thursday"
+            android:onClick="weekdayChecked"
+            android:textSize="10dp"
+            android:text="THU"/>
+        <ToggleButton
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:textOff="FRI"
+            android:textOn="FRI"
+            android:id="@+id/Friday"
+            android:onClick="weekdayChecked"
+            android:textSize="10dp"
+            android:text="FRI"/>
+        <ToggleButton
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:textOff="SAT"
+            android:textOn="SAT"
+            android:id="@+id/Saturday"
+            android:onClick="weekdayChecked"
+            android:textSize="10dp"
+            android:text="SAT"/>
+        <ToggleButton
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:textOff="SUN"
+            android:textOn="SUN"
+            android:id="@+id/Sunday"
+            android:onClick="weekdayChecked"
+            android:textSize="10dp"
+            android:text="SUN"/>
+        </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

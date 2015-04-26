@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,6 +18,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.Calendar;
 
@@ -33,6 +35,7 @@ public class TimeFrame extends ActionBarActivity {
     //weekday checkboxes
     private CheckBox weekday, weekend;
     private boolean[] weekdays = {true, true, true, true, true, false, false};
+    private ToggleButton monday, tuesday, wednesday, thursday, friday, saturday, sunday;
 
     //time frame checkboxes
     private Switch twelveHour;
@@ -57,6 +60,8 @@ public class TimeFrame extends ActionBarActivity {
 
     //to restore settings
     private SharedPreferences mPrefs;
+
+    private static final String TAG = "TAG2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +98,15 @@ public class TimeFrame extends ActionBarActivity {
 
         addListenerSound();
         addListenerVibrate();
+
+        //weekday toggles
+        monday = (ToggleButton) findViewById(R.id.Monday);
+        tuesday = (ToggleButton) findViewById(R.id.Tuesday);
+        wednesday = (ToggleButton) findViewById(R.id.Wednesday);
+        thursday = (ToggleButton) findViewById(R.id.Thursday);
+        friday = (ToggleButton) findViewById(R.id.Friday);
+        saturday = (ToggleButton) findViewById(R.id.Saturday);
+        sunday = (ToggleButton) findViewById(R.id.Sunday);
     }
 
 
@@ -106,6 +120,13 @@ public class TimeFrame extends ActionBarActivity {
         outState.putBooleanArray("weekdays", weekdays);
         outState.putBoolean("weekday", weekday.isChecked());
         outState.putBoolean("weekend", weekend.isChecked());
+        outState.putBoolean("monday", monday.isChecked());
+        outState.putBoolean("tuesday", tuesday.isChecked());
+        outState.putBoolean("wednesday", wednesday.isChecked());
+        outState.putBoolean("thursday", thursday.isChecked());
+        outState.putBoolean("friday", friday.isChecked());
+        outState.putBoolean("saturday", saturday.isChecked());
+        outState.putBoolean("sunday", sunday.isChecked());
 
         outState.putBoolean("twelveHour", twelveHour.isChecked());
 
@@ -124,6 +145,13 @@ public class TimeFrame extends ActionBarActivity {
         //weekdays checkboxes
         weekday.setChecked(savedInstanceState.getBoolean("weekday"));
         weekend.setChecked(savedInstanceState.getBoolean("weekend"));
+        monday.setChecked((savedInstanceState.getBoolean("monday")));
+        tuesday.setChecked((savedInstanceState.getBoolean("tuesday")));
+        wednesday.setChecked((savedInstanceState.getBoolean("wednesday")));
+        thursday.setChecked((savedInstanceState.getBoolean("thursday")));
+        friday.setChecked((savedInstanceState.getBoolean("friday")));
+        saturday.setChecked((savedInstanceState.getBoolean("saturday")));
+        sunday.setChecked((savedInstanceState.getBoolean("sunday")));
 
         //timeframe checkboxes
         twelveHour.setChecked(savedInstanceState.getBoolean("twelveHour"));
@@ -144,6 +172,13 @@ public class TimeFrame extends ActionBarActivity {
         //check boxes
         save(weekday.isChecked(), "weekday");
         save(weekend.isChecked(), "weekend");
+        save(monday.isChecked(), "monday");
+        save(tuesday.isChecked(), "tuesday");
+        save(wednesday.isChecked(), "wednesday");
+        save(thursday.isChecked(), "thursday");
+        save(friday.isChecked(), "friday");
+        save(saturday.isChecked(), "saturday");
+        save(sunday.isChecked(), "sunday");
         save(twelveHour.isChecked(), "twelveHour");
         save(vibrate.isChecked(), "vibrate");
         //switch
@@ -163,6 +198,13 @@ public class TimeFrame extends ActionBarActivity {
         //check boxes
         weekday.setChecked(load("weekday"));
         weekend.setChecked(load("weekend"));
+        monday.setChecked(load("monday"));
+        tuesday.setChecked(load("tuesday"));
+        wednesday.setChecked(load("wednesday"));
+        thursday.setChecked(load("thursday"));
+        friday.setChecked(load("friday"));
+        saturday.setChecked(load("saturday"));
+        sunday.setChecked(load("sunday"));
 
         //time frame
         twelveHour.setChecked(load("twelveHour"));
@@ -271,9 +313,24 @@ public class TimeFrame extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
-                    for (int i = 0; i < 5; i ++){
+                    for (int i = 0; i < 5; i++) {
                         weekdays[i] = true;
                     }
+                    monday.setChecked(true);
+                    tuesday.setChecked(true);
+                    wednesday.setChecked(true);
+                    thursday.setChecked(true);
+                    friday.setChecked(true);
+                }
+                else {
+                    for (int i = 0; i < 5; i ++){
+                        weekdays[i] = false;
+                    }
+                    monday.setChecked(false);
+                    tuesday.setChecked(false);
+                    wednesday.setChecked(false);
+                    thursday.setChecked(false);
+                    friday.setChecked(false);
                 }
             }
         });
@@ -290,10 +347,96 @@ public class TimeFrame extends ActionBarActivity {
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
                     weekdays[5] = weekdays[6] = true;
+                    saturday.setChecked(true);
+                    sunday.setChecked(true);
+                }
+                else{
+                    weekdays[5] = weekdays[6] = false;
+                    saturday.setChecked(false);
+                    sunday.setChecked(false);
                 }
             }
         });
     }//end weekend checkbox
+
+
+    public void weekdayChecked(View view){
+        int id = view.getId();
+        switch (id){
+            case R.id.Monday:
+                if (monday.isChecked()) {
+                    Log.i(TAG, "Monday value: " + weekdays[0]);
+                    weekdays[0] = true;
+                }
+                else{
+                    weekdays[0] = false;
+                    Log.i(TAG, "Monday value: " + weekdays[0]);
+                }
+                break;
+            case R.id.Tuesday:
+                if (tuesday.isChecked()) {
+                    weekdays[1] = true;
+                    Log.i(TAG, "Tuesday value: " + weekdays[1]);
+                }
+                else{
+                    weekdays[1] = false;
+                    Log.i(TAG, "Tuesday value: " + weekdays[1]);
+                }
+                break;
+            case R.id.Wednesday:
+                if (wednesday.isChecked()) {
+                    weekdays[2] = true;
+                    Log.i(TAG, "Wednesday value: " + weekdays[2]);
+                }
+                else{
+                    weekdays[2] = false;
+                    Log.i(TAG, "Wednesday value: " + weekdays[2]);
+                }
+                break;
+            case R.id.Thursday:
+                if (thursday.isChecked()) {
+                    weekdays[3] = true;
+                    Log.i(TAG, "Thursday value: " + weekdays[3]);
+                }
+                else{
+                    weekdays[3] = false;
+                    Log.i(TAG, "Thursday value: " + weekdays[3]);
+                }
+                break;
+            case R.id.Friday:
+                if (friday.isChecked()) {
+                    weekdays[4] = true;
+                    Log.i(TAG, "Friday value: " + weekdays[4]);
+                }
+                else{
+                    weekdays[4] = false;
+                    Log.i(TAG, "Friday value: " + weekdays[4]);
+                }
+                break;
+            case R.id.Saturday:
+                if (saturday.isChecked()) {
+                    weekdays[5] = true;
+                    Log.i(TAG, "Saturday value: " + weekdays[5]);
+                }
+                else{
+                    weekdays[5] = false;
+                    Log.i(TAG, "Saturday value: " + weekdays[5]);
+                }
+                break;
+            case R.id.Sunday:
+                if (sunday.isChecked()) {
+                    weekdays[6] = true;
+                    Log.i(TAG, "Sunday value: " + weekdays[6]);
+                }
+                else{
+                    weekdays[1] = false;
+                    Log.i(TAG, "Sunday value: " + weekdays[6]);
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
     public void showInfo (View v){
         String message = "\"Time Frame\" refers to the length of " +
