@@ -179,6 +179,10 @@ public class TimeFrame extends ActionBarActivity {
         save(friday.isChecked(), "friday");
         save(saturday.isChecked(), "saturday");
         save(sunday.isChecked(), "sunday");
+        for (int i = 0; i < 7; i++){
+            save(weekdays[i], "weekdays " + i);
+        }
+
         save(twelveHour.isChecked(), "twelveHour");
         save(vibrate.isChecked(), "vibrate");
         //switch
@@ -205,6 +209,10 @@ public class TimeFrame extends ActionBarActivity {
         friday.setChecked(load("friday"));
         saturday.setChecked(load("saturday"));
         sunday.setChecked(load("sunday"));
+
+        for (int i = 0; i < 7; i++){
+            weekdays[i] = load("weekdays " + i);
+        }
 
         //time frame
         twelveHour.setChecked(load("twelveHour"));
@@ -498,7 +506,7 @@ public class TimeFrame extends ActionBarActivity {
     }//end vibrate checkbox
 
     private void saveInfo (){
-        currentAlarm.setAlertTime((int)(hour + (minute/60.0))); //CHANGE TO MINUTES->CLINT FIX EXPECTED INPUT
+        currentAlarm.setAlertTime((int)(minute/60) + hour);//(hour * 60 + minute);->CLINT FIX EXPECTED INPUT to MINUTES
         currentAlarm.setDaysSelected(weekdays);
         currentAlarm.setTimeFrame(timeFrame);
         currentAlarm.setAmPm(inMorning);
