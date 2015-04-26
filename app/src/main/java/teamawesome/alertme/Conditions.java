@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 import teamawesome.alertme.Utility.AlertMeAlarm;
@@ -20,19 +23,24 @@ public class Conditions extends ActionBarActivity {
     private int currentAlarmIndex;
 
     //temperature
-    private final int MAX_DEG_F = 132;
-    private final int MAX_DEG_C = 100;
-    private final int DEG_F_OFFSET = 32;
-    private final int DEG_C_OFFSET = 50;
+    private final int MAX_DEG_F = 95;
+    private final int MIN_DEG_F = 0;
+    private final int MAX_DEG_C = 35;
+    private final int MIN_DEG_C = -18;
     private Switch temp_F_C;
-    private SeekBar temperature;
-    private int changedProgressTemp;
+    RangeSeekBar<Integer> temp_double;
+    private int changedProgressTempMin;
+    private int changedProgressTempMax;
     private boolean isInUnitsFahrenheit;
 
     //precipiation
+    private final int DEFAULT_PRECIP = 50;
     private SeekBar precipitation;
     private int changedProgressPrecip;
 
+    //wind speed
+    private final int DEFAULT_WIND = 15;
+    private final int MAX_WIND = 50;
     private Switch wind_mph_kph;
     private SeekBar windSpeed;
     private int changedProgressWind;
@@ -40,6 +48,8 @@ public class Conditions extends ActionBarActivity {
 
     //to restore settings
     private SharedPreferences mPrefs;
+
+    private static final String TAG = "TAG";
 
 
     @Override
@@ -59,8 +69,32 @@ public class Conditions extends ActionBarActivity {
         }
 
         //Temperature
-        temperature = (SeekBar) findViewById(R.id.seekBar);
-        temperature.setOnSeekBarChangeListener(temperatureListener);
+        // create RangeSeekBar as Integer range between 0 and 100
+        temp_double = new RangeSeekBar<Integer>(MIN_DEG_F, MAX_DEG_F, this);
+        temp_double.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+                // handle changed range values
+                Log.i(TAG, "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
+                TextView displayValue = (TextView)findViewById(R.id.tempMax);
+                TextView displayValue4 = (TextView)findViewById(R.id.tempMin);
+                if (isInUnitsFahrenheit){
+                    changedProgressTempMax = maxValue;
+                    changedProgressTempMin = minValue;
+                }
+                else{
+                    changedProgressTempMax = degreesFToC(maxValue);
+                    changedProgressTempMin = degreesFToC(minValue);
+                }
+                displayValue.setText("" + changedProgressTempMax);
+                displayValue4.setText("" + changedProgressTempMin);
+
+            }
+        });
+        // add RangeSeekBar to pre-defined layout
+        ViewGroup layout = (ViewGroup) findViewById(R.id.temp_layout);
+        layout.addView(temp_double);
+
         addListenerdegreesF();
 
         //Precipitation
@@ -71,13 +105,15 @@ public class Conditions extends ActionBarActivity {
         windSpeed = (SeekBar) findViewById(R.id.seekBar3);
         windSpeed.setOnSeekBarChangeListener(windSpeedListener);
         addListenerMPH();
+
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
 
-        outState.putInt("temperature", changedProgressTemp);
+        outState.putInt("temperature_max", changedProgressTempMax);
+        outState.putInt("temperature_min", changedProgressTempMin);
         outState.putBoolean("degreesF", temp_F_C.isChecked());
 
         outState.putInt("precipitation", changedProgressPrecip);
@@ -93,15 +129,16 @@ public class Conditions extends ActionBarActivity {
         //Temperature
         temp_F_C.setChecked(savedInstanceState.getBoolean("degreesF"));
         isInUnitsFahrenheit = temp_F_C.isChecked();
-        if(isInUnitsFahrenheit){temperature.setMax(MAX_DEG_F);}
-        else{temperature.setMax(MAX_DEG_C);}
 
-        changedProgressTemp = mPrefs.getInt("temperature", 0);
-        TextView displayValue = (TextView) findViewById(R.id.tempValue);
-        if (isInUnitsFahrenheit){changedProgressTemp += DEG_F_OFFSET;}
-        else {changedProgressTemp += DEG_C_OFFSET;}
-        displayValue.setText("" + changedProgressTemp);
-        temperature.setProgress(changedProgressTemp);
+        changedProgressTempMax = mPrefs.getInt("temperature_max", 0);
+        changedProgressTempMin = mPrefs.getInt("temperature_min", 0);
+        TextView displayValue = (TextView) findViewById(R.id.tempMax);
+        TextView displayValue4 = (TextView) findViewById(R.id.tempMin);
+
+        displayValue.setText("" + changedProgressTempMax);
+        temp_double.setSelectedMaxValue(changedProgressTempMax);
+        displayValue4.setText("" + changedProgressTempMin);
+        temp_double.setSelectedMinValue(changedProgressTempMin);
 
         //Precipitation
         changedProgressPrecip = savedInstanceState.getInt("precipitation");
@@ -119,8 +156,6 @@ public class Conditions extends ActionBarActivity {
         wind_mph_kph.setChecked(savedInstanceState.getBoolean("mph"));
         isInUnitsMPH = wind_mph_kph.isChecked();
 
-
-
     }
 
     @Override
@@ -130,7 +165,8 @@ public class Conditions extends ActionBarActivity {
         SharedPreferences.Editor editor = mPrefs.edit();
         //Temperature
         save(temp_F_C.isChecked(), "degreesF");
-        editor.putInt("temperature", changedProgressTemp);
+        editor.putInt("temperature_max", changedProgressTempMax);
+        editor.putInt("temperature_min", changedProgressTempMin);
 
         //Precipitation
         editor.putInt("precipitation", changedProgressPrecip);
@@ -151,19 +187,16 @@ public class Conditions extends ActionBarActivity {
         //Temperature
         temp_F_C.setChecked(load("degreesF"));
         isInUnitsFahrenheit = temp_F_C.isChecked();
-        if(isInUnitsFahrenheit){temperature.setMax(MAX_DEG_F);}
-        else{temperature.setMax(MAX_DEG_C);}
 
-        changedProgressTemp = mPrefs.getInt("temperature", 0);
-        TextView displayValue = (TextView) findViewById(R.id.tempValue);
-        if (isInUnitsFahrenheit){
-            displayValue.setText("" + (changedProgressTemp + DEG_F_OFFSET));
-            temperature.setProgress(changedProgressTemp + DEG_F_OFFSET);
-        }
-        else{
-            displayValue.setText("" + (changedProgressTemp + DEG_C_OFFSET));
-            temperature.setProgress(changedProgressTemp + DEG_C_OFFSET);
-        }
+        changedProgressTempMax = mPrefs.getInt("temperature_max", 0);
+        changedProgressTempMin = mPrefs.getInt("temperature_min", 0);
+        TextView displayValue = (TextView) findViewById(R.id.tempMax);
+        TextView displayValue4 = (TextView) findViewById(R.id.tempMin);
+
+        displayValue.setText("" + changedProgressTempMax);
+        temp_double.setSelectedMaxValue(changedProgressTempMax);
+        displayValue4.setText("" + changedProgressTempMin);
+        temp_double.setSelectedMinValue(changedProgressTempMin);
 
         //Precipitation
         changedProgressPrecip = mPrefs.getInt("precipitation", 0);
@@ -194,31 +227,6 @@ public class Conditions extends ActionBarActivity {
         return mPrefs.getBoolean(saveName, false);
     }
 
-    //temperature seekbar
-    private SeekBar.OnSeekBarChangeListener temperatureListener = new SeekBar.OnSeekBarChangeListener() {
-
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-            if (temp_F_C.isChecked()){
-                temperature.setMax(MAX_DEG_F);
-                changedProgressTemp = progress - DEG_F_OFFSET;
-            }
-            else{
-                temperature.setMax(MAX_DEG_C);
-                changedProgressTemp = progress - DEG_C_OFFSET;
-            }
-            TextView displayValue = (TextView) findViewById(R.id.tempValue);
-            displayValue.setText("" + changedProgressTemp);
-        }
-
-        public void onStartTrackingTouch(SeekBar seekBar) {
-            // TODO Auto-generated method stub
-        }
-
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            //TODO
-        }
-    };//end temperature seekbar
-
     //temp_F_C switch
     public void addListenerdegreesF() {
 
@@ -228,9 +236,8 @@ public class Conditions extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                    isInUnitsFahrenheit = true;
-                    temperature.setMax(MAX_DEG_F);
-                }
+                isInUnitsFahrenheit = !isInUnitsFahrenheit;
+            }
         });
     }//end temp_F_C switch
 
@@ -281,13 +288,23 @@ public class Conditions extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                     isInUnitsMPH = true;
-                    windSpeed.setMax(DEG_C_OFFSET);
+                    windSpeed.setMax(MAX_WIND);
                 }
         });
     }//end wind_mph_kph
 
+    private int degreesFToC(int F){
+        return (int)((F-32)*.5556);
+    }
+
+    public void showInfo (View v){
+        String message = "\"Comfort Temperature\" represents the range of temperatures that you find comfortable." +
+                "You will be alerted when temperatures fall below or rise above this range.";
+        Toast.makeText(Conditions.this, message, Toast.LENGTH_LONG).show();
+    }
+
     private void saveInfo(){
-        currentAlarm.setTemperatureCondition(isInUnitsFahrenheit, changedProgressTemp);
+        currentAlarm.setTemperatureCondition(isInUnitsFahrenheit, changedProgressTempMax, changedProgressTempMin);
         currentAlarm.setPrecipitationCondition(changedProgressPrecip);
         currentAlarm.setWindSpeedCondition(isInUnitsMPH, changedProgressWind);
     }

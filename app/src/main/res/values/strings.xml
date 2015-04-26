@@ -10,6 +10,7 @@
     <string name="precipitation">Precipitation</string>
     <string name="wind_speed">Wind speed</string>
     <string name="temperature">Temperature</string>
+    <string name="comfort_temp">Comfort Temperature</string>
     <string name="deg_f">°F</string>
     <string name="deg_c">°C</string>
     <string name="percent_chance">% chance</string>

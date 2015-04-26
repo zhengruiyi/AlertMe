@@ -25,28 +25,57 @@
         android:layout_alignParentStart="true"
         android:layout_above="@+id/button"
         android:id="@+id/linearLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/temperature"
-            android:textColor="#ffffff"
-            android:textSize="15sp"
-            android:paddingBottom="25sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#d0d0d0"
-            android:id="@+id/tempValue"
-            android:layout_gravity="center_horizontal"
-            android:layout_toLeftOf="@+id/textView7"/>
-
-        <SeekBar
+        <RelativeLayout
             android:layout_width="226dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/seekBar"
-            android:paddingBottom="35sp"/>
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comfort_temp"
+                android:textColor="#ffffff"
+                android:id="@+id/temp_text"
+                android:textSize="15sp"
+                android:paddingBottom="25sp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true" />
+
+            <ImageButton
+                android:layout_width="36sp"
+                android:layout_height="36sp"
+                android:src="@drawable/info_icon"
+                android:background="@null"
+                android:onClick="showInfo"
+                android:id="@+id/button3"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/temp_text" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tempMax"
+                android:textColor="#d0d0d0"
+                android:layout_gravity="right"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#d0d0d0"
+                android:id="@+id/tempMin"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true" />
+            </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="226dp"
+            android:layout_height="70dp"
+            android:id="@+id/temp_layout">
+
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -112,10 +141,9 @@
         android:textOn="@string/deg_f"
         android:showText="true"
         android:id="@+id/temp_switch"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="51dp"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/linearLayout" />
+        android:layout_alignParentEnd="true" />
 
     <Switch
         android:layout_width="wrap_content"
