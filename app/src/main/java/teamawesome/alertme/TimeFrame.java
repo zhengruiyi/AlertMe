@@ -506,7 +506,7 @@ public class TimeFrame extends ActionBarActivity {
     }//end vibrate checkbox
 
     private void saveInfo (){
-        currentAlarm.setAlertTime((int)(minute/60) + hour);//(hour * 60 + minute);->CLINT FIX EXPECTED INPUT to MINUTES
+        currentAlarm.setAlertTime(hour * 60 + minute);
         currentAlarm.setDaysSelected(weekdays);
         currentAlarm.setTimeFrame(timeFrame);
         currentAlarm.setAmPm(inMorning);

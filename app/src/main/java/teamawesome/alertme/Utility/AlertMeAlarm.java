@@ -36,7 +36,7 @@ public class AlertMeAlarm {
 
     private void initializeDefaultWeatherConditions() {
         weatherConditions = new HashMap<String, Integer>();
-        setTemperatureCondition(true, 50);
+        setTemperatureCondition(true, 50, 0);
         setPrecipitationCondition(50);
         setWindSpeedCondition(true, 35);
     }
@@ -51,15 +51,19 @@ public class AlertMeAlarm {
         return name;
     }
 
-    public void setTemperatureCondition(boolean tempUnit, int temperature) {
+    public void setTemperatureCondition(boolean tempUnit, int temperatureMax, int temperatureMin) {
         if (tempUnit) {
             // Set with Fahrenheit
-            weatherConditions.put("F", temperature);
-            weatherConditions.put("C", convertFToC(temperature));
+            weatherConditions.put("Fmax", temperatureMax);
+            weatherConditions.put("Fmin", temperatureMin);
+            weatherConditions.put("Cmax", convertFToC(temperatureMax));
+            weatherConditions.put("Cmin", convertFToC(temperatureMin));
         } else {
             // Set with Celsius
-            weatherConditions.put("C", temperature);
-            weatherConditions.put("F", convertCToF(temperature));
+            weatherConditions.put("Cmax", temperatureMax);
+            weatherConditions.put("Cmin", temperatureMin);
+            weatherConditions.put("Fmax", convertCToF(temperatureMax));
+            weatherConditions.put("Fmin", convertCToF(temperatureMin));
         }
     }
 
@@ -101,7 +105,7 @@ public class AlertMeAlarm {
     }
 
     public void setAlertTime(int time) {
-        if (time >= 0 && time <= 23) {
+        if (time >= 0 && time <= 23 * 60) {
             alertTime = time;
         } else {
             throw new AssertionError("Tried to set Alert Time outside of 0 to 24");

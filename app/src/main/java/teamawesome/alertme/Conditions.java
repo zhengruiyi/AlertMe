@@ -296,6 +296,7 @@ public class Conditions extends ActionBarActivity {
     private int degreesFToC(int F){
         return (int)((F-32)*.5556);
     }
+
     public void showInfo (View v){
         String message = "\"Comfort Temperature\" represents the range of temperatures that you find comfortable." +
                 "You will be alerted when temperatures fall below or rise above this range.";
@@ -303,8 +304,7 @@ public class Conditions extends ActionBarActivity {
     }
 
     private void saveInfo(){
-        currentAlarm.setTemperatureCondition(isInUnitsFahrenheit, changedProgressTempMax);
-        //, changedProgressTempMin); ADD MIN TEMP
+        currentAlarm.setTemperatureCondition(isInUnitsFahrenheit, changedProgressTempMax, changedProgressTempMin);
         currentAlarm.setPrecipitationCondition(changedProgressPrecip);
         currentAlarm.setWindSpeedCondition(isInUnitsMPH, changedProgressWind);
     }
