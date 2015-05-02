@@ -15,6 +15,7 @@ import android.util.Log;
 
 import org.json.JSONException;
 
+import teamawesome.alertme.AlertMeApplication;
 import teamawesome.alertme.Network.JSONWeatherParser;
 import teamawesome.alertme.Network.WeatherHttpClient;
 import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
@@ -43,18 +44,20 @@ public class WeatherCheckerBroadcastReceiver extends BroadcastReceiver {
         wakeLock.release();
     }
 
-    public static void setWeatherChecker(Context context, long firstTime, long interval) {
-        AlarmManager alarmManager =(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent alarmIntent = new Intent(context, AlarmBroadcastReceiver.class);
-        PendingIntent intentBroadcast = PendingIntent.getBroadcast(context, 1337, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    public static void setWeatherChecker(long firstTime, long interval) {
+        Context appContext = AlertMeApplication.getContext();
+        AlarmManager alarmManager =(AlarmManager)appContext.getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(appContext, AlarmBroadcastReceiver.class);
+        PendingIntent intentBroadcast = PendingIntent.getBroadcast(appContext, 1337, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstTime, interval, intentBroadcast);
     }
 
-    public static void cancelWeatherChecker(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent alarmIntent = new Intent(context, AlarmBroadcastReceiver.class);
-        PendingIntent intentBroadcast = PendingIntent.getBroadcast(context, 1337, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    public static void cancelWeatherChecker() {
+        Context appContext = AlertMeApplication.getContext();
+        AlarmManager alarmManager = (AlarmManager) appContext.getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(appContext, AlarmBroadcastReceiver.class);
+        PendingIntent intentBroadcast = PendingIntent.getBroadcast(appContext, 1337, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.cancel(intentBroadcast);
     }

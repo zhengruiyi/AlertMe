@@ -518,7 +518,7 @@ public class TimeFrame extends ActionBarActivity {
         // Setting alarm
         CalendarWrapper calendar = new CalendarWrapper();
         Long alarmTime = calendar.getTimeInMillis() + 10 * 1000;
-        AlarmBroadcastReceiver.setAlarm(this, 0, alarmTime);
+        AlarmBroadcastReceiver.setAlarm(0, alarmTime);
         Toast.makeText(this, "Alarm scheduled for 10 seconds from now", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(this, AlarmList.class);

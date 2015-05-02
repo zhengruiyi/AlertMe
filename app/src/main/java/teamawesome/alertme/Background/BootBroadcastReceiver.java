@@ -13,6 +13,6 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         long sixHoursInMillis = 6 * 60 * 60 * 1000;
         long sixHoursFromNow = CalendarWrapper.getInstance().getTimeInMillis() + sixHoursInMillis;
-        WeatherCheckerBroadcastReceiver.setWeatherChecker(context, sixHoursFromNow, sixHoursInMillis);
+        WeatherCheckerBroadcastReceiver.setWeatherChecker(sixHoursFromNow, sixHoursInMillis);
     }
 }
