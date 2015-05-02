@@ -48,9 +48,14 @@ public class WeatherCheckerBroadcastReceiver extends BroadcastReceiver {
         Context appContext = AlertMeApplication.getContext();
         AlarmManager alarmManager =(AlarmManager)appContext.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(appContext, AlarmBroadcastReceiver.class);
-        PendingIntent intentBroadcast = PendingIntent.getBroadcast(appContext, 1337, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstTime, interval, intentBroadcast);
+        boolean alarmExists = (PendingIntent.getBroadcast(appContext, 1337, alarmIntent, PendingIntent.FLAG_NO_CREATE) != null);
+        if (alarmExists) {
+            Log.d("WeatherCheckerBroadRec", "WeatherChecker alarm is already active");
+        } else {
+            PendingIntent intentBroadcast = PendingIntent.getBroadcast(appContext, 1337, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstTime, interval, intentBroadcast);
+        }
     }
 
     public static void cancelWeatherChecker() {
