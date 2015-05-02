@@ -37,7 +37,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
     }
 
     public static void setAlarm(Context context, int id, long time) {
-        AlarmManager alarmManager =(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(context, AlarmBroadcastReceiver.class);
         PendingIntent intentBroadcast = PendingIntent.getBroadcast(context, id, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -51,7 +51,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
     public static void cancelAlarm(Context context, int id) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(context, AlarmBroadcastReceiver.class);
-        PendingIntent intentBroadcast = PendingIntent.getBroadcast(context, id, alarmIntent, 0);
+        PendingIntent intentBroadcast = PendingIntent.getBroadcast(context, id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.cancel(intentBroadcast);
     }

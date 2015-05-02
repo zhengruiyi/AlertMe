@@ -61,6 +61,17 @@
         <receiver
             android:name=".Background.AlarmBroadcastReceiver"
             android:process=":remote" />
+        <receiver
+            android:name=".Background.WeatherCheckerBroadcastReceiver"
+            android:process=":remote" />
+        <receiver
+            android:name=".Background.BootBroadcastReceiver"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".PopupAlarm"

@@ -51,10 +51,10 @@ public class WeatherCheckerBroadcastReceiver extends BroadcastReceiver {
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstTime, interval, intentBroadcast);
     }
 
-    public static void cancelWeatherChecker(Context context, int id) {
+    public static void cancelWeatherChecker(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(context, AlarmBroadcastReceiver.class);
-        PendingIntent intentBroadcast = PendingIntent.getBroadcast(context, id, alarmIntent, 0);
+        PendingIntent intentBroadcast = PendingIntent.getBroadcast(context, 1337, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.cancel(intentBroadcast);
     }
