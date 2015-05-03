@@ -378,6 +378,7 @@ public class TimeFrame extends ActionBarActivity {
                 }
                 else{
                     weekdays[0] = false;
+                    weekday.setChecked(false);
                     Log.i(TAG, "Monday value: " + weekdays[0]);
                 }
                 break;
@@ -388,6 +389,7 @@ public class TimeFrame extends ActionBarActivity {
                 }
                 else{
                     weekdays[1] = false;
+                    weekday.setChecked(false);
                     Log.i(TAG, "Tuesday value: " + weekdays[1]);
                 }
                 break;
@@ -398,6 +400,7 @@ public class TimeFrame extends ActionBarActivity {
                 }
                 else{
                     weekdays[2] = false;
+                    weekday.setChecked(false);
                     Log.i(TAG, "Wednesday value: " + weekdays[2]);
                 }
                 break;
@@ -408,6 +411,7 @@ public class TimeFrame extends ActionBarActivity {
                 }
                 else{
                     weekdays[3] = false;
+                    weekday.setChecked(false);
                     Log.i(TAG, "Thursday value: " + weekdays[3]);
                 }
                 break;
@@ -418,6 +422,7 @@ public class TimeFrame extends ActionBarActivity {
                 }
                 else{
                     weekdays[4] = false;
+                    weekday.setChecked(false);
                     Log.i(TAG, "Friday value: " + weekdays[4]);
                 }
                 break;
@@ -428,6 +433,7 @@ public class TimeFrame extends ActionBarActivity {
                 }
                 else{
                     weekdays[5] = false;
+                    weekend.setChecked(false);
                     Log.i(TAG, "Saturday value: " + weekdays[5]);
                 }
                 break;
@@ -438,6 +444,7 @@ public class TimeFrame extends ActionBarActivity {
                 }
                 else{
                     weekdays[1] = false;
+                    weekend.setChecked(false);
                     Log.i(TAG, "Sunday value: " + weekdays[6]);
                 }
                 break;
