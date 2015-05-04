@@ -7,11 +7,33 @@
     android:background="#252525"
     tools:context="teamawesome.alertme.AlarmList"
     android:weightSum="1">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/relativeLayout">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:background="@null"
+            android:textColor="#d0d0d0"
+            android:onClick="toEdit"
+            android:id="@+id/edit_alarm"/>
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/new_alarm"
+            android:background="@null"
+            android:onClick="addNewAlarm"
+            android:id="@+id/new_alarm"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
     <ListView
         android:id="@+id/alarmListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout">
     </ListView>
 
     <TextView

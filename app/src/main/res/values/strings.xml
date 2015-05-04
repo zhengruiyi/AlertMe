@@ -34,5 +34,6 @@
     <string name="alarm_name_2">Set Time</string>
     <string name="edit_time_frame">Edit time frame                               /></string>
     <string name="title_activity_popup_alarm">PopupAlarm</string>
+    <string name="title_activity_alarm_edit">AlarmEdit</string>
 
 </resources>

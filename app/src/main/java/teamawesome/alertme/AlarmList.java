@@ -31,6 +31,7 @@ import java.text.DecimalFormat;
 
 import teamawesome.alertme.Network.JSONWeatherParser;
 import teamawesome.alertme.Network.WeatherHttpClient;
+import teamawesome.alertme.Utility.AlarmEdit;
 import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 import teamawesome.alertme.Utility.WeatherForecastData;
 import teamawesome.alertme.Utility.AlertMeAlarm;
@@ -200,7 +201,6 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
 
     }
 
-
     public class AlarmListAdapter extends BaseAdapter {
 
         @Override
@@ -301,5 +301,16 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
             dataRain.setText("Precipitation: " + currentWeatherData.getInt("tomorrowPrecipitationChance", -1) + "%");
             dataWindSpeed.setText("Wind Speed: " + currentWeatherData.getInt("tomorrowWindSpeedMph", -1) + "mph");
         }
+    }
+
+    public void toEdit(View view){
+
+        Intent intent = new Intent(this, AlarmEdit.class);
+        startActivity(intent);
+    }
+
+    public void addNewAlarm(View view){
+        String message = "You cannot add new alarms at this time. Please try again later.";
+        Toast.makeText(AlarmList.this, message, Toast.LENGTH_LONG).show();
     }
 }
