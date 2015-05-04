@@ -32,7 +32,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
         Intent home = new Intent(context, PopupAlarm.class);
         home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(home);
-        Toast.makeText(context, "Alarm went off!!!", Toast.LENGTH_LONG).show();
+        // Toast.makeText(context, "Alarm went off!!!", Toast.LENGTH_LONG).show();
 
         wakeLock.release();
     }

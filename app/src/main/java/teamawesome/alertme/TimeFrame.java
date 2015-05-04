@@ -575,7 +575,7 @@ public class TimeFrame extends ActionBarActivity {
             AlarmBroadcastReceiver.setAlarm(alarmIndex, alarmTimeNextTime);
         }
 
-        Toast.makeText(this, "Alarm scheduled", Toast.LENGTH_LONG).show();
+        // Toast.makeText(this, "Alarm scheduled", Toast.LENGTH_LONG).show();
     }
 
 }
