@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/alarmName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:background="#FFFFFF"
+        android:gravity="center_vertical|start"
+
+        android:layout_alignParentStart="true"/>
+
+    <CheckBox
+        android:id="@+id/alarmEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|end"
+        android:background="#d0d0d0"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/alarmName"/>
+
+    <Button
+        android:id="@+id/alarmToTimeFrame"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:background="#FFFFFF"
+        android:gravity="bottom|start"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/alarmName"/>
+
+
+</RelativeLayout>

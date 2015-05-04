@@ -51,6 +51,7 @@ public class TimeFrame extends ActionBarActivity {
     static final int TIME_DIALOG_ID = 1111;
     private int hour;
     private int minute;
+    private boolean isAlarmSet = false;
 
     //Sounds
     private CheckBox vibrate;
@@ -113,7 +114,8 @@ public class TimeFrame extends ActionBarActivity {
         super.onSaveInstanceState(outState);
 
         outState.putInt("hour", hour);
-        outState.putInt("minutes", minute);
+        outState.putInt("minute", minute);
+        outState.putBoolean("isAlarmSet", isAlarmSet);
 
         outState.putBooleanArray("weekdays", weekdays);
         outState.putBoolean("weekday", weekday.isChecked());
@@ -240,6 +242,7 @@ public class TimeFrame extends ActionBarActivity {
 
     public void addButtonClickListener() {
 
+        isAlarmSet = true;
         setTime = (Button) findViewById(R.id.timePicker);
         setTime.setOnClickListener(new View.OnClickListener() {
             @Override
