@@ -225,7 +225,7 @@ public class Conditions extends ActionBarActivity {
 
     private boolean load(String saveName) {
         mPrefs = getPreferences(Context.MODE_PRIVATE);
-        return mPrefs.getBoolean(saveName, false);
+        return mPrefs.getBoolean(saveName, true);
     }
 
     //temp_F_C switch
