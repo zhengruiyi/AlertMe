@@ -31,7 +31,6 @@ import java.text.DecimalFormat;
 
 import teamawesome.alertme.Network.JSONWeatherParser;
 import teamawesome.alertme.Network.WeatherHttpClient;
-import teamawesome.alertme.Utility.AlarmEdit;
 import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 import teamawesome.alertme.Utility.WeatherForecastData;
 import teamawesome.alertme.Utility.AlertMeAlarm;

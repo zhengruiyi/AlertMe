@@ -78,7 +78,7 @@
             android:label="@string/title_activity_popup_alarm" >
         </activity>
         <activity
-            android:name=".Utility.AlarmEdit"
+            android:name=".AlarmEdit"
             android:label="@string/title_activity_alarm_edit"
             android:parentActivityName=".AlarmList" >
             <meta-data
