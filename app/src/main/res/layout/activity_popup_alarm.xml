@@ -18,9 +18,8 @@
         android:layout_marginTop="40dp" />
 
     <TextView
-        android:id="@+id/apiText"
-        android:text="Data received from Wunderground"
-        android:textSize="12sp"
+        android:id="@+id/alarmName"
+        android:textSize="24sp"
         android:textColor="#ffffff"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="100dp"

@@ -36,8 +36,8 @@ public class AlertMeAlarm {
 
     private void initializeDefaultWeatherConditions() {
         weatherConditions = new HashMap<String, Integer>();
-        setTemperatureCondition(true, 50, 0);
-        setPrecipitationCondition(50);
+        setTemperatureCondition(true, 80, 50);
+        setPrecipitationCondition(20);
         setWindSpeedCondition(true, 35);
     }
 

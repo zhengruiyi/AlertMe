@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.PowerManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -28,23 +29,33 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
                 "AlarmMe weather alarm");
 
 
-        int alarmIndex = intent.getIntExtra("alarmIndex", 0);
+        int alarmIndex = intent.getIntExtra("alarmIndex", -1);
         AlertMeAlarm alarm = AlertMeMetadataSingleton.getInstance().getAlarm(alarmIndex);
         SharedPreferences currentWeatherData = context.getSharedPreferences("weather_data", Context.MODE_PRIVATE);
 
         HashMap<String, Integer> alarmConditions = alarm.getWeatherConditions();
-        boolean isGoodTemperature =
-                (alarmConditions.get("Fmin") <= currentWeatherData.getInt("tomorrowMinTemperatureF", -500)) &&
-                        (alarmConditions.get("Fmax") >= currentWeatherData.getInt("tomorrowMaxTemperatureF", 500));
-        boolean isGoodPrecipitation = alarmConditions.get("Precipitation") <= currentWeatherData.getInt("tomorrowPrecipitationChance", 0);
-        boolean isGoodWindSpeed = alarmConditions.get("MilesPerHour") <= currentWeatherData.getInt("tomorrowWindSpeedMph", 0);
+        boolean exceedsTemperatureRange =
+                (currentWeatherData.getInt("tomorrowMinTemperatureF", -500) <= alarmConditions.get("Fmin")) &&
+                        (currentWeatherData.getInt("tomorrowMaxTemperatureF", 500) >= alarmConditions.get("Fmax"));
+        boolean exceedsPrecipitationCondition = currentWeatherData.getInt("tomorrowPrecipitationChance", 100) >= alarmConditions.get("Precipitation");
+        boolean exceedsWindSpeedCondition =  currentWeatherData.getInt("tomorrowWindSpeedMph", 100) >= alarmConditions.get("MilesPerHour");
 
-        if (!isGoodTemperature || !isGoodPrecipitation || !isGoodWindSpeed) {
+        if (exceedsTemperatureRange || exceedsPrecipitationCondition || exceedsWindSpeedCondition) {
             wakeLock.acquire();
 
-            Intent home = new Intent(context, PopupAlarm.class);
-            home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(home);
+            // TODO: all debugging stuff
+            Intent popupAlarm = new Intent(context, PopupAlarm.class);
+            popupAlarm.putExtra("a", alarmIndex);
+            popupAlarm.putExtra("b", alarmConditions.get("Precipitation"));
+            popupAlarm.putExtra("c", currentWeatherData.getInt("tomorrowWindSpeedMph", 100));
+            popupAlarm.putExtra("d", alarmConditions.get("MilesPerHour"));
+
+            popupAlarm.putExtra("alarmIndex", alarmIndex);
+            popupAlarm.putExtra("exceedsTemperatureRange", exceedsTemperatureRange);
+            popupAlarm.putExtra("exceedsPrecipitationCondition", exceedsPrecipitationCondition);
+            popupAlarm.putExtra("exceedsWindSpeedCondition", exceedsWindSpeedCondition);
+            popupAlarm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(popupAlarm);
 
             wakeLock.release();
         }
