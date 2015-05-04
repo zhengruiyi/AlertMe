@@ -8,34 +8,11 @@
     tools:context="teamawesome.alertme.AlarmList"
     android:weightSum="1">
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/alarm_name_1"
-        android:id="@+id/button1"
-        android:textSize="20sp"
-        android:onClick="toConditions"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="56dp"
-        android:layout_weight="0.84"
-        android:background="#696969"
-        android:gravity="center_vertical|start"/>
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/alarm_name_2"
-        android:onClick="toTimeFrame"
-        android:textSize="20sp"
-        android:id="@+id/button2"
-        android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"
-        android:background="#696969"
-        android:gravity="center_vertical|start"/>
-
+    <ListView
+        android:id="@+id/alarmListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
 
     <TextView
         android:id="@+id/apiText"
@@ -73,6 +50,16 @@
         android:textColor="#ffffff"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:id="@+id/latLon"
+        android:textSize="12sp"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"/>

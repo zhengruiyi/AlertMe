@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -29,10 +26,7 @@ import android.widget.ToggleButton;
 
 import org.json.JSONException;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Locale;
 
 import teamawesome.alertme.Network.JSONWeatherParser;
 import teamawesome.alertme.Network.WeatherHttpClient;
@@ -54,7 +48,7 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm_list_2);
+        setContentView(R.layout.activity_alarm_list);
 
         AlarmListAdapter alarmListAdapter = new AlarmListAdapter();
         ListView alarmList = (ListView) findViewById(R.id.alarmListView);
@@ -147,7 +141,7 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
     }
 
     private boolean hasGreaterOrEqualAccuracyThan(Location a, Location b) {
-        return a.getAccuracy() >= a.getAccuracy();
+        return a.getAccuracy() >= b.getAccuracy();
     }
 
     private void createLocationDialog() {
