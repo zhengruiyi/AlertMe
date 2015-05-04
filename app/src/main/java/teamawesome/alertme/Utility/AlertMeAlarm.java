@@ -10,7 +10,7 @@ public class AlertMeAlarm {
 
     private boolean[] daysSelected;
     private int timeFrame;
-    private int alertTime;
+    private long alertTimeInMillis;
     private boolean inMorning;
 
     private boolean soundToggle;
@@ -25,8 +25,8 @@ public class AlertMeAlarm {
 
         // Mon, Tue, Wed, Thu, Fri, Sat, Sun
         daysSelected = new boolean[] {true, true, true, true, true, false, false};
-        timeFrame = 12;     // either 12 or 24
-        alertTime = 6;      // set with 24-hour
+        timeFrame = 24;     // either 12 or 24
+        alertTimeInMillis = 6 * 60 * 60 * 1000;      // set with 24-hour
 
         inMorning = false;
 
@@ -104,12 +104,16 @@ public class AlertMeAlarm {
         }
     }
 
-    public void setAlertTime(int time) {
-        if (time >= 0 && time <= 23 * 60) {
-            alertTime = time;
+    public void setAlertTimeWithMinutes(long timeInMinutes) {
+        if (timeInMinutes >= 0 && timeInMinutes < 24 * 60) {
+            alertTimeInMillis = timeInMinutes * 60 * 1000;
         } else {
             throw new AssertionError("Tried to set Alert Time outside of 0 to 24");
         }
+    }
+
+    public long getAlertTimeInMillis() {
+        return alertTimeInMillis;
     }
 
     public void setAmPm (boolean inMorning){

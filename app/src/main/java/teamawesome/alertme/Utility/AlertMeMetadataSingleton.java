@@ -23,10 +23,12 @@ public class AlertMeMetadataSingleton {
 
     private AlertMeMetadataSingleton() {
         alarms = new ArrayList<>();
-        alarms.add(new AlertMeAlarm());
-        alarms.add(new AlertMeAlarm());
-        alarms.add(new AlertMeAlarm());
-        alarms.add(new AlertMeAlarm());
+        AlertMeAlarm a = new AlertMeAlarm();
+        a.setName("Demo Fun");
+        alarms.add(a);
+        AlertMeAlarm b = new AlertMeAlarm();
+        b.setName("Preset Shenanigans");
+        alarms.add(b);
     }
 
 

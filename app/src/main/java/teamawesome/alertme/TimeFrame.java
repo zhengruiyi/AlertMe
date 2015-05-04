@@ -3,17 +3,14 @@ package teamawesome.alertme;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -31,6 +28,7 @@ import teamawesome.alertme.Utility.CalendarWrapper;
 public class TimeFrame extends ActionBarActivity {
     //to store alarm info
     private AlertMeAlarm currentAlarm;
+    private int alarmIndex;
 
     //weekday checkboxes
     private CheckBox weekday, weekend;
@@ -70,7 +68,7 @@ public class TimeFrame extends ActionBarActivity {
 
         mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 
-        int alarmIndex = getIntent().getIntExtra("alarmIndex", -1);
+        alarmIndex = getIntent().getIntExtra("alarmIndex", -1);
         if (alarmIndex >= 0 && alarmIndex < AlertMeMetadataSingleton.getInstance().size()) {
             currentAlarm = AlertMeMetadataSingleton.getInstance().getAlarm(alarmIndex);
         } else {
@@ -137,7 +135,7 @@ public class TimeFrame extends ActionBarActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState){
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
         super.onRestoreInstanceState(savedInstanceState);
 
         weekdays = savedInstanceState.getBooleanArray("weekdays");
@@ -329,9 +327,8 @@ public class TimeFrame extends ActionBarActivity {
                     wednesday.setChecked(true);
                     thursday.setChecked(true);
                     friday.setChecked(true);
-                }
-                else {
-                    for (int i = 0; i < 5; i ++){
+                } else {
+                    for (int i = 0; i < 5; i++) {
                         weekdays[i] = false;
                     }
                     monday.setChecked(false);
@@ -472,8 +469,7 @@ public class TimeFrame extends ActionBarActivity {
             public void onClick(View v) {
                 if (((Switch) v).isChecked()) {
                     timeFrame = 12;
-                }
-                else {
+                } else {
                     timeFrame = 24;
                 }
             }
@@ -513,7 +509,7 @@ public class TimeFrame extends ActionBarActivity {
     }//end vibrate checkbox
 
     private void saveInfo (){
-        currentAlarm.setAlertTime(hour * 60 + minute);
+        currentAlarm.setAlertTimeWithMinutes(hour * 60 + minute);
         currentAlarm.setDaysSelected(weekdays);
         currentAlarm.setTimeFrame(timeFrame);
         currentAlarm.setAmPm(inMorning);
@@ -521,15 +517,65 @@ public class TimeFrame extends ActionBarActivity {
 
     public void toAlarmList(View view){
         saveInfo();
-
-        // Setting alarm
-        CalendarWrapper calendar = new CalendarWrapper();
-        Long alarmTime = calendar.getTimeInMillis() + 10 * 1000;
-        AlarmBroadcastReceiver.setAlarm(0, alarmTime);
-        Toast.makeText(this, "Alarm scheduled for 10 seconds from now", Toast.LENGTH_LONG).show();
+        setAlarms();
 
         Intent intent = new Intent(this, AlarmList.class);
         startActivity(intent);
+    }
+
+    private void setAlarms() {
+        CalendarWrapper calendar = new CalendarWrapper();
+        int todayInWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int todayIndexInDaysSelected;
+        if (todayInWeek == Calendar.SUNDAY) {
+            todayIndexInDaysSelected = weekdays.length - 1;
+        } else {
+            todayIndexInDaysSelected = todayInWeek - 2;
+        }
+
+        long alarmTimeInMillis = currentAlarm.getAlertTimeInMillis();
+        long alarmTimeToday = calendar.getTodayInMillis() + alarmTimeInMillis;
+        boolean timeHasPassed = calendar.getTimeInMillis() > alarmTimeToday;
+
+        if (weekdays[todayIndexInDaysSelected] && !timeHasPassed) {
+            AlarmBroadcastReceiver.setAlarm(alarmIndex, alarmTimeToday);
+        } else {
+            todayIndexInDaysSelected++;
+            while (!weekdays[todayIndexInDaysSelected]) {
+                todayIndexInDaysSelected++;
+            }
+
+            long alarmTimeNextTime;
+            switch (todayIndexInDaysSelected) {
+                case 0:
+                    alarmTimeNextTime = calendar.getNextMondayInMillis() + alarmTimeInMillis;
+                    break;
+                case 1:
+                    alarmTimeNextTime = calendar.getNextTuesdayInMillis() + alarmTimeInMillis;
+                    break;
+                case 2:
+                    alarmTimeNextTime = calendar.getNextWednesdayInMillis() + alarmTimeInMillis;
+                    break;
+                case 3:
+                    alarmTimeNextTime = calendar.getNextThursdayInMillis() + alarmTimeInMillis;
+                    break;
+                case 4:
+                    alarmTimeNextTime = calendar.getNextFridayInMillis() + alarmTimeInMillis;
+                    break;
+                case 5:
+                    alarmTimeNextTime = calendar.getNextSaturdayInMillis() + alarmTimeInMillis;
+                    break;
+                case 6:
+                    alarmTimeNextTime = calendar.getNextSundayInMillis() + alarmTimeInMillis;
+                    break;
+                default:
+                    alarmTimeNextTime = alarmTimeToday;
+                    break;
+            }
+            AlarmBroadcastReceiver.setAlarm(alarmIndex, alarmTimeNextTime);
+        }
+
+        Toast.makeText(this, "Alarm scheduled", Toast.LENGTH_LONG).show();
     }
 
 }
