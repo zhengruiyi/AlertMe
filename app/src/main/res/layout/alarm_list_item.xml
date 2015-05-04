@@ -10,7 +10,6 @@
 
         android:background="#FFFFFF"
         android:gravity="center_vertical|start"
-        android:onClick="toConditions"
 
         android:layout_alignParentStart="true"/>
 
@@ -28,15 +27,12 @@
         android:layout_toEndOf="@id/alarmName"/>
 
     <Button
-        android:id="@+id/alarmToTimeFrame1"
+        android:id="@+id/alarmToTimeFrame"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 
-        android:text="EDIT TIME FRAME     >"
-        android:textSize="12sp"
         android:background="#FFFFFF"
         android:gravity="bottom|start"
-        android:onClick="toTimeFrame"
 
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"

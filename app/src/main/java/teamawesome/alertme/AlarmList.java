@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,18 +67,6 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
         } else {
             onLocationChanged(userLocation);
         }
-    }
-
-    public void toConditions(View view) {
-        Intent intent = new Intent(this, Conditions.class);
-        intent.putExtra("alarmIndex", 0);
-        startActivity(intent);
-    }
-
-    public void toTimeFrame(View view) {
-        Intent intent = new Intent(this, TimeFrame.class);
-        intent.putExtra("alarmIndex", 0);
-        startActivity(intent);
     }
 
     private boolean isOnline() {
@@ -236,21 +225,50 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
                 convertView = inflater.inflate(R.layout.alarm_list_item, parent, false);
             }
 
-            TextView alarmName = (TextView) convertView.findViewById(R.id.alarmName);
             AlertMeAlarm currentAlarm = AlertMeMetadataSingleton.getInstance().getAlarm(position);
-            alarmName.setText(currentAlarm.getName());
-            alarmName.setTextSize(20);
+
+            Button alarmNameButton = (Button) convertView.findViewById(R.id.alarmName);
+            alarmNameButton.setTag(position);
+            alarmNameButton.setText(currentAlarm.getName());
+            alarmNameButton.setTextSize(20);
+            alarmNameButton.setOnClickListener(alarmNameButtonListener);
 
             ToggleButton alarmToggle = (ToggleButton) convertView.findViewById(R.id.alarmToggle);
             alarmToggle.setOnClickListener(alarmToggleListener);
 
+            Button alarmToTimeFrame = (Button) convertView.findViewById(R.id.alarmToTimeFrame);
+            alarmToTimeFrame.setTag(position);
+            alarmToTimeFrame.setText("EDIT TIME FRAME     >");
+            alarmToTimeFrame.setTextSize(12);
+            alarmToTimeFrame.setOnClickListener(alarmToTimeFrameButtonListener);
+
             return convertView;
         }
+
+        private Button.OnClickListener alarmNameButtonListener = new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AlarmList.this, Conditions.class);
+                int position = (Integer) view.getTag();
+                intent.putExtra("alarmIndex", position);
+                startActivity(intent);
+            }
+        };
 
         private ToggleButton.OnClickListener alarmToggleListener = new ToggleButton.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((ToggleButton) view).toggle();
+            }
+        };
+
+        private Button.OnClickListener alarmToTimeFrameButtonListener = new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AlarmList.this, TimeFrame.class);
+                int position = (Integer) view.getTag();
+                intent.putExtra("alarmIndex", position);
+                startActivity(intent);
             }
         };
     }
