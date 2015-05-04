@@ -35,7 +35,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
 
         HashMap<String, Integer> alarmConditions = alarm.getWeatherConditions();
         boolean exceedsTemperatureRange =
-                (currentWeatherData.getInt("tomorrowMinTemperatureF", -500) <= alarmConditions.get("Fmin")) &&
+                (currentWeatherData.getInt("tomorrowMinTemperatureF", -500) <= alarmConditions.get("Fmin")) ||
                         (currentWeatherData.getInt("tomorrowMaxTemperatureF", 500) >= alarmConditions.get("Fmax"));
         boolean exceedsPrecipitationCondition = currentWeatherData.getInt("tomorrowPrecipitationChance", 100) >= alarmConditions.get("Precipitation");
         boolean exceedsWindSpeedCondition =  currentWeatherData.getInt("tomorrowWindSpeedMph", 100) >= alarmConditions.get("MilesPerHour");
@@ -45,7 +45,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
 
             // TODO: all debugging stuff
             Intent popupAlarm = new Intent(context, PopupAlarm.class);
-            popupAlarm.putExtra("a", alarmIndex);
+            popupAlarm.putExtra("a", alarmConditions.get("Fmax"));
             popupAlarm.putExtra("b", alarmConditions.get("Precipitation"));
             popupAlarm.putExtra("c", currentWeatherData.getInt("tomorrowWindSpeedMph", 100));
             popupAlarm.putExtra("d", alarmConditions.get("MilesPerHour"));
