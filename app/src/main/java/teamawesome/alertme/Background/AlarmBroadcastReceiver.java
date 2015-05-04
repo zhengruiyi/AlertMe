@@ -10,8 +10,12 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 import teamawesome.alertme.AlertMeApplication;
 import teamawesome.alertme.PopupAlarm;
+import teamawesome.alertme.Utility.AlertMeAlarm;
+import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver{
@@ -24,23 +28,33 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
                 "AlarmMe weather alarm");
 
 
-        // TODO: ADD IF STATEMENT TO CHECK CONDITIONS AGAINST WEATHER
+        int alarmIndex = intent.getIntExtra("alarmIndex", 0);
+        AlertMeAlarm alarm = AlertMeMetadataSingleton.getInstance().getAlarm(alarmIndex);
         SharedPreferences currentWeatherData = context.getSharedPreferences("weather_data", Context.MODE_PRIVATE);
 
-        wakeLock.acquire();
+        HashMap<String, Integer> alarmConditions = alarm.getWeatherConditions();
+        boolean isGoodTemperature =
+                (alarmConditions.get("Fmin") <= currentWeatherData.getInt("tomorrowMinTemperatureF", -500)) &&
+                        (alarmConditions.get("Fmax") >= currentWeatherData.getInt("tomorrowMaxTemperatureF", 500));
+        boolean isGoodPrecipitation = alarmConditions.get("Precipitation") <= currentWeatherData.getInt("tomorrowPrecipitationChance", 0);
+        boolean isGoodWindSpeed = alarmConditions.get("MilesPerHour") <= currentWeatherData.getInt("tomorrowWindSpeedMph", 0);
 
-        Intent home = new Intent(context, PopupAlarm.class);
-        home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(home);
-        // Toast.makeText(context, "Alarm went off!!!", Toast.LENGTH_LONG).show();
+        if (!isGoodTemperature || !isGoodPrecipitation || !isGoodWindSpeed) {
+            wakeLock.acquire();
 
-        wakeLock.release();
+            Intent home = new Intent(context, PopupAlarm.class);
+            home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(home);
+
+            wakeLock.release();
+        }
     }
 
-    public static void setAlarm(int id, long time) {
+    public static void setAlarm(int id, long time, int alarmIndex) {
         Context appContext = AlertMeApplication.getContext();
         AlarmManager alarmManager = (AlarmManager)appContext.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(appContext, AlarmBroadcastReceiver.class);
+        alarmIntent.putExtra("alarmIndex", alarmIndex);
         PendingIntent intentBroadcast = PendingIntent.getBroadcast(appContext, id, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

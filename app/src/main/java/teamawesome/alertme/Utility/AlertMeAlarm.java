@@ -51,6 +51,10 @@ public class AlertMeAlarm {
         return name;
     }
 
+    public HashMap<String, Integer> getWeatherConditions() {
+        return weatherConditions;
+    }
+
     public void setTemperatureCondition(boolean tempUnit, int temperatureMax, int temperatureMin) {
         if (tempUnit) {
             // Set with Fahrenheit
@@ -68,7 +72,7 @@ public class AlertMeAlarm {
     }
 
     public void setPrecipitationCondition(int probability) {
-        weatherConditions.put("Precipitation", 50);
+        weatherConditions.put("Precipitation", probability);
     }
 
     public void setWindSpeedCondition(boolean speedUnit, int speed) {

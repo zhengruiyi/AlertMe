@@ -22,7 +22,9 @@ public class PopupAlarm extends ActionBarActivity {
         TextView dataWindSpeed = (TextView) findViewById(R.id.dataWindSpeed);
 
         SharedPreferences currentWeatherData = getSharedPreferences("weather_data", MODE_PRIVATE);
-        dataTemp.setText("Temperature: " + currentWeatherData.getInt("tomorrowMinTemperatureF", -1) + "\u00b0F");
+        dataTemp.setText("Temperature: " +
+                currentWeatherData.getInt("tomorrowMinTemperatureF", -1)+ "\u00b0F" +
+                currentWeatherData.getInt("tomorrowMaxTemperatureF", -1) + "\u00b0F");
         dataRain.setText("Precipitation: " + currentWeatherData.getInt("tomorrowPrecipitationChance", -1) + "%");
         dataWindSpeed.setText("Wind Speed: " + currentWeatherData.getInt("tomorrowWindSpeedMph", -1) + "mph");
     }

@@ -538,7 +538,7 @@ public class TimeFrame extends ActionBarActivity {
         boolean timeHasPassed = calendar.getTimeInMillis() > alarmTimeToday;
 
         if (weekdays[todayIndexInDaysSelected] && !timeHasPassed) {
-            AlarmBroadcastReceiver.setAlarm(alarmIndex, alarmTimeToday);
+            AlarmBroadcastReceiver.setAlarm(alarmIndex, alarmTimeToday, alarmIndex);
         } else {
             todayIndexInDaysSelected++;
             while (!weekdays[todayIndexInDaysSelected]) {
@@ -572,7 +572,7 @@ public class TimeFrame extends ActionBarActivity {
                     alarmTimeNextTime = alarmTimeToday;
                     break;
             }
-            AlarmBroadcastReceiver.setAlarm(alarmIndex, alarmTimeNextTime);
+            AlarmBroadcastReceiver.setAlarm(alarmIndex, alarmTimeNextTime, alarmIndex);
         }
 
         // Toast.makeText(this, "Alarm scheduled", Toast.LENGTH_LONG).show();
