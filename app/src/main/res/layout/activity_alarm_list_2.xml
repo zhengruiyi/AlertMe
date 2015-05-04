@@ -54,4 +54,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"/>
 
+    <TextView
+        android:id="@+id/latLon"
+        android:textSize="12sp"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"/>
+
 </RelativeLayout>

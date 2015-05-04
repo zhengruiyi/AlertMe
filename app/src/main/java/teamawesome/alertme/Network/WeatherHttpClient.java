@@ -10,11 +10,10 @@ import java.net.URL;
 
 public class WeatherHttpClient {
 
-    public String getWeatherData(String location) {
+    public String getWeatherData(String query) {
         // Reference to http://www.wunderground.com/weather/api/d/docs?d=data/index&MR=1
         String apiKey = "f336925ac023b89b";
         String features = "forecast";
-        String query = "TX/Austin";
         String format = "json";
 
         // Format is http://api.wunderground.com/api/API_KEY/FEATURES/q/QUERY.FORMAT
