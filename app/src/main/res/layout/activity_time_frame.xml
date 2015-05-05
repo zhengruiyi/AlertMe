@@ -24,8 +24,8 @@
         android:text="@string/time_frame_submit"
         android:onClick="toAlarmList"
         android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -153,7 +153,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="32dp" />
 
-    <TextView
+<!--    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sound"
@@ -192,7 +192,7 @@
         android:id="@+id/checkBox11"
         android:layout_alignTop="@+id/textView6"
         android:layout_alignLeft="@+id/switch1"
-        android:layout_alignStart="@+id/switch1" />
+        android:layout_alignStart="@+id/switch1" />-->
 
     <TextView
         android:layout_width="wrap_content"

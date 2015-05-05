@@ -311,8 +311,6 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
     }
 
     public void addNewAlarm(View view){
-        String message = "You cannot add new alarms at this time. Please try again later.";
-        Toast.makeText(AlarmList.this, message, Toast.LENGTH_LONG).show();
         AlertMeMetadataSingleton alarmInstance = AlertMeMetadataSingleton.getInstance();
         alarmInstance.addAlarm();
         Intent intent = new Intent(AlarmList.this, Conditions.class);

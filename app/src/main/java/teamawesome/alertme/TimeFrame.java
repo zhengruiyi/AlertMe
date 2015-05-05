@@ -54,8 +54,8 @@ public class TimeFrame extends ActionBarActivity {
     private boolean isAlarmSet = false;
 
     //Sounds
-    private CheckBox vibrate;
-    private Switch sound;
+    //private CheckBox vibrate;
+    //private Switch sound;
 
     //to restore settings
     private SharedPreferences mPrefs;
@@ -95,8 +95,8 @@ public class TimeFrame extends ActionBarActivity {
 
         addListenerTimeFrame12();
 
-        addListenerSound();
-        addListenerVibrate();
+        //addListenerSound();
+        //addListenerVibrate();
 
         //weekday toggles
         monday = (ToggleButton) findViewById(R.id.Monday);
@@ -132,8 +132,8 @@ public class TimeFrame extends ActionBarActivity {
 
         outState.putBoolean("am", inMorning);
 
-        outState.putBoolean("sound", sound.isChecked());
-        outState.putBoolean("vibrate", vibrate.isChecked());
+        //outState.putBoolean("sound", sound.isChecked());
+        //outState.putBoolean("vibrate", vibrate.isChecked());
     }
 
     @Override
@@ -160,8 +160,8 @@ public class TimeFrame extends ActionBarActivity {
 
         inMorning = savedInstanceState.getBoolean("am");
 
-        sound.setChecked(savedInstanceState.getBoolean("sound"));
-        vibrate.setChecked(savedInstanceState.getBoolean("vibrate"));
+        //sound.setChecked(savedInstanceState.getBoolean("sound"));
+        //vibrate.setChecked(savedInstanceState.getBoolean("vibrate"));
 
 
     }
@@ -184,9 +184,9 @@ public class TimeFrame extends ActionBarActivity {
         }
 
         save(twelveHour.isChecked(), "twelveHour");
-        save(vibrate.isChecked(), "vibrate");
+        //save(vibrate.isChecked(), "vibrate");
         //switch
-        save(sound.isChecked(), "sound");
+        //save(sound.isChecked(), "sound");
 
         //seekbar
         mPrefs = getPreferences(Context.MODE_PRIVATE);
@@ -222,8 +222,8 @@ public class TimeFrame extends ActionBarActivity {
         inMorning = load("am");
 
         //sounds
-        vibrate.setChecked(load("vibrate"));
-        sound.setChecked(load("sound"));
+        //vibrate.setChecked(load("vibrate"));
+        //sound.setChecked(load("sound"));
 
     }
 
@@ -479,7 +479,7 @@ public class TimeFrame extends ActionBarActivity {
         });
     }//end 12-hour switch
 
-    //Sound switch
+/*    //Sound switch
     public void addListenerSound() {
 
         sound = (Switch) findViewById(R.id.switch1);
@@ -493,9 +493,9 @@ public class TimeFrame extends ActionBarActivity {
                 }
             }
         });
-    }//end sound switch
+    }//end sound switch*/
 
-    //vibrate Checkbox
+/*    //vibrate Checkbox
     public void addListenerVibrate() {
 
         vibrate = (CheckBox) findViewById(R.id.checkBox11);
@@ -509,7 +509,7 @@ public class TimeFrame extends ActionBarActivity {
                 }
             }
         });
-    }//end vibrate checkbox
+    }//end vibrate checkbox*/
 
     private void saveInfo (){
         currentAlarm.setAlertTimeWithMinutes(hour * 60 + minute);
