@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class AlertMeMetadataSingleton {
 
@@ -35,9 +37,17 @@ public class AlertMeMetadataSingleton {
     public void addAlarm() {
         alarms.add(new AlertMeAlarm());
     }
-
-    public void deleteAlarm(int index) {
-        alarms.remove(index);
+    
+    public void deleteAlarms(Set<Integer> indexes) {
+        Iterator<AlertMeAlarm> iter = alarms.iterator();
+        int i = 0;
+        while (iter.hasNext()) {
+            iter.next();
+            if (indexes.contains(i)) {
+                iter.remove();
+            }
+            i++;
+        }
     }
 
     public AlertMeAlarm getAlarm(int index) {
