@@ -2,6 +2,7 @@ package teamawesome.alertme.Utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,17 +26,23 @@ public class AlertMeMetadataSingleton {
 
     private AlertMeMetadataSingleton() {
         alarms = new ArrayList<>();
-        AlertMeAlarm a = new AlertMeAlarm();
-        a.setName("Demo Fun");
-        alarms.add(a);
-        AlertMeAlarm b = new AlertMeAlarm();
-        b.setName("Preset Shenanigans");
-        alarms.add(b);
+        addAlarm("Demo Fun");
+        addAlarm("Preset Shenanigans");
     }
 
 
     public void addAlarm() {
         alarms.add(new AlertMeAlarm());
+    }
+
+    public void addAlarm(String name) {
+        AlertMeAlarm alarm = new AlertMeAlarm();
+        if (name == null || name.trim().isEmpty()) {
+            alarm.setName("Default");
+        } else {
+            alarm.setName(name);
+        }
+        alarms.add(alarm);
     }
     
     public void deleteAlarms(Set<Integer> indexes) {
@@ -81,6 +88,16 @@ public class AlertMeMetadataSingleton {
         editor.putInt("tomorrowWindSpeedKph", weatherForecast.wind.getMaxSpeedKph());
 
         editor.putInt("tomorrowHumidity", weatherForecast.humidity.getHumidity());
+
+        editor.apply();
+    }
+
+    public void saveLocation(Location location, Context context) {
+        SharedPreferences weatherData = context.getSharedPreferences("weather_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = weatherData.edit();
+
+        editor.putFloat("locationLatitude", (float) location.getLatitude());
+        editor.putFloat("locationLongitude", (float) location.getLongitude());
 
         editor.apply();
     }

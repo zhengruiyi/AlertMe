@@ -24,7 +24,7 @@
             android:layout_height="32dp"
             android:src="@drawable/new_alarm"
             android:background="@null"
-            android:onClick="addNewAlarm"
+            android:onClick="createNewAlarmDialog"
             android:id="@+id/new_alarm"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true" />

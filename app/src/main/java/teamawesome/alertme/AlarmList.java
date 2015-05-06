@@ -14,14 +14,17 @@ import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -37,11 +40,6 @@ import teamawesome.alertme.Utility.AlertMeAlarm;
 
 
 public class AlarmList extends ActionBarActivity implements LocationListener {
-
-    private TextView dataTemp;
-    private TextView dataRain;
-    private TextView dataWindSpeed;
-    private TextView dataLatLon;
 
     private Location userLocation;
     private LocationManager locationManager;
@@ -62,6 +60,53 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
         } else {
             onLocationChanged(userLocation);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_alarm_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.weatherForecast) {
+            createWeatherForecastDialog();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void createWeatherForecastDialog() {
+        AlertDialog.Builder weatherDataDialog = new AlertDialog.Builder(AlarmList.this);
+
+        weatherDataDialog.setTitle("Weather Forecast for Tomorrow");
+
+        SharedPreferences currentWeatherData = getSharedPreferences("weather_data", MODE_PRIVATE);
+        String weatherData;
+        weatherData = "Temperature:\t" +
+                currentWeatherData.getInt("tomorrowMinTemperatureF", -1) + "\u00b0F" + ", " +
+                currentWeatherData.getInt("tomorrowMaxTemperatureF", -1) + "\u00b0F";
+        weatherData = weatherData + "\n" + "Precipitation:\t" +
+                currentWeatherData.getInt("tomorrowPrecipitationChance", -1) + "%";
+        weatherData = weatherData + "\n" + "Wind Speed:\t\t" +
+                currentWeatherData.getInt("tomorrowWindSpeedMph", -1) + "mph";
+        weatherData = weatherData + "\n\n" + "Latitude:\t\t\t\t\t\t" +
+                currentWeatherData.getFloat("locationLatitude", -1);
+        weatherData = weatherData + "\n" + "Longitude:\t\t\t\t" +
+                currentWeatherData.getFloat("locationLongitude", -1);
+
+        // Set dialog message
+        weatherDataDialog
+                .setMessage(weatherData)
+                .setCancelable(true);
+
+        // Create weather dialog
+        AlertDialog alertDialog = weatherDataDialog.create();
+        alertDialog.setCanceledOnTouchOutside(true);
+        alertDialog.show();
     }
 
     private boolean isOnline() {
@@ -129,12 +174,12 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
     }
 
     private void createLocationDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AlarmList.this);
+        AlertDialog.Builder locationDialogBuilder = new AlertDialog.Builder(AlarmList.this);
 
-        alertDialogBuilder.setTitle("Location Services Disabled");
+        locationDialogBuilder.setTitle("Location Services Disabled");
 
         // Set dialog message
-        alertDialogBuilder
+        locationDialogBuilder
                 .setMessage("Please enable location services.")
                 .setCancelable(false)
                 .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
@@ -151,8 +196,8 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
                     }
                 });
 
-        // Create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        // Create location dialog
+        AlertDialog alertDialog = locationDialogBuilder.create();
         alertDialog.show();
     }
 
@@ -167,7 +212,7 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
         double longitude = userLocation.getLongitude();
         String queryLatLon = formatForApi(latitude, longitude);
 
-        dataLatLon.setText("Latitude, Longitude: " + queryLatLon);
+        AlertMeMetadataSingleton.getInstance().saveLocation(location, this);
 
         if (isOnline()) {
             JSONWeatherTask task = new JSONWeatherTask();
@@ -242,10 +287,8 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
         private Button.OnClickListener alarmNameButtonListener = new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AlarmList.this, Conditions.class);
                 int position = (Integer) view.getTag();
-                intent.putExtra("alarmIndex", position);
-                startActivity(intent);
+                toConditions(position);
             }
         };
 
@@ -289,28 +332,53 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
         protected void onPostExecute(WeatherForecastData weather) {
             super.onPostExecute(weather);
             AlertMeMetadataSingleton.getInstance().saveWeather(weather, AlarmList.this);
-
-            SharedPreferences currentWeatherData = getSharedPreferences("weather_data", MODE_PRIVATE);
-            dataTemp.setText("Temperature: " +
-                    currentWeatherData.getInt("tomorrowMinTemperatureF", -1) + "\u00b0F" + ", " +
-                    currentWeatherData.getInt("tomorrowMaxTemperatureF", -1) + "\u00b0F");
-            dataRain.setText("Precipitation: " + currentWeatherData.getInt("tomorrowPrecipitationChance", -1) + "%");
-            dataWindSpeed.setText("Wind Speed: " + currentWeatherData.getInt("tomorrowWindSpeedMph", -1) + "mph");
         }
     }
 
     public void toEdit(View view){
-
         Intent intent = new Intent(this, AlarmEdit.class);
         startActivity(intent);
     }
 
-    public void addNewAlarm(View view){
+    private void addNewAlarm(String name){
         AlertMeMetadataSingleton alarmInstance = AlertMeMetadataSingleton.getInstance();
-        alarmInstance.addAlarm();
-        Intent intent = new Intent(AlarmList.this, Conditions.class);
+        alarmInstance.addAlarm(name);
+
         int position = alarmInstance.size() - 1;
-        intent.putExtra("alarmIndex", position);
+        toConditions(position);
+    }
+
+    public void createNewAlarmDialog(View view) {
+        AlertDialog.Builder locationDialogBuilder = new AlertDialog.Builder(AlarmList.this);
+
+        locationDialogBuilder.setTitle("Name the Alarm");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        locationDialogBuilder
+                .setMessage("")
+                .setCancelable(false)
+                .setView(input)
+                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        addNewAlarm(input.getText().toString());
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        // Create location dialog
+        AlertDialog alertDialog = locationDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void toConditions(int alarmIndex) {
+        Intent intent = new Intent(this, Conditions.class);
+        intent.putExtra("alarmIndex", alarmIndex);
         startActivity(intent);
     }
 }
