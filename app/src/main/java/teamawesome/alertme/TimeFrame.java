@@ -59,6 +59,7 @@ public class TimeFrame extends ActionBarActivity {
 
     //to restore settings
     private SharedPreferences mPrefs;
+    private String sharedPrefFile;
 
     private static final String TAG = "TAG2";
 
@@ -67,14 +68,15 @@ public class TimeFrame extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_frame);
 
-        mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
-
         alarmIndex = getIntent().getIntExtra("alarmIndex", -1);
         if (alarmIndex >= 0 && alarmIndex < AlertMeMetadataSingleton.getInstance().size()) {
             currentAlarm = AlertMeMetadataSingleton.getInstance().getAlarm(alarmIndex);
         } else {
             throw new AssertionError("TimeFrame: Failed to access AlertMeMetadataSingleton list at " + alarmIndex);
         }
+
+        sharedPrefFile = "alert_me_alarm_" + alarmIndex;
+        mPrefs = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         //Time Picker
         output = (TextView) findViewById(R.id.timeDisplay);
@@ -189,7 +191,7 @@ public class TimeFrame extends ActionBarActivity {
         //save(sound.isChecked(), "sound");
 
         //seekbar
-        mPrefs = getPreferences(Context.MODE_PRIVATE);
+        mPrefs = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean("am", inMorning);
 
@@ -228,14 +230,14 @@ public class TimeFrame extends ActionBarActivity {
     }
 
     private void save(final boolean isChecked, String saveName) {
-        mPrefs = getPreferences(Context.MODE_PRIVATE);
+        mPrefs = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean(saveName, isChecked);
         editor.apply();
     }
 
     private boolean load(String saveName) {
-        mPrefs = getPreferences(Context.MODE_PRIVATE);
+        mPrefs = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE);
         return mPrefs.getBoolean(saveName, false);
     }
 
@@ -519,11 +521,24 @@ public class TimeFrame extends ActionBarActivity {
     }
 
     public void toAlarmList(View view){
-        saveInfo();
-        setAlarms();
+        if (!hasSomeDaySelected(weekdays)) {
+            Toast.makeText(this, "No day selected", Toast.LENGTH_LONG).show();
+        } else {
+            saveInfo();
+            setAlarms();
 
-        Intent intent = new Intent(this, AlarmList.class);
-        startActivity(intent);
+            Intent intent = new Intent(this, AlarmList.class);
+            startActivity(intent);
+        }
+    }
+
+    private boolean hasSomeDaySelected(boolean[] days) {
+        for (boolean daySelected : days) {
+            if (daySelected) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void setAlarms() {
@@ -544,7 +559,7 @@ public class TimeFrame extends ActionBarActivity {
             AlarmBroadcastReceiver.setAlarm(alarmIndex, alarmTimeToday, alarmIndex);
         } else {
             todayIndexInDaysSelected++;
-            while (!weekdays[todayIndexInDaysSelected]) {
+            while (todayIndexInDaysSelected < weekdays.length && !weekdays[todayIndexInDaysSelected]) {
                 todayIndexInDaysSelected++;
             }
 
@@ -572,13 +587,11 @@ public class TimeFrame extends ActionBarActivity {
                     alarmTimeNextTime = calendar.getNextSundayInMillis() + alarmTimeInMillis;
                     break;
                 default:
-                    alarmTimeNextTime = alarmTimeToday;
+                    alarmTimeNextTime = 0;
                     break;
             }
             AlarmBroadcastReceiver.setAlarm(alarmIndex, alarmTimeNextTime, alarmIndex);
         }
-
-        // Toast.makeText(this, "Alarm scheduled", Toast.LENGTH_LONG).show();
     }
 
 }

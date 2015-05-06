@@ -3,7 +3,6 @@ package teamawesome.alertme;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,6 +48,7 @@ public class Conditions extends ActionBarActivity {
 
     //to restore settings
     private SharedPreferences mPrefs;
+    private String sharedPrefFile;
 
     private static final String TAG = "TAG";
 
@@ -58,16 +58,19 @@ public class Conditions extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conditions);
 
-        mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
-
         int alarmIndex = getIntent().getIntExtra("alarmIndex", -1);
         if (alarmIndex >= 0 && alarmIndex < AlertMeMetadataSingleton.getInstance().size()) {
             currentAlarm = AlertMeMetadataSingleton.getInstance().getAlarm(alarmIndex);
             currentAlarmIndex = alarmIndex;
         } else {
+            // Not what default behavior should be
+            // Consider bringing user back to AlarmList with error Toast
             currentAlarm = AlertMeMetadataSingleton.getInstance().getAlarm(0);
             currentAlarmIndex = 0;
         }
+
+        sharedPrefFile = "alert_me_alarm_" + currentAlarmIndex;
+        mPrefs = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         //Temperature
         // create RangeSeekBar as Integer range between 0 and 100
@@ -217,14 +220,14 @@ public class Conditions extends ActionBarActivity {
     }
 
     private void save(final boolean isChecked, String saveName) {
-        mPrefs = getPreferences(Context.MODE_PRIVATE);
+        mPrefs = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean(saveName, isChecked);
         editor.apply();
     }
 
     private boolean load(String saveName) {
-        mPrefs = getPreferences(Context.MODE_PRIVATE);
+        mPrefs = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE);
         return mPrefs.getBoolean(saveName, true);
     }
 
@@ -308,6 +311,8 @@ public class Conditions extends ActionBarActivity {
         currentAlarm.setTemperatureCondition(isInUnitsFahrenheit, changedProgressTempMax, changedProgressTempMin);
         currentAlarm.setPrecipitationCondition(changedProgressPrecip);
         currentAlarm.setWindSpeedCondition(isInUnitsMPH, changedProgressWind);
+
+
     }
 
     public void toTimeFrame(View view){
