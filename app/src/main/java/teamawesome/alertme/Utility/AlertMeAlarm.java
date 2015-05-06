@@ -18,7 +18,7 @@ public class AlertMeAlarm {
 
 
     public AlertMeAlarm() {
-        name = "Default";
+        name = "Alarm";
 
         // Defaults for the AlertMeAlarm are set in the constructor
         initializeDefaultWeatherConditions();

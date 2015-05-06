@@ -6,11 +6,18 @@
         android:id="@+id/alarmName"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
-
-        android:background="#FFFFFF"
+        android:background="#d0d0d0"
+        android:onClick="editName"
         android:gravity="center_vertical|start"
-
         android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/name_text_box"
+        android:imeOptions="actionDone"
+        android:hint="Enter alarm name"
+        android:visibility="gone"/>
 
     <CheckBox
         android:id="@+id/alarmEdit"
@@ -18,21 +25,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical|end"
         android:background="#d0d0d0"
-
         android:layout_above="@+id/alarmToTimeFrame"
         android:layout_alignParentEnd="true" />
-
-    <Button
-        android:id="@+id/alarmToTimeFrame"
-        android:layout_width="275dp"
-        android:layout_height="wrap_content"
-
-        android:background="#FFFFFF"
-        android:gravity="bottom|start"
-
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/alarmName"/>
 
 
 </RelativeLayout>

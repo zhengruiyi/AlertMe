@@ -55,11 +55,6 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
         ListView alarmList = (ListView) findViewById(R.id.alarmListView);
         alarmList.setAdapter(alarmListAdapter);
 
-        dataTemp = (TextView) findViewById(R.id.dataTemp);
-        dataRain = (TextView) findViewById(R.id.dataRain);
-        dataWindSpeed = (TextView) findViewById(R.id.dataWindSpeed);
-        dataLatLon = (TextView) findViewById(R.id.latLon);
-
         userLocation = getCurrentLocation();
         if (userLocation == null) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1, this);
@@ -228,7 +223,7 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
 
             Button alarmNameButton = (Button) convertView.findViewById(R.id.alarmName);
             alarmNameButton.setTag(position);
-            alarmNameButton.setText(currentAlarm.getName());
+            alarmNameButton.setText("   " + currentAlarm.getName());
             alarmNameButton.setTextSize(20);
             alarmNameButton.setOnClickListener(alarmNameButtonListener);
 
@@ -237,7 +232,7 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
 
             Button alarmToTimeFrame = (Button) convertView.findViewById(R.id.alarmToTimeFrame);
             alarmToTimeFrame.setTag(position);
-            alarmToTimeFrame.setText("EDIT TIME FRAME     >");
+            alarmToTimeFrame.setText("   EDIT TIME FRAME     >");
             alarmToTimeFrame.setTextSize(12);
             alarmToTimeFrame.setOnClickListener(alarmToTimeFrameButtonListener);
 
