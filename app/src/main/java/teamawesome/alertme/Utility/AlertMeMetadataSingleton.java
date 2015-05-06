@@ -2,6 +2,7 @@ package teamawesome.alertme.Utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -81,6 +82,16 @@ public class AlertMeMetadataSingleton {
         editor.putInt("tomorrowWindSpeedKph", weatherForecast.wind.getMaxSpeedKph());
 
         editor.putInt("tomorrowHumidity", weatherForecast.humidity.getHumidity());
+
+        editor.apply();
+    }
+
+    public void saveLocation(Location location, Context context) {
+        SharedPreferences weatherData = context.getSharedPreferences("weather_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = weatherData.edit();
+
+        editor.putFloat("locationLatitude", (float) location.getLatitude());
+        editor.putFloat("locationLongitude", (float) location.getLongitude());
 
         editor.apply();
     }
