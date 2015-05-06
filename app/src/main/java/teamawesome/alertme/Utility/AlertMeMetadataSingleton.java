@@ -26,17 +26,23 @@ public class AlertMeMetadataSingleton {
 
     private AlertMeMetadataSingleton() {
         alarms = new ArrayList<>();
-        AlertMeAlarm a = new AlertMeAlarm();
-        a.setName("Demo Fun");
-        alarms.add(a);
-        AlertMeAlarm b = new AlertMeAlarm();
-        b.setName("Preset Shenanigans");
-        alarms.add(b);
+        addAlarm("Demo Fun");
+        addAlarm("Preset Shenanigans");
     }
 
 
     public void addAlarm() {
         alarms.add(new AlertMeAlarm());
+    }
+
+    public void addAlarm(String name) {
+        AlertMeAlarm alarm = new AlertMeAlarm();
+        if (name == null || name.trim().isEmpty()) {
+            alarm.setName("Default");
+        } else {
+            alarm.setName(name);
+        }
+        alarms.add(alarm);
     }
     
     public void deleteAlarms(Set<Integer> indexes) {

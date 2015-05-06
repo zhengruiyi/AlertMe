@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -285,10 +287,8 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
         private Button.OnClickListener alarmNameButtonListener = new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AlarmList.this, Conditions.class);
                 int position = (Integer) view.getTag();
-                intent.putExtra("alarmIndex", position);
-                startActivity(intent);
+                toConditions(position);
             }
         };
 
@@ -340,12 +340,45 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
         startActivity(intent);
     }
 
-    public void addNewAlarm(View view){
+    private void addNewAlarm(String name){
         AlertMeMetadataSingleton alarmInstance = AlertMeMetadataSingleton.getInstance();
-        alarmInstance.addAlarm();
-        Intent intent = new Intent(AlarmList.this, Conditions.class);
+        alarmInstance.addAlarm(name);
+
         int position = alarmInstance.size() - 1;
-        intent.putExtra("alarmIndex", position);
+        toConditions(position);
+    }
+
+    public void createNewAlarmDialog(View view) {
+        AlertDialog.Builder locationDialogBuilder = new AlertDialog.Builder(AlarmList.this);
+
+        locationDialogBuilder.setTitle("Name the Alarm");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        locationDialogBuilder
+                .setMessage("")
+                .setCancelable(false)
+                .setView(input)
+                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        addNewAlarm(input.getText().toString());
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        // Create location dialog
+        AlertDialog alertDialog = locationDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void toConditions(int alarmIndex) {
+        Intent intent = new Intent(this, Conditions.class);
+        intent.putExtra("alarmIndex", alarmIndex);
         startActivity(intent);
     }
 }
