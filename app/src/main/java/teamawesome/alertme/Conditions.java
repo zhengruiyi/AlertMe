@@ -34,12 +34,10 @@ public class Conditions extends ActionBarActivity {
     private boolean isInUnitsFahrenheit;
 
     //precipiation
-    private final int DEFAULT_PRECIP = 50;
     private SeekBar precipitation;
     private int changedProgressPrecip;
 
     //wind speed
-    private final int DEFAULT_WIND = 15;
     private final int MAX_WIND = 50;
     private Switch wind_mph_kph;
     private SeekBar windSpeed;

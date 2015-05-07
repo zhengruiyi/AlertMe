@@ -30,11 +30,6 @@ public class AlertMeMetadataSingleton {
         addAlarm("Preset Shenanigans");
     }
 
-
-    public void addAlarm() {
-        alarms.add(new AlertMeAlarm());
-    }
-
     public void addAlarm(String name) {
         AlertMeAlarm alarm = new AlertMeAlarm();
         if (name == null || name.trim().isEmpty()) {
@@ -63,10 +58,6 @@ public class AlertMeMetadataSingleton {
 
     public int size() {
         return alarms.size();
-    }
-
-    public List<AlertMeAlarm> getAlarmsList() {
-        return alarms;
     }
 
     public void saveWeather(WeatherForecastData weatherForecast, Context context) {

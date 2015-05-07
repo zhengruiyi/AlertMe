@@ -9,12 +9,7 @@ public class AlertMeAlarm {
     private HashMap<String, Integer> weatherConditions;
 
     private boolean[] daysSelected;
-    private int timeFrame;
     private long alertTimeInMillis;
-    private boolean inMorning;
-
-    private boolean soundToggle;
-    private boolean vibrateToggle;
 
 
     public AlertMeAlarm() {
@@ -25,13 +20,7 @@ public class AlertMeAlarm {
 
         // Mon, Tue, Wed, Thu, Fri, Sat, Sun
         daysSelected = new boolean[] {true, true, true, true, true, false, false};
-        timeFrame = 24;     // either 12 or 24
         alertTimeInMillis = 6 * 60 * 60 * 1000;      // set with 24-hour
-
-        inMorning = false;
-
-        soundToggle = false;
-        vibrateToggle = false;
     }
 
     private void initializeDefaultWeatherConditions() {
@@ -100,14 +89,6 @@ public class AlertMeAlarm {
         }
     }
 
-    public void setTimeFrame(int frame) {
-        if (frame == 12 || frame == 24) {
-            timeFrame = frame;
-        } else {
-            throw new AssertionError("Tried to set Time Frame to neither 12 nor 24");
-        }
-    }
-
     public void setAlertTimeWithMinutes(long timeInMinutes) {
         if (timeInMinutes >= 0 && timeInMinutes < 24 * 60) {
             alertTimeInMillis = timeInMinutes * 60 * 1000;
@@ -119,28 +100,6 @@ public class AlertMeAlarm {
     public long getAlertTimeInMillis() {
         return alertTimeInMillis;
     }
-
-    public void setAmPm (boolean inMorning){
-        this.inMorning = inMorning;
-    }
-
-
-    public void toggleSound() {
-        soundToggle = !soundToggle;
-    }
-
-    public void setSoundToggle(boolean sound) {
-        soundToggle = sound;
-    }
-
-    public void toggleVibrate() {
-        vibrateToggle = !vibrateToggle;
-    }
-
-    public void setVibrateToggle(boolean vibrate) {
-        vibrateToggle = vibrate;
-    }
-
 
 
     private int convertFToC(int fTemp) {

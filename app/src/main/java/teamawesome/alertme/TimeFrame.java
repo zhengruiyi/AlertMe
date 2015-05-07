@@ -40,12 +40,9 @@ public class TimeFrame extends ActionBarActivity {
     private int timeFrame = 12; //default twelveHour
 
     //time of day check boxes
-    private CheckBox am, pm;
     private boolean inMorning = false;
 
     //Alert time seekbar
-    private int minutes;
-    private TimePicker alertTime;
     private TextView output;
     private Button setTime;
     static final int TIME_DIALOG_ID = 1111;
@@ -516,8 +513,6 @@ public class TimeFrame extends ActionBarActivity {
     private void saveInfo (){
         currentAlarm.setAlertTimeWithMinutes(hour * 60 + minute);
         currentAlarm.setDaysSelected(weekdays);
-        currentAlarm.setTimeFrame(timeFrame);
-        currentAlarm.setAmPm(inMorning);
 
         //check boxes
         save(weekday.isChecked(), "weekday");

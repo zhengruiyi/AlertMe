@@ -23,7 +23,6 @@ import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 public class AlarmEdit extends ActionBarActivity {
 
     private static HashSet<Integer> indexesToDelete;
-    private AlarmListAdapter alarmListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

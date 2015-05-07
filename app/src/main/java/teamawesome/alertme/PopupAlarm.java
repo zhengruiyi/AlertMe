@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import java.util.HashMap;
-
 import teamawesome.alertme.Utility.AlertMeAlarm;
 import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 
@@ -33,11 +31,6 @@ public class PopupAlarm extends ActionBarActivity {
 
         int alarmIndex = getIntent().getIntExtra("alarmIndex", -1);
         AlertMeAlarm alarm = AlertMeMetadataSingleton.getInstance().getAlarm(alarmIndex);
-
-        int a = getIntent().getIntExtra("a", -1);
-        int b = getIntent().getIntExtra("b", -1);
-        int c = getIntent().getIntExtra("c", -1);
-        int d = getIntent().getIntExtra("d", -1);
 
         SharedPreferences currentWeatherData = getSharedPreferences("weather_data", MODE_PRIVATE);
         alarmName.setText(alarm.getName());

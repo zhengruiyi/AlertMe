@@ -349,19 +349,18 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
     }
 
     public void createNewAlarmDialog(View view) {
-        AlertDialog.Builder locationDialogBuilder = new AlertDialog.Builder(AlarmList.this);
+        AlertDialog.Builder newAlarmDialogBuilder = new AlertDialog.Builder(AlarmList.this);
 
-        locationDialogBuilder.setTitle("Name the Alarm");
+        newAlarmDialogBuilder.setTitle("Name the Alarm");
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
 
-        locationDialogBuilder
-                .setMessage("")
+        newAlarmDialogBuilder
                 .setCancelable(false)
                 .setView(input)
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                    public void onClick(DialogInterface dialog, int id) {
                         addNewAlarm(input.getText().toString());
                     }
                 })
@@ -372,7 +371,7 @@ public class AlarmList extends ActionBarActivity implements LocationListener {
                 });
 
         // Create location dialog
-        AlertDialog alertDialog = locationDialogBuilder.create();
+        AlertDialog alertDialog = newAlarmDialogBuilder.create();
         alertDialog.show();
     }
 

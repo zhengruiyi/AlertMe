@@ -8,15 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.PowerManager;
-import android.util.Log;
-import android.widget.Toast;
-
-import java.util.HashMap;
 
 import teamawesome.alertme.AlertMeApplication;
 import teamawesome.alertme.PopupAlarm;
-import teamawesome.alertme.Utility.AlertMeAlarm;
-import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver{
