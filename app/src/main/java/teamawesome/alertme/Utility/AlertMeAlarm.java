@@ -33,9 +33,7 @@ public class AlertMeAlarm {
 
 
     public void setName(String n) {
-        if (n.isEmpty()) {
-            name = "Default";
-        } else {
+        if (!n.isEmpty()) {
             name = n;
         }
     }
