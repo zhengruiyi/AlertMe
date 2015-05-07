@@ -1,9 +1,12 @@
 package teamawesome.alertme;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +47,36 @@ public class AlarmEdit extends ActionBarActivity {
         Toast.makeText(AlarmEdit.this, message, Toast.LENGTH_LONG).show();
     }
 
-    public void editName(View view){
-        EditText editName = (EditText) findViewById(R.id.name_text_box);
-        editName.setVisibility(View.VISIBLE);
-        Button alarmNameButton = (Button) findViewById(R.id.alarmName);
-        alarmNameButton.setText("   " + editName.getText());
+    public void editNewAlarmDialog(int index) {
+        AlertDialog.Builder locationDialogBuilder = new AlertDialog.Builder(AlarmEdit.this);
 
+        locationDialogBuilder.setTitle("Edit the Alarm Name");
 
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        final int indexWHY = index;
+
+        locationDialogBuilder
+                .setMessage("")
+                .setCancelable(false)
+                .setView(input)
+                .setPositiveButton("Change", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        AlertMeAlarm alarmClicked = AlertMeMetadataSingleton.getInstance().getAlarm(indexWHY);
+                        alarmClicked.setName(input.getText().toString());
+                        Button alarmNameButton = (Button) findViewById(R.id.alarmName);
+                        alarmNameButton.setText("   " + input.getText().toString());
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        // Create location dialog
+        AlertDialog alertDialog = locationDialogBuilder.create();
+        alertDialog.show();
     }
 
 
@@ -84,6 +110,7 @@ public class AlarmEdit extends ActionBarActivity {
             alarmNameButton.setTag(position);
             alarmNameButton.setText("   " + currentAlarm.getName());
             alarmNameButton.setTextSize(20);
+            alarmNameButton.setOnClickListener(alarmNameButtonListener);
 
             CheckBox alarmSelect = (CheckBox) convertView.findViewById(R.id.alarmEdit);
             alarmSelect.setOnCheckedChangeListener(alarmSelectListener);
@@ -91,6 +118,13 @@ public class AlarmEdit extends ActionBarActivity {
 
             return convertView;
         }
+
+        private Button.OnClickListener alarmNameButtonListener = new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editNewAlarmDialog((Integer) view.getTag());
+            }
+        };
 
         private CheckBox.OnCheckedChangeListener alarmSelectListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
