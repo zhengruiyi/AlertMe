@@ -47,14 +47,13 @@ public class AlarmEdit extends ActionBarActivity {
         Toast.makeText(AlarmEdit.this, message, Toast.LENGTH_LONG).show();
     }
 
-    public void editNewAlarmDialog(int index) {
+    public void editNewAlarmDialog(final int index) {
         AlertDialog.Builder locationDialogBuilder = new AlertDialog.Builder(AlarmEdit.this);
 
         locationDialogBuilder.setTitle("Edit the Alarm Name");
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        final int indexWHY = index;
 
         locationDialogBuilder
                 .setMessage("")
@@ -62,7 +61,7 @@ public class AlarmEdit extends ActionBarActivity {
                 .setView(input)
                 .setPositiveButton("Change", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        AlertMeAlarm alarmClicked = AlertMeMetadataSingleton.getInstance().getAlarm(indexWHY);
+                        AlertMeAlarm alarmClicked = AlertMeMetadataSingleton.getInstance().getAlarm(index);
                         alarmClicked.setName(input.getText().toString());
                         Button alarmNameButton = (Button) findViewById(R.id.alarmName);
                         alarmNameButton.setText("   " + input.getText().toString());
