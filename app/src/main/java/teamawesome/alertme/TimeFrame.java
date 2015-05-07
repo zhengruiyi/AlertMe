@@ -518,6 +518,32 @@ public class TimeFrame extends ActionBarActivity {
         currentAlarm.setDaysSelected(weekdays);
         currentAlarm.setTimeFrame(timeFrame);
         currentAlarm.setAmPm(inMorning);
+
+        //check boxes
+        save(weekday.isChecked(), "weekday");
+        save(weekend.isChecked(), "weekend");
+        save(monday.isChecked(), "monday");
+        save(tuesday.isChecked(), "tuesday");
+        save(wednesday.isChecked(), "wednesday");
+        save(thursday.isChecked(), "thursday");
+        save(friday.isChecked(), "friday");
+        save(saturday.isChecked(), "saturday");
+        save(sunday.isChecked(), "sunday");
+        for (int i = 0; i < 7; i++){
+            save(weekdays[i], "weekdays " + i);
+        }
+
+        save(twelveHour.isChecked(), "twelveHour");
+        //save(vibrate.isChecked(), "vibrate");
+        //switch
+        //save(sound.isChecked(), "sound");
+
+        //seekbar
+        mPrefs = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putBoolean("am", inMorning);
+
+        editor.apply();
     }
 
     public void toAlarmList(View view){

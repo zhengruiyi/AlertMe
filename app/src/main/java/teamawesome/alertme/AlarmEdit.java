@@ -12,11 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import teamawesome.alertme.Utility.AlertMeAlarm;
 import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
@@ -24,7 +21,10 @@ import teamawesome.alertme.Utility.AlertMeMetadataSingleton;
 
 
 public class AlarmEdit extends ActionBarActivity {
+
     private static HashSet<Integer> indexesToDelete;
+    private AlarmListAdapter alarmListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,19 +39,14 @@ public class AlarmEdit extends ActionBarActivity {
 
 
     public void toAlarmList(View view){
-
         Intent intent = new Intent(this, AlarmList.class);
         startActivity(intent);
     }
 
     public void deleteAlarms(View view){
-
         AlertMeMetadataSingleton.getInstance().deleteAlarms(indexesToDelete);
         finish();
         startActivity(getIntent());
-
-
-
     }
 
 
@@ -90,24 +85,14 @@ public class AlarmEdit extends ActionBarActivity {
             alarmSelect.setOnCheckedChangeListener(alarmSelectListener);
             alarmSelect.setTag(position);
 
-            Button alarmToTimeFrame = (Button) convertView.findViewById(R.id.alarmToTimeFrame);
-            alarmToTimeFrame.setTag(position);
-            alarmToTimeFrame.setText("EDIT TIME FRAME     >");
-            alarmToTimeFrame.setTextSize(12);
-
             return convertView;
         }
 
         private CheckBox.OnCheckedChangeListener alarmSelectListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                     int index = (Integer) buttonView.getTag();
-                    indexesToDelete.add((Integer)index);
-
-
-
-
+                    indexesToDelete.add(index);
             }
         };
     }

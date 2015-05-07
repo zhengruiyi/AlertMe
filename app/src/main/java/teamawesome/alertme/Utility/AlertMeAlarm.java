@@ -36,8 +36,8 @@ public class AlertMeAlarm {
 
     private void initializeDefaultWeatherConditions() {
         weatherConditions = new HashMap<String, Integer>();
-        setTemperatureCondition(true, 80, 50);
-        setPrecipitationCondition(20);
+        setTemperatureCondition(true, 60, 80);
+        setPrecipitationCondition(40);
         setWindSpeedCondition(true, 35);
     }
 
@@ -55,19 +55,19 @@ public class AlertMeAlarm {
         return weatherConditions;
     }
 
-    public void setTemperatureCondition(boolean tempUnit, int temperatureMax, int temperatureMin) {
+    public void setTemperatureCondition(boolean tempUnit, int temperatureMin, int temperatureMax) {
         if (tempUnit) {
             // Set with Fahrenheit
-            weatherConditions.put("Fmax", temperatureMax);
             weatherConditions.put("Fmin", temperatureMin);
-            weatherConditions.put("Cmax", convertFToC(temperatureMax));
+            weatherConditions.put("Fmax", temperatureMax);
             weatherConditions.put("Cmin", convertFToC(temperatureMin));
+            weatherConditions.put("Cmax", convertFToC(temperatureMax));
         } else {
             // Set with Celsius
-            weatherConditions.put("Cmax", temperatureMax);
             weatherConditions.put("Cmin", temperatureMin);
-            weatherConditions.put("Fmax", convertCToF(temperatureMax));
+            weatherConditions.put("Cmax", temperatureMax);
             weatherConditions.put("Fmin", convertCToF(temperatureMin));
+            weatherConditions.put("Fmax", convertCToF(temperatureMax));
         }
     }
 

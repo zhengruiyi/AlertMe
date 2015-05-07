@@ -30,25 +30,38 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver{
 
 
         int alarmIndex = intent.getIntExtra("alarmIndex", -1);
-        AlertMeAlarm alarm = AlertMeMetadataSingleton.getInstance().getAlarm(alarmIndex);
+        SharedPreferences alarmInfo = context.getSharedPreferences("alert_me_alarm_" + alarmIndex, Context.MODE_PRIVATE);
         SharedPreferences currentWeatherData = context.getSharedPreferences("weather_data", Context.MODE_PRIVATE);
 
-        HashMap<String, Integer> alarmConditions = alarm.getWeatherConditions();
-        boolean exceedsTemperatureRange =
-                (currentWeatherData.getInt("tomorrowMinTemperatureF", -500) <= alarmConditions.get("Fmin")) ||
-                        (currentWeatherData.getInt("tomorrowMaxTemperatureF", 500) >= alarmConditions.get("Fmax"));
-        boolean exceedsPrecipitationCondition = currentWeatherData.getInt("tomorrowPrecipitationChance", 100) >= alarmConditions.get("Precipitation");
-        boolean exceedsWindSpeedCondition =  currentWeatherData.getInt("tomorrowWindSpeedMph", 100) >= alarmConditions.get("MilesPerHour");
+        boolean exceedsTemperatureRange;
+        if (alarmInfo.getBoolean("degreesF", true)) {
+            exceedsTemperatureRange =
+                    (currentWeatherData.getInt("tomorrowMinTemperatureF", -500) <= alarmInfo.getInt("temperature_min", 0)) ||
+                            (currentWeatherData.getInt("tomorrowMaxTemperatureF", 500) >= alarmInfo.getInt("temperature_max", 0));
+        } else {
+            exceedsTemperatureRange =
+                    (currentWeatherData.getInt("tomorrowMinTemperatureC", -500) <= alarmInfo.getInt("temperature_min", 0)) ||
+                            (currentWeatherData.getInt("tomorrowMaxTemperatureC", 500) >= alarmInfo.getInt("temperature_max", 0));
+        }
+
+        boolean exceedsPrecipitationCondition = currentWeatherData.getInt("tomorrowPrecipitationChance", 100) >= alarmInfo.getInt("precipitation", 0);
+
+        boolean exceedsWindSpeedCondition;
+        if (alarmInfo.getBoolean("mph", true)) {
+            exceedsWindSpeedCondition = currentWeatherData.getInt("tomorrowWindSpeedMph", 100) >= alarmInfo.getInt("windSpeed", 0);
+        } else {
+            exceedsWindSpeedCondition = currentWeatherData.getInt("tomorrowWindSpeedKph", 100) >= alarmInfo.getInt("windSpeed", 0);
+        }
 
         if (exceedsTemperatureRange || exceedsPrecipitationCondition || exceedsWindSpeedCondition) {
             wakeLock.acquire();
 
             // TODO: all debugging stuff
             Intent popupAlarm = new Intent(context, PopupAlarm.class);
-            popupAlarm.putExtra("a", alarmConditions.get("Fmax"));
-            popupAlarm.putExtra("b", alarmConditions.get("Precipitation"));
-            popupAlarm.putExtra("c", currentWeatherData.getInt("tomorrowWindSpeedMph", 100));
-            popupAlarm.putExtra("d", alarmConditions.get("MilesPerHour"));
+            popupAlarm.putExtra("a", alarmInfo.getInt("temperature_max", 0));
+            popupAlarm.putExtra("b", currentWeatherData.getInt("tomorrowMaxTemperatureF", 500));
+            popupAlarm.putExtra("c", alarmInfo.getInt("precipitation", -1));
+            popupAlarm.putExtra("d", currentWeatherData.getInt("tomorrowPrecipitationChance", 100));
 
             popupAlarm.putExtra("alarmIndex", alarmIndex);
             popupAlarm.putExtra("exceedsTemperatureRange", exceedsTemperatureRange);

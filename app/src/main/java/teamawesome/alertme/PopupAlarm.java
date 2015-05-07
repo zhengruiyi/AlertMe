@@ -33,9 +33,6 @@ public class PopupAlarm extends ActionBarActivity {
 
         int alarmIndex = getIntent().getIntExtra("alarmIndex", -1);
         AlertMeAlarm alarm = AlertMeMetadataSingleton.getInstance().getAlarm(alarmIndex);
-        HashMap<String, Integer> alarmConditions = alarm.getWeatherConditions();
-        int precipitation = alarmConditions.get("Precipitation");
-        int windSpeed = alarmConditions.get("MilesPerHour");
 
         int a = getIntent().getIntExtra("a", -1);
         int b = getIntent().getIntExtra("b", -1);

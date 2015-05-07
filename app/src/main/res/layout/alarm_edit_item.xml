@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical|end"
         android:background="#d0d0d0"
-        android:layout_above="@+id/alarmToTimeFrame"
         android:layout_alignParentEnd="true" />
 
 

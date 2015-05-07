@@ -312,7 +312,20 @@ public class Conditions extends ActionBarActivity {
         currentAlarm.setPrecipitationCondition(changedProgressPrecip);
         currentAlarm.setWindSpeedCondition(isInUnitsMPH, changedProgressWind);
 
+        SharedPreferences.Editor editor = mPrefs.edit();
+        //Temperature
+        save(temp_F_C.isChecked(), "degreesF");
+        editor.putInt("temperature_max", changedProgressTempMax);
+        editor.putInt("temperature_min", changedProgressTempMin);
 
+        //Precipitation
+        editor.putInt("precipitation", changedProgressPrecip);
+
+        //Wind Speed
+        editor.putInt("windSpeed", changedProgressWind);
+        save(wind_mph_kph.isChecked(), "mph");
+
+        editor.apply();
     }
 
     public void toTimeFrame(View view){
